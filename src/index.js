@@ -7,6 +7,6 @@
 /* eslint react/jsx-filename-extension: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignUp from './views/SignUp';
+import LandingPageSignedIn from './views/LandingPageSignedIn';
 
-ReactDOM.render(<SignUp />, document.getElementById('root'));
+ReactDOM.render(<LandingPageSignedIn />, document.getElementById('root'));

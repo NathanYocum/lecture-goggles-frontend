@@ -65,16 +65,17 @@ class NavBar extends React.Component {
           <TitleItem>
             <LectureGogglesLogo />
           </TitleItem>
-          <NavItem> Subjects </NavItem>
+          {!renderMenu && <NavItem> Subjects </NavItem>}
           {!renderButton && <NavItem> Topics </NavItem>}
           {!renderButton && <NavItem> Resources </NavItem>}
           {!renderButton && <NavItem> Support </NavItem>}
           {!renderButton && <NavItem> Developers </NavItem>}
-          <NavItem> Sign In </NavItem>
+          {!renderMenu && <NavItem> Account </NavItem>}
           {!renderButton && <NavItem> Create an Account </NavItem>}
         </NavList>
         {renderButton && renderMenu && <MenuItem>Subjects</MenuItem>}
         {renderButton && renderMenu && <MenuItem>Topics</MenuItem>}
+        {renderButton && renderMenu && <MenuItem>Resources</MenuItem>}
         {renderButton && renderMenu && <MenuItem>Support</MenuItem>}
         {renderButton && renderMenu && <MenuItem>Developers</MenuItem>}
         {renderButton && renderMenu && <br />}
