@@ -1,5 +1,12 @@
-/* eslint react/jsx-filename-extension: 0 */
-import React from "react";
-import ReactDOM from "react-dom";
+/**
+ * index.js: The landing point for the entire website.
+ *            Manage state from here.
+ *
+ */
 
-ReactDOM.render(<p>Hello world!</p>, document.getElementById("root"));
+/* eslint react/jsx-filename-extension: 0 */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import LandingPageSignedIn from './views/LandingPageSignedIn';
+
+ReactDOM.render(<LandingPageSignedIn />, document.getElementById('root'));
