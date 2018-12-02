@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
-import LectureGogglesLogo from '../logo/logo';
+import FullLectureGogglesLogo from '../logo/fullLogo';
 
 const NavBarStyle = styled.nav`
   border-bottom: 2px solid hsla(197, 100%, 20%, 1);
-  background-color: #dddddd;
+  background-color: #ffffff;
   color: hsla(197, 100%, 20%, 1);
-  grid-row: 1;
   position: fixed;
   width: 100%;
 `;
@@ -63,7 +62,7 @@ class NavBar extends React.Component {
             </NavItem>
           )}
           <TitleItem>
-            <LectureGogglesLogo />
+            <FullLectureGogglesLogo />
           </TitleItem>
           {!renderMenu && <NavItem> Subjects </NavItem>}
           {!renderButton && <NavItem> Topics </NavItem>}

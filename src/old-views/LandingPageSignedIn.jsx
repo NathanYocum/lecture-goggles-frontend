@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import NavBar from '../components/navBar/navBar';
 import PlaceholderItem from '../components/placeholder/placeholder';
 import LectureGogglesLogo from '../components/logo/logo';
-import GenericButton from '../components/button/button';
+import PlusButton from '../components/plusButton/plusButton';
 
 const LandingStyle = styled.div`
   display: grid;
-  grid-template-rows: 100px;
+  grid-template-rows: minmax(90px, auto) auto;
   grid-template-columns: 1fr 4fr 1fr;
   background-color: #ffffff;
   justify-items: center;
@@ -32,22 +32,34 @@ const WelcomeStyle = styled.div`
   grid-column: 2;
   background-color: #7fdbff;
   color: hsla(197, 100%, 20%, 1);
+  width: 100%;
 `;
 
-const SignInButtonStyle = styled.div`
+const ToDoStyle = styled(WelcomeStyle)`
   grid-row: 4;
-  grid-column: 2;
-  background-color: #7fdbff;
-  color: hsla(197, 100%, 20%, 1);
-  font-size: 32px;
-  margin: 30px;
+  width: 100%;
+  color: hsla(197, 75%, 20%, 1);
 `;
 
-const AccountCreateButtonStyle = styled(SignInButtonStyle)`
-  grid-row: 5;
+const TopicDivStyle = styled.div`
+  border: 1px solid black;
+  background-color: #dddddd;
+  padding: 5px;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 1fr 25px 25px;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
-class LandingPage extends React.Component {
+const AddStyle = styled.div`
+  grid-column: 3;
+  grid-row: 4;
+  background: none;
+  align-self: end;
+`;
+
+class LandingPageSignedIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -82,21 +94,24 @@ class LandingPage extends React.Component {
           <p>Lecture Goggles</p>
         </LogoStyle>
         <WelcomeStyle>
-          <h1>Welcome to Lecture Goggles!</h1>
-          <p>
-            Lecture Goggles is a a free, open-source, educational resource repository to help students gain a better
-            understanding of school subjects.
-          </p>
+          <h1>Lecture Goggles</h1>
+          <p>Welcome back $user!</p>
+          <p>You have state.unreadNotifications!</p>
         </WelcomeStyle>
-        <SignInButtonStyle>
-          <GenericButton text="Sign In" />
-        </SignInButtonStyle>
-        <AccountCreateButtonStyle>
-          <GenericButton text="Create An Account" />
-        </AccountCreateButtonStyle>
+        <ToDoStyle>
+          <h3>Topics with new resources</h3>
+          <TopicDivStyle>
+            Topic: Assets
+            <br />
+            Subject: Accounting
+          </TopicDivStyle>
+        </ToDoStyle>
+        <AddStyle>
+          <PlusButton />
+        </AddStyle>
       </LandingStyle>
     );
   }
 }
 
-export default LandingPage;
+export default LandingPageSignedIn;
