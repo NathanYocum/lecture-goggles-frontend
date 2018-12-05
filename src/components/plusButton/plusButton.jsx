@@ -12,11 +12,7 @@ const PlusButtonStyle = styled.button`
   outline: inherit;
 `;
 
-const PlusButton = ({ onClickFunction }) => (
-  <PlusButtonStyle onClick={onClickFunction}>
-    <img src="plusButton.png" alt="plus" width="25px" />
-  </PlusButtonStyle>
-);
+const PlusButton = ({ onClickFunction }) => <PlusButtonStyle onClick={onClickFunction} />;
 
 PlusButton.propTypes = {
   onClickFunction: PropTypes.func

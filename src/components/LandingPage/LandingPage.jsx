@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
-import PlaceholderItem from '../placeholder/placeholder';
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 
-const HeaderStyle = styled.div`
-  grid-row: 2;
-  grid-column: 1 / span 3;
-  justify-self: center;
-`;
+// const HeaderStyle = styled.div`
+//   grid-row: 2;
+//   grid-column: 1 / span 3;
+//   justify-self: center;
+// `;
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -23,16 +22,23 @@ const LogoStyle = styled.div`
 const WelcomeStyle = styled.div`
   grid-row: 3;
   grid-column: 2;
-  color: hsla(197, 100%, 20%, 1);
+  color: #0d47a1;
+  text-align: center;
 `;
 
 const SignInButtonStyle = styled.div`
   grid-row: 4;
   grid-column: 2;
-  background-color: #7fdbff;
-  color: hsla(197, 100%, 20%, 1);
-  font-size: 32px;
-  margin: 30px;
+  font-size: 20px;
+  @media (max-width: 700px) {
+    width: 80%;
+  }
+  @media (min-width: 700px) {
+    width: 373px;
+  }
+
+  margin-bottom: 16px;
+  height: 56px;
 `;
 
 const AccountCreateButtonStyle = styled(SignInButtonStyle)`
@@ -66,25 +72,21 @@ class LandingPage extends React.Component {
     return (
       <GridBody>
         <NavBar renderButton={width < 768} />
-        <HeaderStyle>
-          <PlaceholderItem width={width.toString()} viewBox={`0 0 ${width.toString()} 200`} fillColor="#aaaaaa" />
-        </HeaderStyle>
         <LogoStyle>
           <LectureGogglesLogo width={200} height={200} />
-          <p>Lecture Goggles</p>
         </LogoStyle>
         <WelcomeStyle>
-          <h1>Welcome to Lecture Goggles!</h1>
+          <h1>Welcome!</h1>
           <p>
             Lecture Goggles is a a free, open-source, educational resource repository to help students gain a better
             understanding of school subjects.
           </p>
         </WelcomeStyle>
         <SignInButtonStyle>
-          <GenericButton text="Sign In" />
+          <GenericButton text="SIGN IN" />
         </SignInButtonStyle>
         <AccountCreateButtonStyle>
-          <GenericButton text="Create An Account" />
+          <GenericButton text="CREATE AN ACCOUNT" />
         </AccountCreateButtonStyle>
       </GridBody>
     );

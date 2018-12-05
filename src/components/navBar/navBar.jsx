@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
-import FullLectureGogglesLogo from '../logo/fullLogo';
 
 const NavBarStyle = styled.nav`
-  border-bottom: 2px solid hsla(197, 100%, 20%, 1);
-  background-color: #ffffff;
-  color: hsla(197, 100%, 20%, 1);
+  background-color: #0074d9;
+  color: #ffffff;
   position: fixed;
   width: 100%;
+  height: ${state => (state.renderMenu ? '56px' : 'auto')};
 `;
 
 const NavList = styled.ul`
@@ -51,7 +50,7 @@ class NavBar extends React.Component {
   }
 
   render() {
-    const { renderButton } = this.props;
+    const { renderButton, title } = this.props;
     const { renderMenu } = this.state;
     return (
       <NavBarStyle>
@@ -61,9 +60,7 @@ class NavBar extends React.Component {
               <HamburgerButton onClickFunction={this.onHamburgerClick} />
             </NavItem>
           )}
-          <TitleItem>
-            <FullLectureGogglesLogo />
-          </TitleItem>
+          <TitleItem>{`${title}`}</TitleItem>
           {!renderMenu && <NavItem> Subjects </NavItem>}
           {!renderButton && <NavItem> Topics </NavItem>}
           {!renderButton && <NavItem> Resources </NavItem>}
@@ -86,11 +83,13 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  renderButton: PropTypes.bool
+  renderButton: PropTypes.bool,
+  title: PropTypes.string
 };
 
 NavBar.defaultProps = {
-  renderButton: false
+  renderButton: false,
+  title: 'Lecture Goggles'
 };
 
 export default NavBar;
