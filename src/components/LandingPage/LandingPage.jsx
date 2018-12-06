@@ -5,12 +5,6 @@ import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 
-// const HeaderStyle = styled.div`
-//   grid-row: 2;
-//   grid-column: 1 / span 3;
-//   justify-self: center;
-// `;
-
 const LogoStyle = styled.div`
   grid-column: 2;
   grid-row: 2;

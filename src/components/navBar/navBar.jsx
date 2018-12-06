@@ -35,6 +35,11 @@ const MenuItem = styled.p`
   margin-left: 5px;
 `;
 
+const NavLink = styled.a`
+  text-decoration: none;
+  color: #ffffff;
+`;
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -60,10 +65,16 @@ class NavBar extends React.Component {
               <HamburgerButton onClickFunction={this.onHamburgerClick} />
             </NavItem>
           )}
-          <TitleItem>{`${title}`}</TitleItem>
+          <TitleItem>
+            <NavLink href="/">{`${title}`}</NavLink>
+          </TitleItem>
           {!renderMenu && <NavItem> Subjects </NavItem>}
           {!renderButton && <NavItem> Topics </NavItem>}
-          {!renderButton && <NavItem> Resources </NavItem>}
+          {!renderButton && (
+            <NavLink href="resources">
+              <NavItem> Resources </NavItem>
+            </NavLink>
+          )}
           {!renderButton && <NavItem> Support </NavItem>}
           {!renderButton && <NavItem> Developers </NavItem>}
           {!renderMenu && <NavItem> Account </NavItem>}
