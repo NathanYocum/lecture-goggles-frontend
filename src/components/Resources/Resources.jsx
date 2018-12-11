@@ -37,6 +37,10 @@ class Resources extends React.Component {
       <GridBody>
         <NavBar title="Resources" renderButton={width < 768} />
         <TempCardStyle>
+          {/*
+              This card is a temporary card we will use until the backend is
+              linked up
+          */}
           <ResourceCard
             title="TITLE"
             subject="SUBJECT"
@@ -44,7 +48,7 @@ class Resources extends React.Component {
             author="AUTHOR"
             authorImg="Avatar.svg"
             previewImg="Image.svg"
-            points="POINTS"
+            points="+36"
             timeStamp="TIMESTAMP"
             description="DESCRIPTION"
             url="http://localhost:3000/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"

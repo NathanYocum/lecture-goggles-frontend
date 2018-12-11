@@ -33,16 +33,41 @@ const SearchStyle = styled.div`
   color: #90a4ae;
 `;
 
-// Todo: Change to class for navbar based on width
-const NotFound = () => (
-  <GridBody>
-    <NavBar renderButton />
-    <LogoStyle>
-      <LectureGogglesLogo width="200px" height="200px" />
-    </LogoStyle>
-    <NotFoundPar>We could not find the page you were looking for.</NotFoundPar>
-    <SearchStyle>Search</SearchStyle>
-  </GridBody>
-);
+class NotFound extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 0
+    };
+    this.getWindowWidth = this.getWindowWidth.bind(this);
+  }
+
+  componentDidMount() {
+    this.getWindowWidth();
+    window.addEventListener('resize', this.getWindowWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  }
+
+  getWindowWidth() {
+    this.setState({ width: window.innerWidth });
+  }
+
+  render() {
+    const { width } = this.state;
+    return (
+      <GridBody>
+        <NavBar renderButton={width < 768} />
+        <LogoStyle>
+          <LectureGogglesLogo width="200px" height="200px" />
+        </LogoStyle>
+        <NotFoundPar>We could not find the page you were looking for.</NotFoundPar>
+        <SearchStyle>Search</SearchStyle>
+      </GridBody>
+    );
+  }
+}
 
 export default NotFound;

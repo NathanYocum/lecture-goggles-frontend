@@ -66,28 +66,80 @@ class NavBar extends React.Component {
             </NavItem>
           )}
           <TitleItem>
-            <NavLink href="/">{`${title}`}</NavLink>
+            <NavLink href="/">{renderMenu ? 'Lecture Goggles' : `${title}`}</NavLink>
           </TitleItem>
-          {!renderMenu && <NavItem> Subjects </NavItem>}
-          {!renderButton && <NavItem> Topics </NavItem>}
+          {!renderMenu && (
+            <NavItem>
+              <NavLink href="/subjects"> Subjects</NavLink>{' '}
+            </NavItem>
+          )}
           {!renderButton && (
-            <NavLink href="resources">
+            <NavItem>
+              <NavLink href="/topics"> Topics</NavLink>{' '}
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavLink href="/resources">
               <NavItem> Resources </NavItem>
             </NavLink>
           )}
-          {!renderButton && <NavItem> Support </NavItem>}
-          {!renderButton && <NavItem> Developers </NavItem>}
-          {!renderMenu && <NavItem> Account </NavItem>}
-          {!renderButton && <NavItem> Create an Account </NavItem>}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/support"> Support </NavLink>
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/developers"> Developers </NavLink>
+            </NavItem>
+          )}
+          {!renderMenu && (
+            <NavItem>
+              <NavLink href="/signIn"> Sign In </NavLink>
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/newAccount"> Create an Account </NavLink>
+            </NavItem>
+          )}
         </NavList>
-        {renderButton && renderMenu && <MenuItem>Subjects</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Topics</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Resources</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Support</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Developers</MenuItem>}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/subjects">Subjects</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/topics">Topics</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/resources">Resources</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/support">Support</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/developers">Developers</NavLink>
+          </MenuItem>
+        )}
         {renderButton && renderMenu && <br />}
-        {renderButton && renderMenu && <MenuItem>Sign In</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Create An Account</MenuItem>}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/signIn">Sign In</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/newAccount">Create An Account</NavLink>
+          </MenuItem>
+        )}
       </NavBarStyle>
     );
   }

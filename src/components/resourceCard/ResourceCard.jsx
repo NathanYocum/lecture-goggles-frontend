@@ -62,13 +62,6 @@ const ResourceCard = ({
   url
 }) => (
   <div>
-    <p>
-      {authorImg}
-      {previewImg}
-      {points}
-      {timeStamp}
-      {description}
-    </p>
     <CardContainerStyle>
       <TitleStyle>{title}</TitleStyle>
       <ItemStyle>
@@ -80,7 +73,20 @@ const ResourceCard = ({
       <PreviewLink>
         <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
       </PreviewLink>
-      {url.length}
+      {/* Todo: Match style docuement for these */}
+      <ItemStyle>{points} points</ItemStyle>
+      <br />
+      <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
+      <br />
+      <br />
+      <ItemStyle>{description}</ItemStyle>
+      <br />
+      <br />
+      <br />
+      <TitleStyle>
+        <button type="button">↑ Upvote</button>
+        <button type="button">↓ Downvote</button>
+      </TitleStyle>
     </CardContainerStyle>
   </div>
 );

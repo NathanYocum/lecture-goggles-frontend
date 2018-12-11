@@ -72,15 +72,19 @@ class LandingPage extends React.Component {
         <WelcomeStyle>
           <h1>Welcome!</h1>
           <p>
-            Lecture Goggles is a a free, open-source, educational resource repository to help students gain a better
+            Lecture Goggles is a free, open-source, educational resource repository to help students gain a better
             understanding of school subjects.
           </p>
         </WelcomeStyle>
         <SignInButtonStyle>
-          <GenericButton text="SIGN IN" />
+          <a href="/signIn">
+            <GenericButton text="SIGN IN" />
+          </a>
         </SignInButtonStyle>
         <AccountCreateButtonStyle>
-          <GenericButton text="CREATE AN ACCOUNT" />
+          <a href="/newAccount">
+            <GenericButton text="CREATE AN ACCOUNT" />
+          </a>
         </AccountCreateButtonStyle>
       </GridBody>
     );
