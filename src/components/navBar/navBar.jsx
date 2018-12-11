@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
-import LectureGogglesLogo from '../logo/logo';
 
 const NavBarStyle = styled.nav`
-  border-bottom: 2px solid hsla(197, 100%, 20%, 1);
-  background-color: #dddddd;
-  color: hsla(197, 100%, 20%, 1);
-  grid-row: 1;
+  background-color: #0074d9;
+  color: #ffffff;
   position: fixed;
   width: 100%;
+  height: ${state => (state.renderMenu ? '56px' : 'auto')};
 `;
 
 const NavList = styled.ul`
@@ -37,6 +35,11 @@ const MenuItem = styled.p`
   margin-left: 5px;
 `;
 
+const NavLink = styled.a`
+  text-decoration: none;
+  color: #ffffff;
+`;
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +55,7 @@ class NavBar extends React.Component {
   }
 
   render() {
-    const { renderButton } = this.props;
+    const { renderButton, title } = this.props;
     const { renderMenu } = this.state;
     return (
       <NavBarStyle>
@@ -63,35 +66,93 @@ class NavBar extends React.Component {
             </NavItem>
           )}
           <TitleItem>
-            <LectureGogglesLogo />
+            <NavLink href="/">{renderMenu ? 'Lecture Goggles' : `${title}`}</NavLink>
           </TitleItem>
-          {!renderMenu && <NavItem> Subjects </NavItem>}
-          {!renderButton && <NavItem> Topics </NavItem>}
-          {!renderButton && <NavItem> Resources </NavItem>}
-          {!renderButton && <NavItem> Support </NavItem>}
-          {!renderButton && <NavItem> Developers </NavItem>}
-          {!renderMenu && <NavItem> Account </NavItem>}
-          {!renderButton && <NavItem> Create an Account </NavItem>}
+          {!renderMenu && (
+            <NavItem>
+              <NavLink href="/subjects"> Subjects</NavLink>{' '}
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/topics"> Topics</NavLink>{' '}
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavLink href="/resources">
+              <NavItem> Resources </NavItem>
+            </NavLink>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/support"> Support </NavLink>
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/developers"> Developers </NavLink>
+            </NavItem>
+          )}
+          {!renderMenu && (
+            <NavItem>
+              <NavLink href="/signIn"> Sign In </NavLink>
+            </NavItem>
+          )}
+          {!renderButton && (
+            <NavItem>
+              <NavLink href="/newAccount"> Create an Account </NavLink>
+            </NavItem>
+          )}
         </NavList>
-        {renderButton && renderMenu && <MenuItem>Subjects</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Topics</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Resources</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Support</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Developers</MenuItem>}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/subjects">Subjects</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/topics">Topics</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/resources">Resources</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/support">Support</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/developers">Developers</NavLink>
+          </MenuItem>
+        )}
         {renderButton && renderMenu && <br />}
-        {renderButton && renderMenu && <MenuItem>Sign In</MenuItem>}
-        {renderButton && renderMenu && <MenuItem>Create An Account</MenuItem>}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/signIn">Sign In</NavLink>
+          </MenuItem>
+        )}
+        {renderButton && renderMenu && (
+          <MenuItem>
+            <NavLink href="/newAccount">Create An Account</NavLink>
+          </MenuItem>
+        )}
       </NavBarStyle>
     );
   }
 }
 
 NavBar.propTypes = {
-  renderButton: PropTypes.bool
+  renderButton: PropTypes.bool,
+  title: PropTypes.string
 };
 
 NavBar.defaultProps = {
-  renderButton: false
+  renderButton: false,
+  title: 'Lecture Goggles'
 };
 
 export default NavBar;

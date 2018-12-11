@@ -1,22 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavBar from '../components/navBar/navBar';
-import PlaceholderItem from '../components/placeholder/placeholder';
-import LectureGogglesLogo from '../components/logo/logo';
-
-const LandingStyle = styled.div`
-  display: grid;
-  grid-template-rows: 100px;
-  grid-template-columns: 1fr 4fr 1fr;
-  background-color: #ffffff;
-  justify-items: center;
-`;
-
-const HeaderStyle = styled.div`
-  grid-row: 2;
-  grid-column: 1 / span 3;
-  justify-self: center;
-`;
+import NavBar from '../navBar/navBar';
+import LectureGogglesLogo from '../logo/logo';
+import GridBody from '../gridBody';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -29,8 +15,8 @@ const LogoStyle = styled.div`
 const WelcomeStyle = styled.div`
   grid-row: 3;
   grid-column: 2;
-  background-color: #7fdbff;
-  color: hsla(197, 100%, 20%, 1);
+  background-color: #ffffff;
+  color: #0d47a1;
   width: 100%;
 `;
 
@@ -59,14 +45,10 @@ class DevelopersPage extends React.Component {
   render() {
     const { width } = this.state;
     return (
-      <LandingStyle>
+      <GridBody>
         <NavBar renderButton={width < 768} />
-        <HeaderStyle>
-          <PlaceholderItem width={width.toString()} viewBox={`0 0 ${width.toString()} 200`} fillColor="#aaaaaa" />
-        </HeaderStyle>
         <LogoStyle>
           <LectureGogglesLogo width={200} height={200} />
-          <p>Lecture Goggles</p>
         </LogoStyle>
         <WelcomeStyle>
           <h1>Developers</h1>
@@ -104,7 +86,7 @@ class DevelopersPage extends React.Component {
             &nbsp;licence.
           </p>
         </WelcomeStyle>
-      </LandingStyle>
+      </GridBody>
     );
   }
 }
