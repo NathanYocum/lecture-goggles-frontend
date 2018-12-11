@@ -81,8 +81,12 @@ class SignIn extends React.Component {
         </WelcomeStyle>
         <ContinueButtonStyle>
           <GenericButton text="Continue" />
-          <GenericButton text="Cancel" />
-          <GenericButton text="Create An Account" />
+          <a href="/">
+            <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+          </a>
+          <a href="/newAccount">
+            <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
+          </a>
         </ContinueButtonStyle>
       </GridBody>
     );

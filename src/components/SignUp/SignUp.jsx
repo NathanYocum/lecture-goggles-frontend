@@ -118,7 +118,9 @@ class SignUp extends React.Component {
         </WelcomeStyle>
         <ContinueButtonStyle>
           <GenericButton text="Continue" />
-          <GenericButton text="Cancel" />
+          <a href="/">
+            <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+          </a>
         </ContinueButtonStyle>
       </GridBody>
     );

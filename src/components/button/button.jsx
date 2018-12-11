@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 // Button fills the entire div it is contained in
 const GenericButtonStyle = styled.button`
-  background: #0074d9;
-  color: #ffffff;
+  background: ${props => props.backgroundColor};
+  color: ${props => props.color};
   border: 2px solid #0d47a1;
   padding: 3px;
   font: inherit;
@@ -17,17 +17,23 @@ const GenericButtonStyle = styled.button`
   border-radius: 18px;
 `;
 
-const GenericButton = ({ onClickFunction, text }) => (
-  <GenericButtonStyle onClick={onClickFunction}>{text}</GenericButtonStyle>
+const GenericButton = ({ onClickFunction, text, backgroundColor, color }) => (
+  <GenericButtonStyle backgroundColor={backgroundColor} color={color} onClick={onClickFunction}>
+    {text}
+  </GenericButtonStyle>
 );
 
 GenericButton.propTypes = {
   onClickFunction: PropTypes.func,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string
 };
 
 GenericButton.defaultProps = {
-  onClickFunction: () => {}
+  onClickFunction: () => {},
+  backgroundColor: '#0074d9',
+  color: '#ffffff'
 };
 
 export default GenericButton;
