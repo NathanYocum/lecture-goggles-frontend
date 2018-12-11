@@ -8,7 +8,7 @@ const CardContainerStyle = styled.div`
   display: grid;
   height: 420px;
   width: 345px;
-  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 20px) 100px;
+  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 100px;
   grid-template-columns: auto 56px;
 `;
 
@@ -20,6 +20,10 @@ const TitleStyle = styled.div`
 const ItemStyle = styled.div`
   font-size: 12px;
   color: #90a4ae;
+`;
+
+const DescriptionStyle = styled(ItemStyle)`
+  padding-top: 10px;
 `;
 
 const AvatarStyle = styled.img`
@@ -65,33 +69,31 @@ const ResourceCard = ({
   description,
   url
 }) => (
-  <div>
-    <CardContainerStyle>
-      <TitleStyle>{title}</TitleStyle>
-      <ItemStyle>
-        {subject} - {topic}
-      </ItemStyle>
-      <ItemStyle>Uploaded by {author}</ItemStyle>
-      <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
-      <PreviewA href={url}>
-        <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
-      </PreviewA>
-      <PreviewLink>
-        <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
-      </PreviewLink>
-      {/* Todo: Match style docuement for these */}
-      <ItemStyle>{points} points</ItemStyle>
-      <br />
-      <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
-      <br />
-      <ItemStyle>{description}</ItemStyle>
-      <br />
-      <TitleStyle>
-        <button type="button">↑ Upvote</button>
-        <button type="button">↓ Downvote</button>
-      </TitleStyle>
-    </CardContainerStyle>
-  </div>
+  <CardContainerStyle>
+    <TitleStyle>{title}</TitleStyle>
+    <ItemStyle>
+      {subject} - {topic}
+    </ItemStyle>
+    <ItemStyle>Uploaded by {author}</ItemStyle>
+    <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
+    <PreviewA href={url}>
+      <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
+    </PreviewA>
+    <PreviewLink>
+      <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
+    </PreviewLink>
+    {/* Todo: Match style docuement for these */}
+    <ItemStyle>{points} points</ItemStyle>
+    <br />
+    <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
+    <br />
+    <DescriptionStyle>{description}</DescriptionStyle>
+    <br />
+    <TitleStyle>
+      <button type="button">↑ Upvote</button>
+      <button type="button">↓ Downvote</button>
+    </TitleStyle>
+  </CardContainerStyle>
 );
 
 ResourceCard.propTypes = {
