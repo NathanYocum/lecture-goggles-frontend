@@ -83,7 +83,7 @@ const ResourceCard = ({
       <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
     </PreviewLink>
     {/* Todo: Match style docuement for these */}
-    <ItemStyle>{points} points</ItemStyle>
+    <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
     <br />
     <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
     <br />
@@ -103,7 +103,7 @@ ResourceCard.propTypes = {
   author: PropTypes.string.isRequired,
   authorImg: PropTypes.string.isRequired,
   previewImg: PropTypes.string.isRequired,
-  points: PropTypes.string.isRequired,
+  points: PropTypes.number.isRequired,
   timeStamp: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired

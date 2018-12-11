@@ -48,7 +48,7 @@ class Resources extends React.Component {
             author="AUTHOR"
             authorImg="Avatar.svg"
             previewImg="Image.svg"
-            points="+36"
+            points={36}
             timeStamp="TIMESTAMP"
             description="DESCRIPTION"
             url="http://localhost:3000/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
