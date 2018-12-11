@@ -8,7 +8,7 @@ const CardContainerStyle = styled.div`
   display: grid;
   height: 420px;
   width: 345px;
-  grid-template-rows: 20px 12px 12px 159px 36px;
+  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 20px) 100px;
   grid-template-columns: auto 56px;
 `;
 
@@ -32,6 +32,10 @@ const PreviewStyle = styled.img`
   grid-column: 1 / span 2;
   grid-row: 4 / span 2;
   align-self: center;
+`;
+const PreviewA = styled.a`
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 2;
 `;
 
 const PreviewLink = styled.div`
@@ -69,7 +73,9 @@ const ResourceCard = ({
       </ItemStyle>
       <ItemStyle>Uploaded by {author}</ItemStyle>
       <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
-      <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />
+      <PreviewA href={url}>
+        <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
+      </PreviewA>
       <PreviewLink>
         <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
       </PreviewLink>
@@ -78,10 +84,7 @@ const ResourceCard = ({
       <br />
       <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
       <br />
-      <br />
       <ItemStyle>{description}</ItemStyle>
-      <br />
-      <br />
       <br />
       <TitleStyle>
         <button type="button">↑ Upvote</button>
