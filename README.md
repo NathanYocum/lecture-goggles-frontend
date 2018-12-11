@@ -24,7 +24,7 @@ TODO
 
 ## How to Contribute
 
-See [CONTRIBUTING.md]()
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Tech Stack
 
