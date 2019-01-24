@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { render } from 'react-testing-library';
+import { render, fireEvent } from 'react-testing-library';
 import { Router } from 'react-router-dom';
 import LandingPage from './LandingPage';
 
