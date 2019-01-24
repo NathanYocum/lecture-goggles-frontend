@@ -1,20 +1,17 @@
 import React from 'react';
-import { createMemoryHistory } from 'history';
-import { render, fireEvent } from 'react-testing-library';
-import { Router } from 'react-router-dom';
+import { render, cleanup } from 'react-testing-library';
 import LandingPage from './LandingPage';
 
-function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}) {
-  return {
-    ...render(<Router history={history}>{ui}</Router>),
-    // adding `history` to the returned utilities to allow us
-    // to reference it in our tests (just try to avoid using
-    // this to test implementation details).
-    history
-  };
-}
+afterEach(cleanup);
 
-it('Resizes the window correctly.', () => {
-  const { container } = renderWithRouter(<LandingPage />);
-  console.log(container);
+it('Renders a sign in button', () => {
+  const { getByText } = render(<LandingPage />);
+  expect(getByText('SIGN IN')).toBeTruthy();
+  expect(getByText('SIGN IN').parentElement.parentElement.innerHTML).toContain('href="/signIn"');
+});
+
+it("Renders a 'create an account' button", () => {
+  const { getByText } = render(<LandingPage />);
+  expect(getByText('CREATE AN ACCOUNT')).toBeTruthy();
+  expect(getByText('CREATE AN ACCOUNT').parentElement.parentElement.innerHTML).toContain('href="/newAccount"');
 });
