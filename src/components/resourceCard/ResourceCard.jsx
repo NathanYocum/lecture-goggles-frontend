@@ -55,6 +55,7 @@ const LinkStyle = styled.div`
   font-size: 12px;
   align-self: center;
   margin-left: 16px;
+  width: 100%;
 `;
 
 const ResourceCard = ({

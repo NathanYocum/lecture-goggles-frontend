@@ -1,3 +1,9 @@
+/**
+ * @file App.test.jsx
+ * @brief The app test file will test that all of the routes work and that they
+ *        render the correct components on navigation.
+ */
+
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -17,8 +23,10 @@ function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ ini
 afterEach(cleanup);
 
 it('Renders a landing page on home', () => {
-  const { container } = renderWithRouter(<App />);
-  console.log(container.innerHTML);
+  // const { container } = renderWithRouter(<App />);
+  // console.log(container.innerHTML);
 });
 
-it('Navigates to /signIn when I press the SignIn page', () => {});
+it('Navigates to /signIn when I press the SignIn button', () => {});
+
+it('Navigates to /newAccount when I press SignUp button', () => {});
