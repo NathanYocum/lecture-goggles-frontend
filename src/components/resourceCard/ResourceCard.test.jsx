@@ -1,3 +1,4 @@
+import 'jest-styled-components';
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
 import ResourceCard from './ResourceCard';
@@ -192,4 +193,131 @@ it('Truncates a long url of the resource', () => {
   );
 
   expect(getByText(/a{61}.../gm)).toBeTruthy();
+});
+
+it('Renders the points of a post', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={-2}
+      timeStamp=""
+      description=""
+      url=""
+    />
+  );
+
+  expect(getByText(/-2/gm)).toBeTruthy();
+  expect(getByText(/-2/gm).outerHTML).toMatch(/<div class=".*">-2 points<\/div>/gm);
+});
+
+it('Renders the positive points of a post', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={20}
+      timeStamp=""
+      description=""
+      url=""
+    />
+  );
+
+  expect(getByText(/\+20/gm)).toBeTruthy();
+  expect(getByText(/\+20/gm).outerHTML).toMatch(/<div class=".*">\+20 points<\/div>/gm);
+});
+
+// Timestamp tests will depend on how the api and database format the data. Test tbd.
+
+it('Renders a description of a post', () => {
+  const des = 'Brief description of some post';
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={0}
+      timeStamp=""
+      description={des}
+      url=""
+    />
+  );
+  expect(getByText(/Brief description of some post/gm)).toBeTruthy();
+  expect(getByText(/Brief description of some post/gm).outerHTML).toMatch(
+    /<div class=".*">Brief description of some post<\/div>/gm
+  );
+});
+
+// For integration
+it('Sends an upvote when upvote button is pressed', () => {});
+it('Sends an downvote when upvote button is pressed', () => {});
+
+// These tests will change when the resource card is finished
+it('Renders an upvote button', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={0}
+      timeStamp=""
+      description=""
+      url=""
+    />
+  );
+
+  expect(getByText('↑ Upvote').outerHTML).toMatch(/<button type="button">↑ Upvote<\/button>/gm);
+});
+
+it('Renders a downvote button', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={0}
+      timeStamp=""
+      description=""
+      url=""
+    />
+  );
+
+  expect(getByText('↓ Downvote').outerHTML).toMatch(/<button type="button">↓ Downvote<\/button>/gm);
+});
+
+// Might just use the snapshot test, but for now we'll keep both
+it('Matches the snapshot', () => {
+  const { container } = render(
+    <ResourceCard
+      title="a"
+      subject="b"
+      topic="c"
+      author="d"
+      authorImg="e"
+      previewImg="f"
+      points={123}
+      timeStamp="g"
+      description="h"
+      url="i"
+    />
+  );
+
+  expect(container.innerHTML).toMatchSnapshot();
 });
