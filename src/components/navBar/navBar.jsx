@@ -61,84 +61,77 @@ class NavBar extends React.Component {
       <NavBarStyle>
         <NavList>
           {renderButton && (
-            <NavItem>
-              <HamburgerButton onClickFunction={this.onHamburgerClick} />
-            </NavItem>
+            <>
+              <NavItem>
+                <HamburgerButton onClickFunction={this.onHamburgerClick} />
+              </NavItem>
+            </>
           )}
           <TitleItem>
             <NavLink href="/">{renderMenu ? 'Lecture Goggles' : `${title}`}</NavLink>
           </TitleItem>
-          {!renderMenu && (
-            <NavItem>
-              <NavLink href="/subjects"> Subjects</NavLink>{' '}
-            </NavItem>
-          )}
-          {!renderButton && (
-            <NavItem>
-              <NavLink href="/topics"> Topics</NavLink>{' '}
-            </NavItem>
-          )}
-          {!renderButton && (
-            <NavLink href="/resources">
-              <NavItem> Resources </NavItem>
-            </NavLink>
-          )}
-          {!renderButton && (
-            <NavItem>
-              <NavLink href="/support"> Support </NavLink>
-            </NavItem>
-          )}
-          {!renderButton && (
-            <NavItem>
-              <NavLink href="/developers"> Developers </NavLink>
-            </NavItem>
-          )}
-          {!renderMenu && (
-            <NavItem>
-              <NavLink href="/signIn"> Sign In </NavLink>
-            </NavItem>
-          )}
-          {!renderButton && (
-            <NavItem>
-              <NavLink href="/newAccount"> Create an Account </NavLink>
-            </NavItem>
+          {!renderButton ? (
+            <>
+              <NavItem>
+                <NavLink href="/subjects"> Subjects</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/topics"> Topics</NavLink>
+              </NavItem>
+              <NavLink href="/resources">
+                <NavItem> Resources </NavItem>
+              </NavLink>
+              <NavItem>
+                <NavLink href="/support"> Support </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/developers"> Developers </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/signIn"> Sign In </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/newAccount"> Create an Account </NavLink>
+              </NavItem>
+            </>
+          ) : (
+            !renderMenu && (
+              <>
+                <NavItem>
+                  <NavLink href="/subjects"> Subjects</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/signIn"> Sign In </NavLink>
+                </NavItem>
+              </>
+            )
           )}
         </NavList>
         {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/subjects">Subjects</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/topics">Topics</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/resources">Resources</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/support">Support</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/developers">Developers</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && <br />}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/signIn">Sign In</NavLink>
-          </MenuItem>
-        )}
-        {renderButton && renderMenu && (
-          <MenuItem>
-            <NavLink href="/newAccount">Create An Account</NavLink>
-          </MenuItem>
+          <>
+            <MenuItem>
+              <NavLink href="/subjects">Subjects</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink href="/topics">Topics</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink href="/resources">Resources</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink href="/support">Support</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink href="/developers">Developers</NavLink>
+            </MenuItem>
+            <br />
+            <MenuItem>
+              <NavLink href="/signIn">Sign In</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink href="/newAccount">Create An Account</NavLink>
+            </MenuItem>
+          </>
         )}
       </NavBarStyle>
     );
