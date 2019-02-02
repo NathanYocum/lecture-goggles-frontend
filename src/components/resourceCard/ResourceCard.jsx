@@ -10,6 +10,7 @@ const CardContainerStyle = styled.div`
   width: 345px;
   grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 100px;
   grid-template-columns: auto 56px;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const TitleStyle = styled.div`
@@ -56,6 +57,7 @@ const LinkStyle = styled.div`
   align-self: center;
   margin-left: 16px;
   width: 100%;
+  font-family: IBMPlexMono;
 `;
 
 const ResourceCard = ({
@@ -81,7 +83,7 @@ const ResourceCard = ({
       <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
     </PreviewA>
     <PreviewLink>
-      <LinkStyle>{url.length < 62 ? url : `${url.substring(0, 61)}...`}</LinkStyle>
+      <LinkStyle>{url.length < 42 ? url : `${url.substring(0, 39)}...`}</LinkStyle>
     </PreviewLink>
     {/* Todo: Match style docuement for these */}
     <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>

@@ -192,7 +192,7 @@ it('Truncates a long url of the resource', () => {
     />
   );
 
-  expect(getByText(/a{61}.../gm)).toBeTruthy();
+  expect(getByText(/a{39}.../gm)).toBeTruthy();
 });
 
 it('Renders the points of a post', () => {

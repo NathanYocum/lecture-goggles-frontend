@@ -53,7 +53,7 @@ class Resources extends React.Component {
             points={36}
             timeStamp="TIMESTAMP"
             description="DESCRIPTION"
-            url="http://localhost:3000/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
+            url="http://localhost:3000/asdfsdfasdfasdfasdfasdfasdfsadasdfasdfasdfasdf"
           />
         </TempCardStyle>
       </GridBody>
