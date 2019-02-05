@@ -1,4 +1,3 @@
-import 'jest-styled-components';
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
 import ResourceCard from './ResourceCard';
@@ -300,24 +299,4 @@ it('Renders a downvote button', () => {
   );
 
   expect(getByText('↓ Downvote').outerHTML).toMatch(/<button type="button">↓ Downvote<\/button>/gm);
-});
-
-// Might just use the snapshot test, but for now we'll keep both
-it('Matches the snapshot', () => {
-  const { container } = render(
-    <ResourceCard
-      title="a"
-      subject="b"
-      topic="c"
-      author="d"
-      authorImg="e"
-      previewImg="f"
-      points={123}
-      timeStamp="g"
-      description="h"
-      url="i"
-    />
-  );
-
-  expect(container.innerHTML).toMatchSnapshot();
 });
