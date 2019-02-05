@@ -29,6 +29,7 @@ const NavItem = styled.li`
 const TitleItem = styled(NavItem)`
   flex-grow: 1;
   font-size: 24px;
+  font-family: IBMPlexSans-SemiBold;
 `;
 
 const MenuItem = styled.p`
@@ -73,35 +74,48 @@ class NavBar extends React.Component {
           {!renderButton ? (
             <>
               <NavItem>
-                <NavLink href="/subjects"> Subjects</NavLink>
+                <NavLink data-testid="subjects-link-full" href="/subjects">
+                  Subjects
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/topics"> Topics</NavLink>
-              </NavItem>
-              <NavLink href="/resources">
-                <NavItem> Resources </NavItem>
-              </NavLink>
-              <NavItem>
-                <NavLink href="/support"> Support </NavLink>
+                <NavLink data-testid="topics-link-full" href="/topics">
+                  Topics
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/developers"> Developers </NavLink>
+                <NavLink data-testid="resources-link-full" href="/resources">
+                  Resources
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/signIn"> Sign In </NavLink>
+                <NavLink data-testid="support-link-full" href="/support">
+                  Support
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/newAccount"> Create an Account </NavLink>
+                <NavLink data-testid="developers-link-full" href="/developers">
+                  Developers
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink data-testid="sign-in-link-full" href="/signIn">
+                  Sign In
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink data-testid="new-account-link-full" href="/newAccount">
+                  Create an Account
+                </NavLink>
               </NavItem>
             </>
           ) : (
             !renderMenu && (
               <>
                 <NavItem>
-                  <NavLink href="/subjects"> Subjects</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/signIn"> Sign In </NavLink>
+                  <NavLink data-testid="sign-in-link-mobile" href="/signIn">
+                    Sign In
+                  </NavLink>
                 </NavItem>
               </>
             )
@@ -110,26 +124,40 @@ class NavBar extends React.Component {
         {renderButton && renderMenu && (
           <>
             <MenuItem>
-              <NavLink href="/subjects">Subjects</NavLink>
+              <NavLink data-testid="subjects-link-menu" href="/subjects">
+                Subjects
+              </NavLink>
             </MenuItem>
             <MenuItem>
-              <NavLink href="/topics">Topics</NavLink>
+              <NavLink data-testid="topics-link-menu" href="/topics">
+                Topics
+              </NavLink>
             </MenuItem>
             <MenuItem>
-              <NavLink href="/resources">Resources</NavLink>
+              <NavLink data-testid="resources-link-menu" href="/resources">
+                Resources
+              </NavLink>
             </MenuItem>
             <MenuItem>
-              <NavLink href="/support">Support</NavLink>
+              <NavLink data-testid="support-link-menu" href="/support">
+                Support
+              </NavLink>
             </MenuItem>
             <MenuItem>
-              <NavLink href="/developers">Developers</NavLink>
+              <NavLink data-testid="developers-link-menu" href="/developers">
+                Developers
+              </NavLink>
             </MenuItem>
             <br />
             <MenuItem>
-              <NavLink href="/signIn">Sign In</NavLink>
+              <NavLink data-testid="sign-in-link-menu" href="/signIn">
+                Sign In
+              </NavLink>
             </MenuItem>
             <MenuItem>
-              <NavLink href="/newAccount">Create An Account</NavLink>
+              <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
+                Create an Account
+              </NavLink>
             </MenuItem>
           </>
         )}

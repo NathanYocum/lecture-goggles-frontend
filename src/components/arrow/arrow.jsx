@@ -13,7 +13,7 @@ const ArrowButtonStyle = styled.button`
 `;
 
 const ArrowButton = ({ onClickFunction }) => (
-  <ArrowButtonStyle onClick={onClickFunction}>
+  <ArrowButtonStyle data-testid="arrow-button" role="button" onClick={onClickFunction}>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="42px" height="25px" viewBox="-0.5 -0.5 42 82">
       <defs />
       <path d="M 0 0 L 40 40" fill="none" stroke="#000000" strokeMiterlimit="10" pointerEvents="none" />

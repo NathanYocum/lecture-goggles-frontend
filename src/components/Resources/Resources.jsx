@@ -7,6 +7,8 @@ import ResourceCard from '../resourceCard/ResourceCard';
 const TempCardStyle = styled.div`
   grid-row: 2;
   grid-column: 2;
+  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
+  border: 1px solid #90a4ae;
 `;
 
 class Resources extends React.Component {
@@ -51,7 +53,7 @@ class Resources extends React.Component {
             points={36}
             timeStamp="TIMESTAMP"
             description="DESCRIPTION"
-            url="http://localhost:3000/asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
+            url="http://localhost:3000/asdfsdfasdfasdfasdfasdfasdfsadasdfasdfasdfasdf"
           />
         </TempCardStyle>
       </GridBody>

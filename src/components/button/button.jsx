@@ -18,7 +18,13 @@ const GenericButtonStyle = styled.button`
 `;
 
 const GenericButton = ({ onClickFunction, text, backgroundColor, color }) => (
-  <GenericButtonStyle backgroundColor={backgroundColor} color={color} onClick={onClickFunction}>
+  <GenericButtonStyle
+    data-testid="generic-button"
+    role="button"
+    backgroundColor={backgroundColor}
+    color={color}
+    onClick={onClickFunction}
+  >
     {text}
   </GenericButtonStyle>
 );
