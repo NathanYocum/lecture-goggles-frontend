@@ -36,7 +36,7 @@ class Resources extends React.Component {
   render() {
     const { width } = this.state;
     return (
-      <GridBody>
+      <GridBody data-testid="resources">
         <NavBar title="Resources" renderButton={width < 768} />
         <TempCardStyle>
           {/*

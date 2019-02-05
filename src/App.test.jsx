@@ -27,10 +27,33 @@ it('Renders a landing page on home', () => {
   expect(queryByTestId('landing-page')).not.toBeNull();
 });
 
-it('Navigates to /signIn when I press the SignIn button', () => {
-  const { queryByTestId } = renderWithRouter(<App />);
-  fireEvent.click(queryByTestId(/sign-in-button/gm).firstChild, { button: 0 });
-  // expect(queryByTestId('sign-in')).not.toBeNull();
+it('Routes to SignIn on /signIn', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/signIn' });
+  expect(queryByTestId('sign-in')).not.toBeNull();
 });
 
-it('Navigates to /newAccount when I press SignUp button', () => {});
+it('Routes to New Account on /newAccount', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/newAccount' });
+  expect(queryByTestId('sign-up')).not.toBeNull();
+});
+
+it('Routes to Resources on /resources', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/resources' });
+  expect(queryByTestId('resources')).not.toBeNull();
+});
+
+it('Routes to Developers on /developers', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/developers' });
+  expect(queryByTestId('developers')).not.toBeNull();
+});
+
+it('Routes to NotFound on an unknown route', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/asdfasdf' });
+  expect(queryByTestId('not-found')).not.toBeNull();
+});
+
+it('Navigates to Sign In when I press the SIGN IN button', () => {
+  const { getByTestId } = renderWithRouter(<App />);
+  fireEvent.click(getByTestId('sign-in-button'), { button: 0 });
+  // Need to find out why the container doesn't change when we click the button...
+});

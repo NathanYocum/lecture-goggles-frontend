@@ -81,7 +81,7 @@ class NotFound extends React.Component {
   render() {
     const { width } = this.state;
     return (
-      <GridBody>
+      <GridBody data-testid="not-found">
         <NavBar renderButton={width < 768} />
         <LogoStyle>
           <LectureGogglesLogo width={200} height={200} />
