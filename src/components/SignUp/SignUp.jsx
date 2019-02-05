@@ -55,7 +55,7 @@ class SignUp extends React.Component {
   render() {
     const { width } = this.state;
     return (
-      <GridBody>
+      <GridBody data-testid="sign-up">
         <NavBar renderButton={width < 768} />
         <LogoStyle>
           <LectureGogglesLogo width={200} height={200} />

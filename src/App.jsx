@@ -11,10 +11,10 @@ import SignUp from './components/SignUp/SignUp';
 const App = () => (
   <Switch>
     <Route exact path="/" component={LandingPage} />
-    <Route exact path="/resources" component={Resources} />
-    <Route exact path="/developers" component={DevelopersPage} />
-    <Route exact path="/signIn" component={SignIn} />
-    <Route exact path="/newAccount" component={SignUp} />
+    <Route path="/resources" component={Resources} />
+    <Route path="/developers" component={DevelopersPage} />
+    <Route path="/signIn" component={SignIn} />
+    <Route path="/newAccount" component={SignUp} />
     <Route component={NotFound} />
   </Switch>
 );
