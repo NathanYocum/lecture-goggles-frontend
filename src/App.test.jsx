@@ -7,7 +7,7 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { render, cleanup, fireEvent } from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 import App from './App';
 
 function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}) {
@@ -50,10 +50,4 @@ it('Routes to Developers on /developers', () => {
 it('Routes to NotFound on an unknown route', () => {
   const { queryByTestId } = renderWithRouter(<App />, { route: '/asdfasdf' });
   expect(queryByTestId('not-found')).not.toBeNull();
-});
-
-it('Navigates to Sign In when I press the SIGN IN button', () => {
-  const { getByTestId } = renderWithRouter(<App />);
-  fireEvent.click(getByTestId('sign-in-button'), { button: 0 });
-  // Need to find out why the container doesn't change when we click the button...
 });
