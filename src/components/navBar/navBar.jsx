@@ -156,7 +156,7 @@ class NavBar extends React.Component {
             </MenuItem>
             <MenuItem>
               <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
-                Create An Account
+                Create an Account
               </NavLink>
             </MenuItem>
           </>
