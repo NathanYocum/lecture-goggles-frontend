@@ -7,7 +7,7 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup, fireEvent } from 'react-testing-library';
 import App from './App';
 
 function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}) {
@@ -23,10 +23,14 @@ function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ ini
 afterEach(cleanup);
 
 it('Renders a landing page on home', () => {
-  // const { container } = renderWithRouter(<App />);
-  // console.log(container.innerHTML);
+  const { queryByTestId } = renderWithRouter(<App />);
+  expect(queryByTestId('landing-page')).not.toBeNull();
 });
 
-it('Navigates to /signIn when I press the SignIn button', () => {});
+it('Navigates to /signIn when I press the SignIn button', () => {
+  const { queryByTestId } = renderWithRouter(<App />);
+  fireEvent.click(queryByTestId(/sign-in-button/gm).firstChild, { button: 0 });
+  // expect(queryByTestId('sign-in')).not.toBeNull();
+});
 
 it('Navigates to /newAccount when I press SignUp button', () => {});

@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
   render() {
     const { width } = this.state;
     return (
-      <GridBody>
+      <GridBody data-testid="landing-page">
         <NavBar renderButton={width < 768} />
         <LogoStyle>
           <LectureGogglesLogo width={200} height={200} />
@@ -77,7 +77,7 @@ class LandingPage extends React.Component {
           </p>
         </WelcomeStyle>
         <SignInButtonStyle>
-          <a href="/signIn">
+          <a data-testid="sign-in-button" href="/signIn">
             <GenericButton text="SIGN IN" />
           </a>
         </SignInButtonStyle>
