@@ -37,6 +37,21 @@ it('Routes to New Account on /newAccount', () => {
   expect(queryByTestId('sign-up')).not.toBeNull();
 });
 
+it('Routes to Subjects on /subjects', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/subjects' });
+  expect(queryByTestId('subjects')).not.toBeNull();
+});
+
+it('Routes to Topics on /topics', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/topics' });
+  expect(queryByTestId('topics')).not.toBeNull();
+});
+
+it('Routes to Support on /support', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/support' });
+  expect(queryByTestId('support')).not.toBeNull();
+});
+
 it('Routes to Resources on /resources', () => {
   const { queryByTestId } = renderWithRouter(<App />, { route: '/resources' });
   expect(queryByTestId('resources')).not.toBeNull();
@@ -45,6 +60,16 @@ it('Routes to Resources on /resources', () => {
 it('Routes to Developers on /developers', () => {
   const { queryByTestId } = renderWithRouter(<App />, { route: '/developers' });
   expect(queryByTestId('developers')).not.toBeNull();
+});
+
+it('Routes to Account on /account', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/account' });
+  expect(queryByTestId('account')).not.toBeNull();
+});
+
+it('Routes to Upload on /upload', () => {
+  const { queryByTestId } = renderWithRouter(<App />, { route: '/upload' });
+  expect(queryByTestId('upload')).not.toBeNull();
 });
 
 it('Routes to NotFound on an unknown route', () => {
