@@ -1,6 +1,13 @@
 import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
 import GridBody from '../gridBody';
+
+const FormContainer = styled.div`
+  grid-column: 2;
+  grid-row: 2;
+`;
 
 class UploadPage extends React.Component {
   constructor(props) {
@@ -29,6 +36,17 @@ class UploadPage extends React.Component {
     return (
       <GridBody data-testid="upload">
         <NavBar renderButton={width < 768} />
+        <FormContainer>
+          <h1>Upload Resource</h1>
+          <Formik
+            initialValues={{ url: 'https://lecturegoggles.io' }}
+            render={props => (
+              <Form>
+                <Field type="url" onChange={props.handleChange} value={props.values.url} />
+              </Form>
+            )}
+          />
+        </FormContainer>
       </GridBody>
     );
   }
