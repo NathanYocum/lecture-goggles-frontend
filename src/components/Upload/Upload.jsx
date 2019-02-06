@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
 import GridBody from '../gridBody';
+import useWindowWidth from '../__hooks__/useWindowWidth';
 
 const FormContainer = styled.div`
   grid-column: 2;
@@ -31,14 +32,7 @@ const InputStyle = styled.input`
 `;
 
 const UploadPage = () => {
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
+  const width = useWindowWidth();
   return (
     <GridBody data-testid="upload">
       <NavBar renderButton={width < 768} />
