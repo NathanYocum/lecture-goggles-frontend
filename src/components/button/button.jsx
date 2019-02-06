@@ -12,18 +12,20 @@ const GenericButtonStyle = styled.button`
   cursor: pointer;
   outline: inherit;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  height: 100%;
+  width: ${props => props.width}
+  height: ${props => props.height};
   border-radius: 18px;
 `;
 
-const GenericButton = ({ onClickFunction, text, backgroundColor, color }) => (
+const GenericButton = ({ onClickFunction, text, backgroundColor, color, width, height, type }) => (
   <GenericButtonStyle
     data-testid="generic-button"
-    role="button"
     backgroundColor={backgroundColor}
     color={color}
     onClick={onClickFunction}
+    width={width}
+    height={height}
+    type={type}
   >
     {text}
   </GenericButtonStyle>
@@ -33,13 +35,19 @@ GenericButton.propTypes = {
   onClickFunction: PropTypes.func,
   text: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  type: PropTypes.string
 };
 
 GenericButton.defaultProps = {
   onClickFunction: () => {},
   backgroundColor: '#0074d9',
-  color: '#ffffff'
+  color: '#ffffff',
+  width: '100%',
+  height: '100%',
+  type: 'button'
 };
 
 export default GenericButton;
