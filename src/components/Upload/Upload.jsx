@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
@@ -30,53 +30,38 @@ const InputStyle = styled.input`
   height: 24px;
 `;
 
-class UploadPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: 0
+const UploadPage = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
     };
-    this.getWindowWidth = this.getWindowWidth.bind(this);
-  }
-
-  componentDidMount() {
-    this.getWindowWidth();
-    window.addEventListener('resize', this.getWindowWidth);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.getWindowWidth);
-  }
-
-  getWindowWidth() {
-    this.setState({ width: window.innerWidth });
-  }
-
-  render() {
-    const { width } = this.state;
-    return (
-      <GridBody data-testid="upload">
-        <NavBar renderButton={width < 768} />
-        <BG />
-        <FormContainer>
-          <h1>Upload Resource</h1>
-          <Formik
-            initialValues={{ url: '' }}
-            render={props => {
-              const { handleBlur, handleChange, values } = props;
-              return (
-                <form>
-                  <InputStyle type="url" onBlur={handleBlur} onChange={handleChange} value={values.url} name="url" />
-                  URL
-                  <br />
-                </form>
-              );
-            }}
-          />
-        </FormContainer>
-      </GridBody>
-    );
-  }
-}
+  });
+  return (
+    <GridBody data-testid="upload">
+      <NavBar renderButton={width < 768} />
+      <BG />
+      <FormContainer>
+        <h1>Upload Resource</h1>
+        <Formik
+          initialValues={{ url: '' }}
+          render={props => {
+            // eslint-disable-next-line
+            const { handleBlur, handleChange, values } = props;
+            return (
+              <form>
+                <InputStyle type="url" onBlur={handleBlur} onChange={handleChange} value={values.url} name="url" />
+                URL
+                <br />
+              </form>
+            );
+          }}
+        />
+      </FormContainer>
+    </GridBody>
+  );
+};
 
 export default UploadPage;
