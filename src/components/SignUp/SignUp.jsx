@@ -3,10 +3,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
-import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import useWindowWidth from '../__hooks__/useWindowWidth';
+import FullLectureGogglesLogo from '../logo/fullLogo';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -14,6 +14,9 @@ const LogoStyle = styled.div`
   justify-self: center;
   align-self: center;
   text-align: center;
+  border-radius: 18px;
+  border: 1px solid #e3e3e3;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const WelcomeStyle = styled.div`
@@ -48,6 +51,7 @@ const InputStyle = styled.input`
   text-align: center;
   height: 56px;
   font-size: 24px;
+  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const SignUp = () => {
@@ -56,8 +60,7 @@ const SignUp = () => {
     <GridBody data-testid="sign-up">
       <NavBar renderButton={width < 768} />
       <LogoStyle>
-        <LectureGogglesLogo width={200} height={200} />
-        <p>Lecture Goggles</p>
+        <FullLectureGogglesLogo width={250} height={100} />
       </LogoStyle>
       <WelcomeStyle>
         <form>
