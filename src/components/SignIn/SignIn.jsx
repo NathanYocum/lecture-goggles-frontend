@@ -22,7 +22,6 @@ const WelcomeStyle = styled.div`
   grid-column: 2;
   background-color: #ffffff;
   color: #0d47a1;
-  padding: 20px;
   width: 100%;
 `;
 
