@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import styled from 'styled-components';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
@@ -53,6 +55,15 @@ const InputStyle = styled.input`
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
+const SignUpSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .matches(/[A-Z][A-Za-z ]*/, 'Only alphabetical characters (A-Za-z) accepted')
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid Email')
+    .required('Required')
+});
+
 const SignUp = () => {
   const width = useWindowWidth();
   return (
@@ -62,65 +73,84 @@ const SignUp = () => {
         <FullLectureGogglesLogo width={250} height={100} />
       </LogoStyle>
       <WelcomeStyle>
-        <form>
-          <LabelStyle htmlFor="firstName">
-            First Name
-            <br />
-            <InputStyle type="text" name="firstName" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="lastName">
-            Last Name
-            <br />
-            <InputStyle type="text" name="lastName" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="email">
-            Email
-            <br />
-            <InputStyle type="text" name="email" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="confirmEmail">
-            Confirm Email
-            <br />
-            <InputStyle type="text" name="confirmEmail" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="password">
-            Password
-            <br />
-            <InputStyle type="password" name="password" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="confirmPassword">
-            Confirm Password
-            <br />
-            <InputStyle type="password" name="confirmPassword" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="institution">
-            Institution
-            <br />
-            <InputStyle type="text" name="institution" />
-          </LabelStyle>
-          <br />
-          <LabelStyle htmlFor="firstName">
-            Are you an instructor at your institution?
-            <br />
-            <input type="radio" name="firstName" />
-            Yes
-            <input type="radio" name="firstName" />
-            No
-          </LabelStyle>
-          <br />
-          <ContinueButtonStyle>
-            <GenericButton type="submit" text="Continue" />
-            <a href="/">
-              <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
-            </a>
-          </ContinueButtonStyle>
-        </form>
+        <Formik
+          initialValues={{
+            firstName: '',
+            lastName: '',
+            email: '',
+            confirmEmail: '',
+            password: '',
+            confirmPassword: '',
+            institution: '',
+            confirmInstructor: 'false' // Need to figure out defaults for radio
+          }}
+          validationSchema={SignUpSchema}
+          render={props => {
+            // eslint-disable-next-line
+            const { handleBlur } = props;
+            return (
+              <form>
+                <LabelStyle htmlFor="firstName">
+                  First Name
+                  <br />
+                  <InputStyle type="text" name="firstName" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="lastName">
+                  Last Name
+                  <br />
+                  <InputStyle type="text" name="lastName" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="email">
+                  Email
+                  <br />
+                  <InputStyle type="text" name="email" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="confirmEmail">
+                  Confirm Email
+                  <br />
+                  <InputStyle type="text" name="confirmEmail" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="password">
+                  Password
+                  <br />
+                  <InputStyle type="password" name="password" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="confirmPassword">
+                  Confirm Password
+                  <br />
+                  <InputStyle type="password" name="confirmPassword" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="institution">
+                  Institution
+                  <br />
+                  <InputStyle type="text" name="institution" />
+                </LabelStyle>
+                <br />
+                <LabelStyle htmlFor="confirmInstructor">
+                  Are you an instructor at your institution?
+                  <br />
+                  <input type="radio" value="yes" name="confirmInstructor" />
+                  Yes
+                  <input type="radio" value="no" name="confirmInstructor" />
+                  No
+                </LabelStyle>
+                <br />
+                <ContinueButtonStyle>
+                  <GenericButton type="submit" text="Continue" />
+                  <a href="/">
+                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                  </a>
+                </ContinueButtonStyle>
+              </form>
+            );
+          }}
+        />
       </WelcomeStyle>
     </GridBody>
   );
