@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
+import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
@@ -48,20 +49,48 @@ const InputStyle = styled.input`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: 1px solid #0074d9;
+  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
   text-align: center;
   height: 56px;
   font-size: 24px;
-  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const ErrorDiv = styled.div`
+  text-align: center;
+  color: #ff4136;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border: 1px solid #ff4136;
+  background-color: #e3e3e3;
+  font-size: 16px;
 `;
 
 const SignUpSchema = Yup.object().shape({
   firstName: Yup.string()
-    .matches(/[A-Z][A-Za-z ]*/, 'Only alphabetical characters (A-Za-z) accepted')
+    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) accepted')
+    .required('Required'),
+  lastName: Yup.string()
+    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) accepted')
     .required('Required'),
   email: Yup.string()
     .email('Invalid Email')
     .required('Required')
+    .oneOf([Yup.ref('confirmEmail')], 'Emails do not match'),
+  confirmEmail: Yup.string()
+    .email('Invalid Email')
+    .required('Required')
+    .oneOf([Yup.ref('email')], 'Emails do not match'),
+  password: Yup.string()
+    .required('Required')
+    .min(6, 'Password must be at least 6 characters long')
+    .oneOf([Yup.ref('confirmPassword')], 'Passwords do not match'),
+  confirmPassword: Yup.string()
+    .required('Required')
+    .min(6, 'Password must be at least 6 characters long')
+    .oneOf([Yup.ref('password')], 'Passwords do not match'),
+  institution: Yup.string().required('Required')
 });
 
 const SignUp = () => {
@@ -82,69 +111,136 @@ const SignUp = () => {
             password: '',
             confirmPassword: '',
             institution: '',
-            confirmInstructor: 'false' // Need to figure out defaults for radio
+            confirmInstructor: false // Need to figure out defaults for radio
           }}
           validationSchema={SignUpSchema}
           render={props => {
-            // eslint-disable-next-line
-            const { handleBlur } = props;
+            const { handleBlur, handleChange, values, errors } = props;
             return (
               <form>
                 <LabelStyle htmlFor="firstName">
                   First Name
                   <br />
-                  <InputStyle type="text" name="firstName" />
+                  <InputStyle
+                    data-testid="first-name-input"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    hasErrors={errors.firstName}
+                    value={values.firstName}
+                    type="text"
+                    name="firstName"
+                  />
+                  {errors.firstName && <ErrorDiv data-testid="first-name-error">{errors.firstName}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="lastName">
                   Last Name
                   <br />
-                  <InputStyle type="text" name="lastName" />
+                  <InputStyle
+                    data-testid="last-name-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.lastName}
+                    value={values.lastName}
+                    type="text"
+                    name="lastName"
+                  />
+                  {errors.lastName && <ErrorDiv>{errors.lastName}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="email">
                   Email
                   <br />
-                  <InputStyle type="text" name="email" />
+                  <InputStyle
+                    data-testid="email-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.email}
+                    value={values.email}
+                    type="text"
+                    name="email"
+                  />
+                  {errors.email && <ErrorDiv>{errors.email}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmEmail">
                   Confirm Email
                   <br />
-                  <InputStyle type="text" name="confirmEmail" />
+                  <InputStyle
+                    data-testid="confirm-email-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.confirmEmail}
+                    value={values.confirmEmail}
+                    type="text"
+                    name="confirmEmail"
+                  />
+                  {errors.confirmEmail && <ErrorDiv>{errors.confirmEmail}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="password">
                   Password
                   <br />
-                  <InputStyle type="password" name="password" />
+                  <InputStyle
+                    data-testid="password-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.password}
+                    value={values.password}
+                    type="password"
+                    name="password"
+                  />
+                  {errors.password && <ErrorDiv>{errors.password}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmPassword">
                   Confirm Password
                   <br />
-                  <InputStyle type="password" name="confirmPassword" />
+                  <InputStyle
+                    data-testid="confirm-password-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.confirmPassword}
+                    value={values.confirmPassword}
+                    type="password"
+                    name="confirmPassword"
+                  />
+                  {errors.confirmPassword && <ErrorDiv>{errors.confirmPassword}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="institution">
                   Institution
                   <br />
-                  <InputStyle type="text" name="institution" />
+                  <InputStyle
+                    data-testid="institution-input"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    hasErrors={errors.institution}
+                    value={values.institution}
+                    type="text"
+                    name="institution"
+                  />
+                  {errors.institution && <ErrorDiv>{errors.institution}</ErrorDiv>}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmInstructor">
                   Are you an instructor at your institution?
                   <br />
-                  <input type="radio" value="yes" name="confirmInstructor" />
+                  <input data-testid="yes-confirmInstructor" type="radio" value="yes" name="confirmInstructor" />
                   Yes
-                  <input type="radio" value="no" name="confirmInstructor" />
+                  <input data-testid="no-confirmInstructor" type="radio" value="no" name="confirmInstructor" />
                   No
                 </LabelStyle>
                 <br />
                 <ContinueButtonStyle>
-                  <GenericButton type="submit" text="Continue" />
+                  <GenericButton data-testid="continue-button" type="submit" text="Continue" />
                   <a href="/">
-                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                    <GenericButton
+                      data-testid="cancel-button"
+                      backgroundColor="#90A4AE"
+                      color="#0D47A1"
+                      text="Cancel"
+                    />
                   </a>
                 </ContinueButtonStyle>
               </form>
@@ -154,6 +250,20 @@ const SignUp = () => {
       </WelcomeStyle>
     </GridBody>
   );
+};
+
+SignUp.propTypes = {
+  handleBlur: PropTypes.func,
+  handleChange: PropTypes.func,
+  values: PropTypes.shape({}),
+  errors: PropTypes.shape({})
+};
+
+SignUp.defaultProps = {
+  handleBlur: Formik.handleBlur,
+  handleChange: Formik.handleChange,
+  values: {},
+  errors: {}
 };
 
 export default SignUp;
