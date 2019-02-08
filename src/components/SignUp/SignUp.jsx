@@ -3,7 +3,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
@@ -35,7 +34,9 @@ const ContinueButtonStyle = styled.div`
   grid-column: 2;
   justify-self: center;
   font-size: 32px;
-  margin: 30px;
+  margin-left: 20%;
+  margin-right: 20%;
+  width: 60%;
 `;
 
 const LabelStyle = styled.label`
@@ -94,6 +95,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignUp = () => {
+  const [isButtonDisabled, setButtonDisabled] = React.useState(true);
   const width = useWindowWidth();
   return (
     <GridBody data-testid="sign-up">
@@ -114,8 +116,8 @@ const SignUp = () => {
             confirmInstructor: false // Need to figure out defaults for radio
           }}
           validationSchema={SignUpSchema}
-          render={props => {
-            const { handleBlur, handleChange, values, errors } = props;
+          render={renderProps => {
+            const { handleBlur, handleChange, values, errors } = renderProps;
             return (
               <form>
                 <LabelStyle htmlFor="firstName">
@@ -130,7 +132,13 @@ const SignUp = () => {
                     type="text"
                     name="firstName"
                   />
-                  {errors.firstName && <ErrorDiv data-testid="first-name-error">{errors.firstName}</ErrorDiv>}
+                  {errors.firstName ? (
+                    <ErrorDiv data-testid="first-name-error">
+                      {errors.firstName} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="lastName">
@@ -145,7 +153,13 @@ const SignUp = () => {
                     type="text"
                     name="lastName"
                   />
-                  {errors.lastName && <ErrorDiv>{errors.lastName}</ErrorDiv>}
+                  {errors.lastName ? (
+                    <ErrorDiv data-testid="last-name-error">
+                      {errors.lastName} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="email">
@@ -160,7 +174,13 @@ const SignUp = () => {
                     type="text"
                     name="email"
                   />
-                  {errors.email && <ErrorDiv>{errors.email}</ErrorDiv>}
+                  {errors.email ? (
+                    <ErrorDiv data-testid="email-error">
+                      {errors.email} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmEmail">
@@ -175,7 +195,13 @@ const SignUp = () => {
                     type="text"
                     name="confirmEmail"
                   />
-                  {errors.confirmEmail && <ErrorDiv>{errors.confirmEmail}</ErrorDiv>}
+                  {errors.confirmEmail ? (
+                    <ErrorDiv data-testid="confirm-email-error">
+                      {errors.confirmEmail} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="password">
@@ -233,14 +259,17 @@ const SignUp = () => {
                 </LabelStyle>
                 <br />
                 <ContinueButtonStyle>
-                  <GenericButton data-testid="continue-button" type="submit" text="Continue" />
+                  <GenericButton
+                    disabled={isButtonDisabled}
+                    backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
+                    color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
+                    borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+                    testId="continue-button"
+                    type="submit"
+                    text="Continue"
+                  />
                   <a href="/">
-                    <GenericButton
-                      data-testid="cancel-button"
-                      backgroundColor="#90A4AE"
-                      color="#0D47A1"
-                      text="Cancel"
-                    />
+                    <GenericButton testId="cancel-button" backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
                   </a>
                 </ContinueButtonStyle>
               </form>
@@ -250,20 +279,6 @@ const SignUp = () => {
       </WelcomeStyle>
     </GridBody>
   );
-};
-
-SignUp.propTypes = {
-  handleBlur: PropTypes.func,
-  handleChange: PropTypes.func,
-  values: PropTypes.shape({}),
-  errors: PropTypes.shape({})
-};
-
-SignUp.defaultProps = {
-  handleBlur: Formik.handleBlur,
-  handleChange: Formik.handleChange,
-  values: {},
-  errors: {}
 };
 
 export default SignUp;
