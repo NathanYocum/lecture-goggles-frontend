@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, fireEvent, waitForElement } from 'react-testing-library';
+import { render, cleanup, fireEvent, waitForElement, wait } from 'react-testing-library';
 import SignUp from './SignUp';
 import 'jest-dom/extend-expect';
 
@@ -47,9 +47,9 @@ it('Renders an error when I type in an incorrect email', async () => {
   expect(queryByTestId('continue-button')).toHaveAttribute('disabled');
 });
 
-it('Renders an error when I type in two incorrect emails', async () => {
+it('Renders an error with two correct emails, and the error disappears after the emails match', async () => {
   const { queryByTestId } = render(<SignUp />);
-  fireEvent.change(queryByTestId('email-input'), { target: { value: 'exammple@example.com' } });
+  fireEvent.change(queryByTestId('email-input'), { target: { value: 'example@example.com' } });
   fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'test@test.com' } });
   await waitForElement(() => queryByTestId('email-error'));
   await waitForElement(() => queryByTestId('confirm-email-error'));
@@ -59,14 +59,10 @@ it('Renders an error when I type in two incorrect emails', async () => {
   expect(queryByTestId('confirm-email-error')).not.toBeNull();
   expect(queryByTestId('confirm-email-error').innerHTML).toMatch('Emails do not match');
   expect(queryByTestId('continue-button')).toHaveAttribute('disabled');
-});
 
-it('Does not render an error when emails are valid', async () => {
-  const { queryByTestId } = render(<SignUp />);
-  fireEvent.change(queryByTestId('email-input'), { target: { value: 'example@example.com' } });
-  fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'example@examle.com' } });
-
+  fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'example@example.com' } });
+  // Wait until the error goes away
+  await wait(() => expect(queryByTestId('email-error')).toBeNull());
   expect(queryByTestId('email-error')).toBeNull();
   expect(queryByTestId('confirm-email-error')).toBeNull();
-  expect(queryByTestId('continue-button')).not.toHaveAttribute('disabled');
 });
