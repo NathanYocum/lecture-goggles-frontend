@@ -216,7 +216,13 @@ const SignUp = () => {
                     type="password"
                     name="password"
                   />
-                  {errors.password && <ErrorDiv>{errors.password}</ErrorDiv>}
+                  {errors.password ? (
+                    <ErrorDiv data-testid="password-error">
+                      {errors.password} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmPassword">
@@ -231,7 +237,13 @@ const SignUp = () => {
                     type="password"
                     name="confirmPassword"
                   />
-                  {errors.confirmPassword && <ErrorDiv>{errors.confirmPassword}</ErrorDiv>}
+                  {errors.confirmPassword ? (
+                    <ErrorDiv data-testid="confirm-password-error">
+                      {errors.confirmPassword} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="institution">
@@ -246,7 +258,13 @@ const SignUp = () => {
                     type="text"
                     name="institution"
                   />
-                  {errors.institution && <ErrorDiv>{errors.institution}</ErrorDiv>}
+                  {errors.institution ? (
+                    <ErrorDiv data-testid="institution-error">
+                      {errors.institution} {setButtonDisabled(true)}
+                    </ErrorDiv>
+                  ) : (
+                    setButtonDisabled(false)
+                  )}
                 </LabelStyle>
                 <br />
                 <LabelStyle htmlFor="confirmInstructor">

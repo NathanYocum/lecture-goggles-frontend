@@ -66,3 +66,45 @@ it('Renders an error with two correct emails, and the error disappears after the
   expect(queryByTestId('email-error')).toBeNull();
   expect(queryByTestId('confirm-email-error')).toBeNull();
 });
+
+it('Renders an error when password is < 6 characters', async () => {
+  const { getByTestId } = render(<SignUp />);
+  fireEvent.change(getByTestId('password-input'), { target: { value: '!1A' } });
+  fireEvent.change(getByTestId('confirm-password-input'), { target: { value: '!1A' } });
+  await waitForElement(() => getByTestId('confirm-password-error'));
+  await waitForElement(() => getByTestId('password-error'));
+
+  expect(getByTestId('password-error')).not.toBeNull();
+  expect(getByTestId('password-error').innerHTML).toMatch('Password must be at least 6 characters long');
+  expect(getByTestId('confirm-password-error')).not.toBeNull();
+  expect(getByTestId('confirm-password-error').innerHTML).toMatch('Password must be at least 6 characters long');
+  expect(getByTestId('continue-button')).toHaveAttribute('disabled');
+});
+
+it('Renders an error when passwords do not match, that disappears when the passwords do match', async () => {
+  const { queryByTestId, getByTestId } = render(<SignUp />);
+  fireEvent.change(getByTestId('password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(getByTestId('confirm-password-input'), { target: { value: '123password!' } });
+  await waitForElement(() => [getByTestId('confirm-password-error'), getByTestId('password-error')]);
+
+  expect(getByTestId('password-error')).not.toBeNull();
+  expect(getByTestId('password-error').innerHTML).toMatch('Passwords do not match');
+  expect(getByTestId('confirm-password-error')).not.toBeNull();
+  expect(getByTestId('confirm-password-error').innerHTML).toMatch('Passwords do not match');
+  expect(getByTestId('continue-button')).toHaveAttribute('disabled');
+  fireEvent.change(getByTestId('confirm-password-input'), { target: { value: 'password123!' } });
+  await wait(() => expect(queryByTestId('password-error')).not.toBeInTheDocument());
+});
+
+it('Does not render any errors when the form is filled out correctly', async () => {
+  const { queryByTestId, getByTestId } = render(<SignUp />);
+  fireEvent.change(getByTestId('first-name-input'), { target: { value: 'John' } });
+  fireEvent.change(getByTestId('last-name-input'), { target: { value: 'Doe' } });
+  fireEvent.change(getByTestId('email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(getByTestId('confirm-email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(getByTestId('password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(getByTestId('confirm-password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(getByTestId('institution-input'), { target: { value: 'University of Nevada, Reno' } });
+  await wait(() => expect(queryByTestId(/.*-error/gm)).toBeNull());
+  expect(getByTestId('continue-button')).not.toHaveAttribute('disabled');
+});
