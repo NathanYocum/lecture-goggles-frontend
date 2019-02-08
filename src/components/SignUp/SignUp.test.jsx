@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
+import { render, cleanup, fireEvent, waitForElement } from 'react-testing-library';
 import SignUp from './SignUp';
 
 afterEach(cleanup);
@@ -18,6 +18,8 @@ it('Renders a hamburger menu at 768px', () => {
 
 it('Renders an error when I type in an incorrect first name', async () => {
   const { queryByTestId } = render(<SignUp />);
-  queryByTestId('first-name-input').value = '---';
-  fireEvent.change(queryByTestId('first-name-input'));
+  fireEvent.change(queryByTestId('first-name-input'), { target: { value: '---' } });
+  await waitForElement(() => queryByTestId('first-name-error'));
+
+  expect(queryByTestId('first-name-error')).not.toBeNull();
 });
