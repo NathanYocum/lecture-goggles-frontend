@@ -310,7 +310,6 @@ const SignUp = () => {
                     <GenericButton testId="cancel-button" backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
                   </a>
                 </ContinueButtonStyle>
-                {Object.entries(values).map(x => ` ${x}`)}
               </form>
             );
           }}
