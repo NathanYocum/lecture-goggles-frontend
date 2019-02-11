@@ -113,11 +113,11 @@ const SignUp = () => {
             password: '',
             confirmPassword: '',
             institution: '',
-            confirmInstructor: false // Need to figure out defaults for radio
+            confirmInstructor: 'no-confirmInstructor' // Need to figure out defaults for radio
           }}
           validationSchema={SignUpSchema}
           render={renderProps => {
-            const { handleBlur, handleChange, values, errors } = renderProps;
+            const { handleBlur, handleChange, values, errors, isSubmitting } = renderProps;
             return (
               <form>
                 <LabelStyle htmlFor="firstName">
@@ -267,18 +267,38 @@ const SignUp = () => {
                   )}
                 </LabelStyle>
                 <br />
-                <LabelStyle htmlFor="confirmInstructor">
+                <LabelStyle
+                  value={values.confirmInstructor}
+                  data-testid="confirmInstructor"
+                  htmlFor="confirmInstructor"
+                >
                   Are you an instructor at your institution?
                   <br />
-                  <input data-testid="yes-confirmInstructor" type="radio" value="yes" name="confirmInstructor" />
+                  <input
+                    data-testid="yes-confirmInstructor"
+                    type="radio"
+                    value="yes-confirmInstructor"
+                    name="confirmInstructor"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    checked={values.confirmInstructor === 'yes-confirmInstructor'}
+                  />
                   Yes
-                  <input data-testid="no-confirmInstructor" type="radio" value="no" name="confirmInstructor" />
+                  <input
+                    data-testid="no-confirmInstructor"
+                    type="radio"
+                    value="no-confirmInstructor"
+                    name="confirmInstructor"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    checked={values.confirmInstructor === 'no-confirmInstructor'}
+                  />
                   No
                 </LabelStyle>
                 <br />
                 <ContinueButtonStyle>
                   <GenericButton
-                    disabled={isButtonDisabled}
+                    disabled={isButtonDisabled || isSubmitting}
                     backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
                     color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
                     borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
@@ -290,6 +310,7 @@ const SignUp = () => {
                     <GenericButton testId="cancel-button" backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
                   </a>
                 </ContinueButtonStyle>
+                {Object.entries(values).map(x => ` ${x}`)}
               </form>
             );
           }}

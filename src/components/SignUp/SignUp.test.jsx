@@ -96,6 +96,14 @@ it('Renders an error when passwords do not match, that disappears when the passw
   await wait(() => expect(queryByTestId('password-error')).not.toBeInTheDocument());
 });
 
+it('Renders an error when no institution is included', async () => {
+  const { queryByTestId } = render(<SignUp />);
+  fireEvent.change(queryByTestId('institution-input'), { target: { value: ' ' } });
+  fireEvent.change(queryByTestId('institution-input'), { target: { value: '' } });
+  await waitForElement(() => queryByTestId('institution-error'));
+  expect(queryByTestId('institution-error').innerHTML).toMatch('Required');
+});
+
 it('Does not render any errors when the form is filled out correctly', async () => {
   const { queryByTestId, getByTestId } = render(<SignUp />);
   fireEvent.change(getByTestId('first-name-input'), { target: { value: 'John' } });
@@ -107,4 +115,17 @@ it('Does not render any errors when the form is filled out correctly', async () 
   fireEvent.change(getByTestId('institution-input'), { target: { value: 'University of Nevada, Reno' } });
   await wait(() => expect(queryByTestId(/.*-error/gm)).toBeNull());
   expect(getByTestId('continue-button')).not.toHaveAttribute('disabled');
+});
+
+it('Lets me choose whether I am an instructor or not', () => {
+  const { queryByTestId } = render(<SignUp />);
+  expect(queryByTestId('yes-confirmInstructor').value).toBe('yes-confirmInstructor');
+  expect(queryByTestId('yes-confirmInstructor')).not.toHaveAttribute('checked');
+  expect(queryByTestId('no-confirmInstructor').value).toBe('no-confirmInstructor');
+  expect(queryByTestId('no-confirmInstructor')).toHaveAttribute('checked');
+  // We put the confirm instructor value in the group label.
+  // This is just a good way to keep track of it -- may change
+  expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'no-confirmInstructor');
+  fireEvent.click(queryByTestId('yes-confirmInstructor'));
+  expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'yes-confirmInstructor');
 });
