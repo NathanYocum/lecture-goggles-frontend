@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import styled from 'styled-components';
 import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
@@ -28,8 +29,15 @@ const InputStyle = styled.input`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: 1px solid #0074d9;
+  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
   text-align: center;
+  height: 56px;
+  font-size: 24px;
+  box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
+
+  :focus {
+    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
+  }
 `;
 
 const TextAreaStyle = styled.textarea`
@@ -40,6 +48,7 @@ const TextAreaStyle = styled.textarea`
   min-width: 80%;
   resize: vertical;
   text-align: center;
+  height: 56px;
 `;
 
 const SelectStyle = styled.select`
@@ -51,7 +60,32 @@ const SelectStyle = styled.select`
   background-color: #e3e3e3;
 `;
 
+const LabelStyle = styled.label`
+  text-align: center;
+  font-size: 24px;
+  display: block;
+  color: #0074d9;
+`;
+
+const ErrorDiv = styled.div`
+  text-align: center;
+  color: #ff4136;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border: 1px solid #ff4136;
+  background-color: #e3e3e3;
+  font-size: 16px;
+`;
+
+const UploadSchema = Yup.object().shape({
+  url: Yup.string()
+    .url('Invalid URL')
+    .required('Required')
+});
+
 const UploadPage = () => {
+  const [isButtonDisabled, setButtonDisabled] = React.useState(false);
   const width = useWindowWidth();
   return (
     <GridBody data-testid="upload">
@@ -61,15 +95,31 @@ const UploadPage = () => {
         <h1>Upload Resource</h1>
         <Formik
           initialValues={{ url: '', title: '', description: '', subject: '', topic: '' }}
-          render={props => {
-            // eslint-disable-next-line
-            const { handleBlur, handleChange, values } = props;
+          validationSchema={UploadSchema}
+          render={renderProps => {
+            const { handleBlur, handleChange, values, errors, isSubmitting } = renderProps;
             return (
               <form>
-                <InputStyle type="url" onBlur={handleBlur} onChange={handleChange} value={values.url} name="url" />
-                URL
-                <InputStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.title} name="title" />
+                <LabelStyle htmlFor="url">URL</LabelStyle>
+                <InputStyle
+                  data-testid="url-upload-input"
+                  type="url"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  hasErrors={errors.url}
+                  value={values.url}
+                  name="url"
+                />
+                {errors.url ? (
+                  <ErrorDiv data-testid="url-upload-error">
+                    {errors.url} {setButtonDisabled(true)}
+                  </ErrorDiv>
+                ) : (
+                  setButtonDisabled(false)
+                )}
                 Title
+                <InputStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.title} name="title" />
+                Description
                 <TextAreaStyle
                   type="text"
                   onBlur={handleBlur}
@@ -77,7 +127,7 @@ const UploadPage = () => {
                   value={values.description}
                   name="description"
                 />
-                Description
+                Subject
                 <SelectStyle
                   type="text"
                   onBlur={handleBlur}
@@ -89,16 +139,24 @@ const UploadPage = () => {
                   <option>Agriculture</option>
                   <option>TODO</option>
                 </SelectStyle>
-                Subject
+                Topic
                 <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
                   <option>TODO</option>
                   <option>TODO</option>
                   <option>TODO</option>
                 </SelectStyle>
-                Topic
                 <br />
                 <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
-                <GenericButton type="submit" height="56px" width="40%" text="SUBMIT" />
+                <GenericButton
+                  disabled={isButtonDisabled || isSubmitting}
+                  backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
+                  color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
+                  borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+                  type="submit"
+                  height="56px"
+                  width="40%"
+                  text="SUBMIT"
+                />
               </form>
             );
           }}
