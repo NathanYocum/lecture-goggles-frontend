@@ -83,7 +83,7 @@ const SignIn = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  type="text"
+                  type="email"
                   name="email"
                   emailError={errors.email}
                 />

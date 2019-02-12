@@ -55,6 +55,10 @@ const InputStyle = styled.input`
   height: 56px;
   font-size: 24px;
   box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
+
+  :focus {
+    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
+  }
 `;
 
 const ErrorDiv = styled.div`
@@ -171,7 +175,7 @@ const SignUp = () => {
                     onChange={handleChange}
                     hasErrors={errors.email}
                     value={values.email}
-                    type="text"
+                    type="email"
                     name="email"
                   />
                   {errors.email ? (
@@ -192,7 +196,7 @@ const SignUp = () => {
                     onChange={handleChange}
                     hasErrors={errors.confirmEmail}
                     value={values.confirmEmail}
-                    type="text"
+                    type="email"
                     name="confirmEmail"
                   />
                   {errors.confirmEmail ? (
