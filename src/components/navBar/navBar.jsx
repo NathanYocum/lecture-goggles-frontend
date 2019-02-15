@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
+import useWindowWidth from '../__hooks__/useWindowWidth';
 
 const NavBarStyle = styled.nav`
   background-color: #0074d9;
@@ -41,138 +42,124 @@ const NavLink = styled.a`
   color: #ffffff;
 `;
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      renderMenu: false
-    };
-    this.onHamburgerClick = this.onHamburgerClick.bind(this);
-  }
-
-  onHamburgerClick() {
-    const { renderMenu } = this.state;
-    this.setState({ renderMenu: !renderMenu });
-  }
-
-  render() {
-    const { renderButton, title } = this.props;
-    const { renderMenu } = this.state;
-    return (
-      <NavBarStyle>
-        <NavList>
-          {renderButton && (
+const NavBar = props => {
+  const { title } = props;
+  const width = useWindowWidth();
+  const [renderMenu, setMenuRendered] = React.useState(false);
+  const renderButton = width < 768;
+  const onHamburgerClick = () => setMenuRendered(!renderMenu);
+  return (
+    <NavBarStyle data-testid="nav-bar">
+      <NavList>
+        {renderButton && (
+          <>
+            <NavItem>
+              <HamburgerButton onClickFunction={onHamburgerClick} />
+            </NavItem>
+          </>
+        )}
+        <TitleItem>
+          <NavLink href="/">{renderMenu ? 'Lecture Goggles' : `${title}`}</NavLink>
+        </TitleItem>
+        {!renderButton ? (
+          <>
+            <NavItem>
+              <NavLink data-testid="subjects-link-full" href="/subjects">
+                Subjects
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="topics-link-full" href="/topics">
+                Topics
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="resources-link-full" href="/resources">
+                Resources
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="support-link-full" href="/support">
+                Support
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="developers-link-full" href="/developers">
+                Developers
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="sign-in-link-full" href="/signIn">
+                Sign In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink data-testid="new-account-link-full" href="/newAccount">
+                Create an Account
+              </NavLink>
+            </NavItem>
+          </>
+        ) : (
+          !renderMenu && (
             <>
               <NavItem>
-                <HamburgerButton onClickFunction={this.onHamburgerClick} />
-              </NavItem>
-            </>
-          )}
-          <TitleItem>
-            <NavLink href="/">{renderMenu ? 'Lecture Goggles' : `${title}`}</NavLink>
-          </TitleItem>
-          {!renderButton ? (
-            <>
-              <NavItem>
-                <NavLink data-testid="subjects-link-full" href="/subjects">
-                  Subjects
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink data-testid="topics-link-full" href="/topics">
-                  Topics
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink data-testid="resources-link-full" href="/resources">
-                  Resources
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink data-testid="support-link-full" href="/support">
-                  Support
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink data-testid="developers-link-full" href="/developers">
-                  Developers
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink data-testid="sign-in-link-full" href="/signIn">
+                <NavLink data-testid="sign-in-link-mobile" href="/signIn">
                   Sign In
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink data-testid="new-account-link-full" href="/newAccount">
-                  Create an Account
-                </NavLink>
-              </NavItem>
             </>
-          ) : (
-            !renderMenu && (
-              <>
-                <NavItem>
-                  <NavLink data-testid="sign-in-link-mobile" href="/signIn">
-                    Sign In
-                  </NavLink>
-                </NavItem>
-              </>
-            )
-          )}
-        </NavList>
-        {renderButton && renderMenu && (
-          <>
-            <MenuItem>
-              <NavLink data-testid="subjects-link-menu" href="/subjects">
-                Subjects
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink data-testid="topics-link-menu" href="/topics">
-                Topics
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink data-testid="resources-link-menu" href="/resources">
-                Resources
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink data-testid="support-link-menu" href="/support">
-                Support
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink data-testid="developers-link-menu" href="/developers">
-                Developers
-              </NavLink>
-            </MenuItem>
-            <br />
-            <MenuItem>
-              <NavLink data-testid="sign-in-link-menu" href="/signIn">
-                Sign In
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
-                Create an Account
-              </NavLink>
-            </MenuItem>
-          </>
+          )
         )}
-      </NavBarStyle>
-    );
-  }
-}
+      </NavList>
+      {renderButton && renderMenu && (
+        <>
+          <MenuItem>
+            <NavLink data-testid="subjects-link-menu" href="/subjects">
+              Subjects
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink data-testid="topics-link-menu" href="/topics">
+              Topics
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink data-testid="resources-link-menu" href="/resources">
+              Resources
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink data-testid="support-link-menu" href="/support">
+              Support
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink data-testid="developers-link-menu" href="/developers">
+              Developers
+            </NavLink>
+          </MenuItem>
+          <br />
+          <MenuItem>
+            <NavLink data-testid="sign-in-link-menu" href="/signIn">
+              Sign In
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
+              Create an Account
+            </NavLink>
+          </MenuItem>
+        </>
+      )}
+    </NavBarStyle>
+  );
+};
 
 NavBar.propTypes = {
-  renderButton: PropTypes.bool,
   title: PropTypes.string
 };
 
 NavBar.defaultProps = {
-  renderButton: false,
   title: 'Lecture Goggles'
 };
 

@@ -10,8 +10,11 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import App from './App';
+import NavBar from './components/navBar/navBar';
 
 const history = createBrowserHistory();
+
+ReactDOM.render(<NavBar />, document.getElementById('nav'));
 
 ReactDOM.render(
   <Router history={history}>

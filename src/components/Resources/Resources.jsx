@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavBar from '../navBar/navBar';
 import GridBody from '../gridBody';
 import ResourceCard from '../resourceCard/ResourceCard';
 
@@ -11,54 +10,27 @@ const TempCardStyle = styled.div`
   border: 1px solid #90a4ae;
 `;
 
-class Resources extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: 0
-    };
-    this.getWindowWidth = this.getWindowWidth.bind(this);
-  }
-
-  componentDidMount() {
-    this.getWindowWidth();
-    window.addEventListener('resize', this.getWindowWidth);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.getWindowWidth);
-  }
-
-  getWindowWidth() {
-    this.setState({ width: window.innerWidth });
-  }
-
-  render() {
-    const { width } = this.state;
-    return (
-      <GridBody data-testid="resources">
-        <NavBar title="Resources" renderButton={width < 768} />
-        <TempCardStyle>
-          {/*
+const Resources = () => (
+  <GridBody data-testid="resources">
+    <TempCardStyle>
+      {/*
               This card is a temporary card we will use until the backend is
               linked up
           */}
-          <ResourceCard
-            title="TITLE"
-            subject="SUBJECT"
-            topic="TOPIC"
-            author="AUTHOR"
-            authorImg="Avatar.svg"
-            previewImg="Image.svg"
-            points={36}
-            timeStamp="TIMESTAMP"
-            description="DESCRIPTION"
-            url="http://localhost:3000/asdfsdfasdfasdfasdfasdfasdfsadasdfasdfasdfasdf"
-          />
-        </TempCardStyle>
-      </GridBody>
-    );
-  }
-}
+      <ResourceCard
+        title="TITLE"
+        subject="SUBJECT"
+        topic="TOPIC"
+        author="AUTHOR"
+        authorImg="Avatar.svg"
+        previewImg="Image.svg"
+        points={36}
+        timeStamp="TIMESTAMP"
+        description="DESCRIPTION"
+        url="http://localhost:3000/asdfsdfasdfasdfasdfasdfasdfsadasdfasdfasdfasdf"
+      />
+    </TempCardStyle>
+  </GridBody>
+);
 
 export default Resources;

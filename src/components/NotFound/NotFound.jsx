@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import GridBody from '../gridBody';
 import LectureGogglesLogo from '../logo/logo';
-import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
 
 const LogoStyle = styled.div`
@@ -56,46 +55,19 @@ const HomeButtonLink = styled.a`
   height: 56px;
 `;
 
-class NotFound extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: 0
-    };
-    this.getWindowWidth = this.getWindowWidth.bind(this);
-  }
-
-  componentDidMount() {
-    this.getWindowWidth();
-    window.addEventListener('resize', this.getWindowWidth);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.getWindowWidth);
-  }
-
-  getWindowWidth() {
-    this.setState({ width: window.innerWidth });
-  }
-
-  render() {
-    const { width } = this.state;
-    return (
-      <GridBody data-testid="not-found">
-        <NavBar renderButton={width < 768} />
-        <LogoStyle>
-          <LectureGogglesLogo width={200} height={200} />
-        </LogoStyle>
-        <NotFoundPar>We could not find the page you were looking for.</NotFoundPar>
-        {/* Search Bar should be made into a component because we will reuse it a lot */}
-        <SearchStyle>Search</SearchStyle>
-        <ErrorCode>Error: 404</ErrorCode>
-        <HomeButtonLink href="/">
-          <GenericButton text="HOME" />
-        </HomeButtonLink>
-      </GridBody>
-    );
-  }
-}
+const NotFound = () => (
+  <GridBody data-testid="not-found">
+    <LogoStyle>
+      <LectureGogglesLogo width={200} height={200} />
+    </LogoStyle>
+    <NotFoundPar>We could not find the page you were looking for.</NotFoundPar>
+    {/* Search Bar should be made into a component because we will reuse it a lot */}
+    <SearchStyle>Search</SearchStyle>
+    <ErrorCode>Error: 404</ErrorCode>
+    <HomeButtonLink href="/">
+      <GenericButton text="HOME" />
+    </HomeButtonLink>
+  </GridBody>
+);
 
 export default NotFound;

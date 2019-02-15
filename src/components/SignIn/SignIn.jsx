@@ -4,11 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import NavBar from '../navBar/navBar';
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
-import useWindowWidth from '../__hooks__/useWindowWidth';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -59,11 +57,9 @@ const SignInSchema = Yup.object().shape({
 });
 
 const SignIn = () => {
-  const width = useWindowWidth();
   const [isButtonDisabled, setButtonDisabled] = React.useState(true);
   return (
     <GridBody data-testid="sign-in">
-      <NavBar renderButton={width < 768} />
       <LogoStyle>
         <LectureGogglesLogo width={200} height={200} />
       </LogoStyle>
