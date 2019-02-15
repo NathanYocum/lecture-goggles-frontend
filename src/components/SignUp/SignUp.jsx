@@ -4,10 +4,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
-import useWindowWidth from '../__hooks__/useWindowWidth';
 import FullLectureGogglesLogo from '../logo/fullLogo';
 
 const LogoStyle = styled.div`
@@ -100,10 +98,8 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUp = () => {
   const [isButtonDisabled, setButtonDisabled] = React.useState(true);
-  const width = useWindowWidth();
   return (
     <GridBody data-testid="sign-up">
-      <NavBar renderButton={width < 768} />
       <LogoStyle>
         <FullLectureGogglesLogo width={250} height={100} />
       </LogoStyle>

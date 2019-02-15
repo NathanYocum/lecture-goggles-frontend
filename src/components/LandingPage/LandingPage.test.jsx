@@ -15,15 +15,3 @@ it("Renders a 'create an account' button", () => {
   expect(getByText('CREATE AN ACCOUNT')).toBeTruthy();
   expect(getByText('CREATE AN ACCOUNT').parentElement.outerHTML).toContain('href="/newAccount"');
 });
-
-it('Renders a hamburger menu before 768px', () => {
-  global.innerWidth = 767;
-  const { queryByTestId } = render(<LandingPage />);
-  expect(queryByTestId(/hamburger-button/gm)).not.toBeNull();
-});
-
-it('Renders a hamburger menu at 768px', () => {
-  global.innerWidth = 768;
-  const { queryByTestId } = render(<LandingPage />);
-  expect(queryByTestId(/hamburger-button/gm)).toBeNull();
-});

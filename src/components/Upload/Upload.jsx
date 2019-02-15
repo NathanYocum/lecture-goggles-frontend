@@ -2,10 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
-import NavBar from '../navBar/navBar';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
-import useWindowWidth from '../__hooks__/useWindowWidth';
 
 const FormContainer = styled.div`
   grid-column: 2;
@@ -98,10 +96,8 @@ const UploadSchema = Yup.object().shape({
 
 const UploadPage = () => {
   const [isButtonDisabled, setButtonDisabled] = React.useState(true);
-  const width = useWindowWidth();
   return (
     <GridBody data-testid="upload">
-      <NavBar renderButton={width < 768} />
       <BG />
       <FormContainer>
         <h1>Upload Resource</h1>
