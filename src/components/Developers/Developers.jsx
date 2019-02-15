@@ -40,14 +40,17 @@ const DevelopersPage = () => {
         <a href="https://lecturegoggles.github.io/">CS 426 Project Website</a>
         <br />
         <a href="https://github.com/LectureGoggles/lecture-goggles-frontend">Front End Respository</a>
+        <br />
+        <a href="https://github.com/LectureGoggles/LectureGogglesAPI">API Respository</a>
         <h5>API Methods</h5>
-        ...
+        Coming soon...
         <h1>Source Code</h1>
         <p>
           Lecture Goggles is a fully open source applicaion. Read about how to contribute to the{' '}
-          <a href="https://github.com/LectureGoggles/lecture-goggles-frontend/blob/master/CONTRIBUTING.md">frontend</a>{' '}
-          or the <a href="https://github.com/LectureGoggles/LectureGoggles/blob/master/CONTRIBUTING.md">backend</a> of
-          the website.
+          <a href="https://github.com/LectureGoggles/lecture-goggles-frontend/blob/master/CONTRIBUTING.md">frontend</a>,{' '}
+          the <a href="https://github.com/LectureGoggles/LectureGogglesAPI/blob/master/CONTRIBUTING.md">API</a> or the{' '}
+          <a href="https://github.com/LectureGoggles/LectureGoggles/blob/master/CONTRIBUTING.md">backend</a> of the
+          website.
           <br />
           Lecture Goggles is licensed under an{' '}
           <a href="https://github.com/LectureGoggles/LectureGoggles/blob/master/LICENSE">MIT</a> licence.
