@@ -15,6 +15,10 @@ const GenericButtonStyle = styled.button`
   width: ${props => props.width}
   height: ${props => props.height};
   border-radius: 18px;
+
+  :focus{
+    outline: 1px solid blue;
+  }
 `;
 
 const GenericButton = props => {

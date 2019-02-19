@@ -6,13 +6,13 @@ import TabBar from './tabBar';
 afterEach(cleanup);
 
 it('Renders', () => {
-  const { getByTestId } = render(<TabBar tabNames={['a']} />);
+  const { getByTestId } = render(<TabBar onClickFunctions={() => {}} tabNames={['a']} />);
   expect(getByTestId('tab-bar')).toBeInTheDocument();
 });
 
 it('Renders a list of tabs given an array of names', () => {
   const tabs = ['a', 'b', 'c'];
-  const { queryByTestId } = render(<TabBar tabNames={tabs} />);
+  const { queryByTestId } = render(<TabBar currentTab={tabs[0]} tabNames={tabs} />);
   expect(queryByTestId('a-tab')).toBeInTheDocument();
   expect(queryByTestId('b-tab')).toBeInTheDocument();
   expect(queryByTestId('c-tab')).toBeInTheDocument();

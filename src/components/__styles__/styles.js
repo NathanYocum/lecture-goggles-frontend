@@ -1,17 +1,26 @@
 import styled from 'styled-components';
 
 const TabBarStyle = styled.div`
-  grid-column: 2;
   display: flex;
   flex-direction: row;
-  grid-row: 2;
+  width: 100%;
 `;
 
-const TabBarTabStyle = styled.button``;
+const TabBarTabStyle = styled.button`
+  padding-left: 5px;
+  padding-right: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  border: none;
+  height: 56px;
+  width: 100%;
+  background-color: ${props => (props.isActive ? '#ffffff' : '#efefef')};
+`;
 
 const FormContainer = styled.div`
   grid-column: 2;
-  grid-row: 3 / span 2;
+  grid-row: 2 / span 2;
   background-color: #ffffff;
   width: 100%;
   text-align: center;

@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import { TabBarStyle, TabBarTabStyle } from '../__styles__/styles';
 
 const TabBar = props => {
-  const { tabNames } = props;
+  const { tabNames, onClickFunction, currentTab } = props;
   return (
     <TabBarStyle data-testid="tab-bar">
       {tabNames.map(item => (
-        <TabBarTabStyle key={item} data-testid={`${item}-tab`}>
+        <TabBarTabStyle
+          isActive={item === currentTab}
+          onClick={() => onClickFunction(item)}
+          key={item}
+          data-testid={`${item}-tab`}
+        >
           {item}
         </TabBarTabStyle>
       ))}
@@ -16,7 +21,13 @@ const TabBar = props => {
 };
 
 TabBar.propTypes = {
-  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickFunction: PropTypes.func.isRequired,
+  currentTab: PropTypes.string
+};
+
+TabBar.defaultProps = {
+  currentTab: ''
 };
 
 export default TabBar;
