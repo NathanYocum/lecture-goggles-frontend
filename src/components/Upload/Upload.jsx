@@ -1,86 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import styled from 'styled-components';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
-
-const FormContainer = styled.div`
-  grid-column: 2;
-  grid-row: 2 / span 2;
-  background-color: #ffffff;
-  width: 100%;
-  text-align: center;
-  border: 1px solid #e3e3e3;
-  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
-`;
-
-const BG = styled.div`
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 2;
-  background-color: #004aa7;
-  width: 100%;
-  height: 300px;
-`;
-
-const InputStyle = styled.input`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 4px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
-  text-align: center;
-  height: 56px;
-  font-size: 24px;
-  box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
-
-  :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
-  }
-`;
-
-const TextAreaStyle = styled.textarea`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: 1px solid #0074d9;
-  min-width: 80%;
-  resize: vertical;
-  height: 56px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
-
-  :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
-  }
-`;
-
-const SelectStyle = styled.select`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 4px;
-  border: 1px solid #0074d9;
-  background-color: #e3e3e3;
-`;
-
-const LabelStyle = styled.label`
-  text-align: center;
-  font-size: 24px;
-  display: block;
-  color: #0074d9;
-  margin-top: 10px;
-`;
-
-const ErrorDiv = styled.div`
-  text-align: center;
-  color: #ff4136;
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: 1px solid #ff4136;
-  background-color: #e3e3e3;
-  font-size: 16px;
-`;
+import TabBar from './tabBar';
+import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
 
 const UploadSchema = Yup.object().shape({
   url: Yup.string()
@@ -99,6 +23,7 @@ const UploadPage = () => {
   return (
     <GridBody data-testid="upload">
       <BG />
+      <TabBar tabNames={['Resource', 'Subject', 'Topic']} />
       <FormContainer>
         <h1>Upload Resource</h1>
         <Formik
