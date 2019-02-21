@@ -72,10 +72,10 @@ const ErrorDiv = styled.div`
 
 const SignUpSchema = Yup.object().shape({
   firstName: Yup.string()
-    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) accepted')
+    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) and hyphens accepted')
     .required('Required'),
   lastName: Yup.string()
-    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) accepted')
+    .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) and hyphens accepted')
     .required('Required'),
   email: Yup.string()
     .email('Invalid Email')

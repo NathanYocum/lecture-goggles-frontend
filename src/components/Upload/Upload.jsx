@@ -1,199 +1,252 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import styled from 'styled-components';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
+import TabBar from './tabBar';
+import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
 
-const FormContainer = styled.div`
-  grid-column: 2;
-  grid-row: 2 / span 2;
-  background-color: #ffffff;
-  width: 100%;
-  text-align: center;
-  border: 1px solid #e3e3e3;
-  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
-`;
-
-const BG = styled.div`
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 2;
-  background-color: #004aa7;
-  width: 100%;
-  height: 300px;
-`;
-
-const InputStyle = styled.input`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 4px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
-  text-align: center;
-  height: 56px;
-  font-size: 24px;
-  box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
-
-  :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
-  }
-`;
-
-const TextAreaStyle = styled.textarea`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: 1px solid #0074d9;
-  min-width: 80%;
-  resize: vertical;
-  height: 56px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
-
-  :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
-  }
-`;
-
-const SelectStyle = styled.select`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 4px;
-  border: 1px solid #0074d9;
-  background-color: #e3e3e3;
-`;
-
-const LabelStyle = styled.label`
-  text-align: center;
-  font-size: 24px;
-  display: block;
-  color: #0074d9;
-  margin-top: 10px;
-`;
-
-const ErrorDiv = styled.div`
-  text-align: center;
-  color: #ff4136;
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: 1px solid #ff4136;
-  background-color: #e3e3e3;
-  font-size: 16px;
-`;
-
-const UploadSchema = Yup.object().shape({
+const UploadResourceSchema = Yup.object().shape({
   url: Yup.string()
     .url('Invalid URL')
     .required('Required'),
   title: Yup.string()
-    .max(40, "Titles can't be over 40 characters ")
+    .max(40, "Titles can't be longer than 40 characters ")
+    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
     .required('Required'),
   description: Yup.string()
     .max(240, "Description can't be longer than 240 characters")
     .notRequired()
 });
 
+const UploadSubjectSchema = Yup.object().shape({
+  subjectName: Yup.string()
+    .max(40, "Subjects can't be longer than 40 characters")
+    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
+    .required('Required')
+});
+
+const UploadTopicSchema = Yup.object().shape({
+  topicName: Yup.string()
+    .max(40, "Topics can't be longer than 40 characters")
+    .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
+    .required('Required'),
+  topicBelongsTo: Yup.string()
+    .max(40, "Subject can't be longer than 40 characters")
+    .required('Required')
+});
+
 const UploadPage = () => {
-  const [isButtonDisabled, setButtonDisabled] = React.useState(true);
+  const [currentTab, setCurrentTab] = React.useState('Resource');
+  const formErrors = React.useRef(null);
+  const inFocusElt = React.useRef(null);
+
+  const [valueState, updateValueState] = React.useState({
+    selectedTab: currentTab,
+    url: '',
+    title: '',
+    description: '',
+    subject: '',
+    topic: '',
+    subjectName: '',
+    topicName: '',
+    topicBelongsTo: ''
+  });
+  const [isButtonDisabled, dispatchButton] = React.useReducer((state, action) => {
+    const { errors } = action;
+    if (Object.keys(errors).length === 0 && state === true) {
+      return false;
+    }
+    if (state === false) {
+      return true;
+    }
+    return state;
+  }, true);
+
+  let schemaToUse;
+
+  if (currentTab === 'Resource') {
+    schemaToUse = UploadResourceSchema;
+  } else if (currentTab === 'Subject') {
+    schemaToUse = UploadSubjectSchema;
+  } else if (currentTab === 'Topic') {
+    schemaToUse = UploadTopicSchema;
+  }
+
+  let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
+  formToRender = formikProps => {
+    const { values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
+    formErrors.current = errors;
+    return (
+      <form>
+        {currentTab === 'Resource' && (
+          <>
+            <LabelStyle htmlFor="url">URL</LabelStyle>
+            <InputStyle
+              ref={inFocusElt}
+              data-testid="url-upload-input"
+              type="url"
+              onBlur={e => {
+                updateValueState(values);
+                dispatchButton({ errors: formErrors.current });
+                handleBlur(e);
+              }}
+              onChange={handleChange}
+              hasErrors={errors.url}
+              value={values.url}
+              name="url"
+            />
+            {errors.url ? <ErrorDiv data-testid="url-upload-error">{errors.url}</ErrorDiv> : <></>}
+            <LabelStyle htmlFor="title">Title</LabelStyle>
+            <InputStyle
+              data-testid="title-upload-input"
+              hasErrors={errors.title}
+              type="text"
+              onBlur={e => {
+                handleBlur(e);
+                updateValueState(values);
+                dispatchButton({ errors: formErrors.current });
+              }}
+              onChange={handleChange}
+              value={values.title}
+              name="title"
+            />
+            {errors.title ? <ErrorDiv data-testid="title-upload-error">{errors.title}</ErrorDiv> : <></>}
+            <LabelStyle htmlFor="description">Description</LabelStyle>
+            <TextAreaStyle
+              data-testid="description-upload-input"
+              type="text"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.description}
+              hasErrors={errors.description}
+              name="description"
+            />
+            {errors.description ? (
+              <ErrorDiv data-testid="description-upload-error">{errors.description}</ErrorDiv>
+            ) : (
+              <></>
+            )}
+            Subject
+            <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.subject} name="subject">
+              <option>Accounting</option>
+              <option>Agriculture</option>
+              <option>TODO</option>
+            </SelectStyle>
+            Topic
+            <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
+              <option>TODO</option>
+              <option>TODO</option>
+              <option>TODO</option>
+            </SelectStyle>
+            <br />
+            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
+            <GenericButton
+              testId="submit-button"
+              disabled={isSubmitting || isButtonDisabled}
+              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
+              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
+              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              type="submit"
+              height="56px"
+              width="40%"
+              text="SUBMIT"
+            />
+          </>
+        )}
+        {currentTab === 'Subject' && (
+          <>
+            <LabelStyle htmlFor="subjectName">Subject Name</LabelStyle>
+            <InputStyle
+              data-testid="subjectName-upload-input"
+              type="text"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              hasErrors={errors.subjectName}
+              value={values.subjectName}
+              name="subjectName"
+            />
+            {errors.subjectName ? (
+              <ErrorDiv data-testid="subject-name-upload-error">{errors.subjectName}</ErrorDiv>
+            ) : (
+              <></>
+            )}
+            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
+            <GenericButton
+              testId="submit-button"
+              disabled={isSubmitting || isButtonDisabled}
+              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
+              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
+              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              type="submit"
+              height="56px"
+              width="40%"
+              text="SUBMIT"
+            />
+          </>
+        )}
+        {currentTab === 'Topic' && (
+          <>
+            <LabelStyle htmlFor="topicName">Topic Name</LabelStyle>
+            <InputStyle
+              data-testid="topic-name-upload-input"
+              type="text"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              hasErrors={errors.topicName}
+              value={values.topicName}
+              name="topicName"
+            />
+            {errors.topicName ? <ErrorDiv data-testid="topic-name-upload-error">{errors.topicName}</ErrorDiv> : <></>}
+            <LabelStyle htmlFor="topicBelongsTo">Subject</LabelStyle>
+            <SelectStyle
+              type="text"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.topicBelongsTo}
+              name="topic"
+            >
+              <option>Something</option>
+              <option>Something else</option>
+              <option>TODO</option>
+            </SelectStyle>
+            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
+            <GenericButton
+              testId="submit-button"
+              disabled={isSubmitting || isButtonDisabled}
+              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
+              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
+              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              type="submit"
+              height="56px"
+              width="40%"
+              text="SUBMIT"
+            />
+          </>
+        )}
+      </form>
+    );
+  };
+
+  const FormToRender = withFormik({
+    mapPropsToValues: () => valueState,
+    validationSchema: schemaToUse,
+    displayName: 'Upload Form'
+  })(formToRender);
+
   return (
     <GridBody data-testid="upload">
       <BG />
       <FormContainer>
-        <h1>Upload Resource</h1>
-        <Formik
-          initialValues={{ url: '', title: '', description: '', subject: '', topic: '' }}
-          validationSchema={UploadSchema}
-          render={renderProps => {
-            const { handleBlur, handleChange, values, errors, isSubmitting } = renderProps;
-            return (
-              <form>
-                <LabelStyle htmlFor="url">URL</LabelStyle>
-                <InputStyle
-                  data-testid="url-upload-input"
-                  type="url"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  hasErrors={errors.url}
-                  value={values.url}
-                  name="url"
-                />
-                {errors.url ? (
-                  <ErrorDiv data-testid="url-upload-error">
-                    {errors.url} {setButtonDisabled(true)}
-                  </ErrorDiv>
-                ) : (
-                  setButtonDisabled(false)
-                )}
-                <LabelStyle htmlFor="title">Title</LabelStyle>
-                <InputStyle
-                  data-testid="title-upload-input"
-                  hasErrors={errors.title}
-                  type="text"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.title}
-                  name="title"
-                />
-                {errors.title ? (
-                  <ErrorDiv data-testid="title-upload-error">
-                    {errors.title} {setButtonDisabled(true)}
-                  </ErrorDiv>
-                ) : (
-                  setButtonDisabled(false)
-                )}
-                <LabelStyle htmlFor="description">Description</LabelStyle>
-                <TextAreaStyle
-                  data-testid="description-upload-input"
-                  type="text"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.description}
-                  hasErrors={errors.description}
-                  name="description"
-                />
-                {errors.description ? (
-                  <ErrorDiv data-testid="description-upload-error">
-                    {errors.description} {setButtonDisabled(true)}
-                  </ErrorDiv>
-                ) : (
-                  setButtonDisabled(Object.keys(errors).length !== 0)
-                )}
-                Subject
-                <SelectStyle
-                  type="text"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.subject}
-                  name="subject"
-                >
-                  <option>Accounting</option>
-                  <option>Agriculture</option>
-                  <option>TODO</option>
-                </SelectStyle>
-                Topic
-                <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
-                  <option>TODO</option>
-                  <option>TODO</option>
-                  <option>TODO</option>
-                </SelectStyle>
-                <br />
-                <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
-                <GenericButton
-                  testId="submit-button"
-                  disabled={isSubmitting || isButtonDisabled}
-                  backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
-                  color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
-                  borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
-                  type="submit"
-                  height="56px"
-                  width="40%"
-                  text="SUBMIT"
-                />
-              </form>
-            );
+        <TabBar
+          onClickFunction={item => {
+            setCurrentTab(item);
           }}
+          currentTab={currentTab}
+          tabNames={['Resource', 'Subject', 'Topic']}
         />
+        <h1>Upload {currentTab}</h1>
+        <FormToRender />
       </FormContainer>
     </GridBody>
   );

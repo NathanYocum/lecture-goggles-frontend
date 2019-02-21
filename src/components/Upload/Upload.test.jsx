@@ -34,7 +34,7 @@ it('Renders an error when I do not put in a title that is too long', async () =>
     target: { value: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' }
   });
   await wait(() => expect(getByTestId('title-upload-error')).toBeInTheDocument());
-  expect(getByTestId('title-upload-error').innerHTML).toMatch("Titles can't be over 40 characters");
+  expect(getByTestId('title-upload-error').innerHTML).toMatch("Titles can't be longer than 40 characters");
   expect(getByTestId('submit-button')).toHaveAttribute('disabled');
 });
 
