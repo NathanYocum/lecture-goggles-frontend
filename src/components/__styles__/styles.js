@@ -15,7 +15,13 @@ const TabBarTabStyle = styled.button`
   border: none;
   height: 56px;
   width: 100%;
-  background-color: ${props => (props.isActive ? '#ffffff' : '#efefef')};
+  background-color: ${props => (props.isActive ? '#ffffff' : '#aaaaaa')};
+  :hover {
+    box-shadow: 2px 2px 0px #efefef, 4px 4px 0px ${props => (props.isActive ? '#ffffff' : '#aaaaaa')};
+    top: -4px;
+    left: -4px;
+  }
+  position: relative;
 `;
 
 const FormContainer = styled.div`
