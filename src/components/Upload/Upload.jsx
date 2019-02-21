@@ -40,9 +40,6 @@ const UploadPage = () => {
   const [currentTab, setCurrentTab] = React.useState('Resource');
   const formErrors = React.useRef(null);
   const inFocusElt = React.useRef(null);
-  // React.useEffect(() => {
-  //   inFocusElt.current.focus();
-  // });
 
   const [valueState, updateValueState] = React.useState({
     selectedTab: currentTab,
@@ -91,9 +88,8 @@ const UploadPage = () => {
               type="url"
               onBlur={e => {
                 updateValueState(values);
+                dispatchButton({ errors: formErrors.current });
                 handleBlur(e);
-                dispatchButton({ errors });
-                inFocusElt.current.focus();
               }}
               onChange={handleChange}
               hasErrors={errors.url}
@@ -103,14 +99,12 @@ const UploadPage = () => {
             {errors.url ? <ErrorDiv data-testid="url-upload-error">{errors.url}</ErrorDiv> : <></>}
             <LabelStyle htmlFor="title">Title</LabelStyle>
             <InputStyle
-              ref={inFocusElt}
               data-testid="title-upload-input"
               hasErrors={errors.title}
               type="text"
               onBlur={e => {
                 handleBlur(e);
                 updateValueState(values);
-                inFocusElt.current.focus();
                 dispatchButton({ errors: formErrors.current });
               }}
               onChange={handleChange}
