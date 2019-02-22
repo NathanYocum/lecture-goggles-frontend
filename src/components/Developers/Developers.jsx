@@ -29,7 +29,8 @@ const DevelopersPage = () => (
       <h2>Web API</h2>
       <p>
         Lecture Goggles has a API based on REST principles, which developers can utilize to create more applications to
-        help students learn. Requests to the API can get, post, put, and request to delete resources.
+        help students learn. Requests to the API can get, post, put, and request to delete resources. A public API is
+        not currently available for Lecture Goggles, but it is a possible stretch goal for the future.
       </p>
       <h4>Read the documentation</h4>
       <a href="https://lecturegoggles.github.io/">CS 426 Project Website</a>

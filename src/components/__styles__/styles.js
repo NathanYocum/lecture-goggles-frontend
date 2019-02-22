@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+const primaryBlue = '#0074d9';
+const darkGrey = '#aaaaaa';
+const blueGrey = '#90a4ae';
+const red = '#ff4136';
+
 const TabBarStyle = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,13 +20,13 @@ const TabBarTabStyle = styled.button`
   border: none;
   height: 56px;
   width: 100%;
-  background-color: ${props => (props.isActive ? '#ffffff' : '#aaaaaa')};
+  background-color: ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)};
   :hover {
-    box-shadow: 2px 2px 0px #efefef, 4px 4px 0px ${props => (props.isActive ? '#ffffff' : '#aaaaaa')};
+    box-shadow: inset 0px 0px 0px 4px ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)},
+      inset 0px 0px 0px 6px ${props => (props.isActive ? `${primaryBlue}` : '#ffffff')};
     top: -4px;
     left: -4px;
   }
-  position: relative;
 `;
 
 const FormContainer = styled.div`
@@ -47,14 +52,14 @@ const InputStyle = styled.input`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
+  border: ${props => (props.hasErrors ? `1px solid ${red}` : `1px solid ${primaryBlue}`)};
   text-align: center;
   height: 56px;
   font-size: 24px;
   box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
 
   :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
+    outline-color: ${props => (props.hasErrors ? `${red}` : `${primaryBlue}`)};
   }
 `;
 
@@ -62,14 +67,14 @@ const TextAreaStyle = styled.textarea`
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  border: 1px solid #0074d9;
+  border: 1px solid ${primaryBlue};
   min-width: 80%;
   resize: vertical;
   height: 56px;
-  border: ${props => (props.hasErrors ? '1px solid #ff4136' : '1px solid #0074d9')};
+  border: ${props => (props.hasErrors ? `1px solid ${red}` : `1px solid ${primaryBlue}`)};
 
   :focus {
-    outline-color: ${props => (props.hasErrors ? '#ff4136' : '#0074d9')};
+    outline-color: ${props => (props.hasErrors ? `${red}` : `${primaryBlue}`)};
   }
 `;
 
@@ -78,7 +83,7 @@ const SelectStyle = styled.select`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: 1px solid #0074d9;
+  border: 1px solid ${primaryBlue};
   background-color: #e3e3e3;
 `;
 
@@ -86,19 +91,43 @@ const LabelStyle = styled.label`
   text-align: center;
   font-size: 24px;
   display: block;
-  color: #0074d9;
+  color: ${primaryBlue};
   margin-top: 10px;
 `;
 
 const ErrorDiv = styled.div`
   text-align: center;
-  color: #ff4136;
+  color: ${red};
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  border: 1px solid #ff4136;
+  border: 1px solid ${red};
   background-color: #e3e3e3;
   font-size: 16px;
 `;
 
-export { TabBarStyle, TabBarTabStyle, FormContainer, BG, InputStyle, TextAreaStyle, SelectStyle, LabelStyle, ErrorDiv };
+const SubjectItemContainer = styled.div`
+  border: 1px solid ${blueGrey};
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  height: 56px;
+  grid-column: 2;
+  grid-row: ${props => props.row};
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+`;
+
+export {
+  TabBarStyle,
+  TabBarTabStyle,
+  FormContainer,
+  BG,
+  InputStyle,
+  TextAreaStyle,
+  SelectStyle,
+  LabelStyle,
+  ErrorDiv,
+  SubjectItemContainer
+};
