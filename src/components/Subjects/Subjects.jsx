@@ -4,13 +4,18 @@ import GridBody from '../gridBody';
 import SubjectItem from './subjectItem/subjectItem';
 
 const SubjectsBody = styled(GridBody)`
-  grid-row-gap: 5px;
+  grid-row-gap: 8px;
 `;
 
 const SubjectsPage = () => (
   <SubjectsBody data-testid="subjects">
+    <div style={{ gridColumn: 2 }} />
     <SubjectItem />
-    <SubjectItem row={3} />
+    <SubjectItem />
+    <SubjectItem />
+    <SubjectItem />
+    <SubjectItem />
+    <SubjectItem />
   </SubjectsBody>
 );
 

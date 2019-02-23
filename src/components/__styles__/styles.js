@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 const primaryBlue = '#0074d9';
+const secondaryOrange = '#ff9800';
+const secondaryDarkOrange = '#e65100';
 const darkGrey = '#aaaaaa';
+// const lightGrey = '#e3e3e3';
 const blueGrey = '#90a4ae';
 const red = '#ff4136';
 
@@ -111,12 +114,42 @@ const SubjectItemContainer = styled.div`
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
-  height: 56px;
+  grid-template-rows: 56px;
   grid-column: 2;
-  grid-row: ${props => props.row};
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr ${props => (props.width > 475 ? '110px' : '36px')} 36px;
+  font-size: 20px;
+  align-items: center;
+  background-color: ${primaryBlue};
+`;
+
+const SubjectDescriptionContainer = styled.div`
+  grid-column: 1 / span 3;
+  border-top: 1px solid ${darkGrey};
+  color: ${darkGrey};
+  padding-left: 8px;
+  background-color: #ffffff;
+`;
+
+const UnstyledButton = styled.button`
+  display: inline-block;
+  border: none;
+  padding: none;
+  margin: none;
+  background: none;
+  text-align: center;
+  font-size: inherit;
+`;
+
+const SubscribeButton = styled(UnstyledButton)`
+  font-size: 16px;
+  background-color: ${secondaryOrange};
+  border-radius: 8px;
+  color: #ffffff;
+  border: 1px solid ${secondaryDarkOrange};
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  height: 24px;
 `;
 
 export {
@@ -129,5 +162,8 @@ export {
   SelectStyle,
   LabelStyle,
   ErrorDiv,
-  SubjectItemContainer
+  SubjectItemContainer,
+  SubjectDescriptionContainer,
+  UnstyledButton,
+  SubscribeButton
 };
