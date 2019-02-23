@@ -1,5 +1,6 @@
+/* eslint-disable import/prefer-default-export */
 import React from 'react';
 
-export default function FontAwesomeIcon() {
+export function FontAwesomeIcon() {
   return <i className="fa" />;
 }
