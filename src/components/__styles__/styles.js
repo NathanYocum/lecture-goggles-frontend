@@ -4,7 +4,7 @@ const primaryBlue = '#0074d9';
 const secondaryOrange = '#ff9800';
 const secondaryDarkOrange = '#e65100';
 const darkGrey = '#aaaaaa';
-// const lightGrey = '#e3e3e3';
+const lightGrey = '#e3e3e3';
 const blueGrey = '#90a4ae';
 const red = '#ff4136';
 
@@ -38,7 +38,7 @@ const FormContainer = styled.div`
   background-color: #ffffff;
   width: 100%;
   text-align: center;
-  border: 1px solid #e3e3e3;
+  border: 1px solid ${lightGrey};
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
@@ -87,7 +87,7 @@ const SelectStyle = styled.select`
   margin-right: 10%;
   border-radius: 4px;
   border: 1px solid ${primaryBlue};
-  background-color: #e3e3e3;
+  background-color: ${lightGrey};
 `;
 
 const LabelStyle = styled.label`
@@ -105,7 +105,7 @@ const ErrorDiv = styled.div`
   margin-left: 10%;
   margin-right: 10%;
   border: 1px solid ${red};
-  background-color: #e3e3e3;
+  background-color: ${lightGrey};
   font-size: 16px;
 `;
 
@@ -152,6 +152,69 @@ const SubscribeButton = styled(UnstyledButton)`
   height: 24px;
 `;
 
+const CardContainerStyle = styled.div`
+  border: 1px solid ${lightGrey};
+  border-radius: 4px;
+  display: grid;
+  width: 345px;
+  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 62px;
+  grid-template-columns: auto 56px;
+  font-family: 'IBMPlexSans-SemiBold';
+  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+`;
+
+const TitleStyle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const ItemStyle = styled.div`
+  font-size: 12px;
+  color: #90a4ae;
+`;
+
+const DescriptionStyle = styled(ItemStyle)`
+  padding-top: 10px;
+`;
+
+const AvatarStyle = styled.img`
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+`;
+
+const PreviewStyle = styled.img`
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 2;
+  align-self: center;
+`;
+const PreviewA = styled.a`
+  grid-column: 1 / span 2;
+  grid-row: 4 / span 2;
+`;
+
+const PreviewLink = styled.div`
+  grid-row: 5;
+  grid-column: 1 / span 2;
+  background-color: rgba(38, 50, 56, 0.55);
+  height: 36px;
+  color: white;
+  display: flex;
+`;
+
+const LinkStyle = styled.div`
+  font-size: 12px;
+  align-self: center;
+  margin-left: 16px;
+  width: 100%;
+  font-family: IBMPlexMono;
+`;
+
+const BottomContainer = styled.div`
+  grid-column: 2;
+`;
+
 export {
   TabBarStyle,
   TabBarTabStyle,
@@ -165,5 +228,15 @@ export {
   SubjectItemContainer,
   SubjectDescriptionContainer,
   UnstyledButton,
-  SubscribeButton
+  SubscribeButton,
+  CardContainerStyle,
+  TitleStyle,
+  ItemStyle,
+  DescriptionStyle,
+  AvatarStyle,
+  PreviewStyle,
+  PreviewA,
+  PreviewLink,
+  LinkStyle,
+  BottomContainer
 };
