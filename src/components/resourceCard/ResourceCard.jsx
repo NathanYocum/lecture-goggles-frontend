@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { UnstyledButton } from '../__styles__/styles';
 
 const CardContainerStyle = styled.div`
   border: 1px solid #e3e3e3;
   border-radius: 4px;
   display: grid;
-  height: 420px;
   width: 345px;
-  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 100px;
+  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 62px;
   grid-template-columns: auto 56px;
   font-family: 'IBMPlexSans-SemiBold';
+  box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
 `;
 
 const TitleStyle = styled.div`
@@ -60,6 +63,10 @@ const LinkStyle = styled.div`
   font-family: IBMPlexMono;
 `;
 
+const BottomContainer = styled.div`
+  grid-column: 2;
+`;
+
 const ResourceCard = ({
   title,
   subject,
@@ -92,10 +99,14 @@ const ResourceCard = ({
     <br />
     <DescriptionStyle>{description}</DescriptionStyle>
     <br />
-    <TitleStyle>
-      <button type="button">↑ Upvote</button>
-      <button type="button">↓ Downvote</button>
-    </TitleStyle>
+    <BottomContainer>
+      <UnstyledButton data-testid={`${title}-upvote-arrow`}>
+        <FontAwesomeIcon icon="arrow-up" />
+      </UnstyledButton>
+      <UnstyledButton data-testid={`${title}-downvote-arrow`}>
+        <FontAwesomeIcon icon="arrow-down" />
+      </UnstyledButton>
+    </BottomContainer>
   </CardContainerStyle>
 );
 

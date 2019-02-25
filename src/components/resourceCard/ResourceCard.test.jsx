@@ -264,9 +264,9 @@ it('Sends an downvote when upvote button is pressed', () => {});
 
 // These tests will change when the resource card is finished
 it('Renders an upvote button', () => {
-  const { getByText } = render(
+  const { queryByTestId } = render(
     <ResourceCard
-      title=""
+      title="resource"
       subject=""
       topic=""
       author=""
@@ -279,13 +279,15 @@ it('Renders an upvote button', () => {
     />
   );
 
-  expect(getByText('↑ Upvote').outerHTML).toMatch(/<button type="button">↑ Upvote<\/button>/gm);
+  expect(queryByTestId('resource-upvote-arrow').outerHTML).toMatch(
+    /<button data-testid="resource-upvote-arrow" class=".*"><i class="fa"><\/i><\/button>/gm
+  );
 });
 
 it('Renders a downvote button', () => {
-  const { getByText } = render(
+  const { queryByTestId } = render(
     <ResourceCard
-      title=""
+      title="resource"
       subject=""
       topic=""
       author=""
@@ -298,5 +300,7 @@ it('Renders a downvote button', () => {
     />
   );
 
-  expect(getByText('↓ Downvote').outerHTML).toMatch(/<button type="button">↓ Downvote<\/button>/gm);
+  expect(queryByTestId('resource-downvote-arrow').outerHTML).toMatch(
+    /<button data-testid="resource-downvote-arrow" class=".*"><i class="fa"><\/i><\/button>/gm
+  );
 });
