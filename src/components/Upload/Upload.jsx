@@ -6,7 +6,7 @@ import GridBody from '../gridBody';
 import TabBar from './tabBar';
 import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
 
-const UploadResourceSchema = Yup.object().shape({
+const UploadSchema = Yup.object().shape({
   url: Yup.string()
     .url('Invalid URL')
     .required('Required'),
@@ -16,82 +16,41 @@ const UploadResourceSchema = Yup.object().shape({
     .required('Required'),
   description: Yup.string()
     .max(240, "Description can't be longer than 240 characters")
-    .notRequired()
-});
-
-const UploadSubjectSchema = Yup.object().shape({
+    .notRequired(),
   subjectName: Yup.string()
     .max(40, "Subjects can't be longer than 40 characters")
     .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required')
-});
-
-const UploadTopicSchema = Yup.object().shape({
+    .notRequired('Required'),
   topicName: Yup.string()
     .max(40, "Topics can't be longer than 40 characters")
     .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
+    .notRequired('Required'),
   topicBelongsTo: Yup.string()
     .max(40, "Subject can't be longer than 40 characters")
-    .required('Required')
+    .notRequired('Required')
 });
 
 const UploadPage = () => {
   const [currentTab, setCurrentTab] = React.useState('Resource');
-  const formErrors = React.useRef(null);
-  const inFocusElt = React.useRef(null);
-
-  const [valueState, updateValueState] = React.useState({
-    selectedTab: currentTab,
-    url: '',
-    title: '',
-    description: '',
-    subject: '',
-    topic: '',
-    subjectName: '',
-    topicName: '',
-    topicBelongsTo: ''
-  });
-  const [isButtonDisabled, dispatchButton] = React.useReducer((state, action) => {
-    const { errors } = action;
-    if (Object.keys(errors).length === 0 && state === true) {
-      return false;
-    }
-    if (state === false) {
-      return true;
-    }
-    return state;
-  }, true);
-
-  let schemaToUse;
-
-  if (currentTab === 'Resource') {
-    schemaToUse = UploadResourceSchema;
-  } else if (currentTab === 'Subject') {
-    schemaToUse = UploadSubjectSchema;
-  } else if (currentTab === 'Topic') {
-    schemaToUse = UploadTopicSchema;
-  }
-
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
-    const { values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
-    formErrors.current = errors;
+    const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
+    const hasErrors = Object.keys(errors).length !== 0;
+    console.log(hasErrors);
     return (
       <form>
         {currentTab === 'Resource' && (
           <>
             <LabelStyle htmlFor="url">URL</LabelStyle>
             <InputStyle
-              ref={inFocusElt}
               data-testid="url-upload-input"
               type="url"
               onBlur={e => {
-                updateValueState(values);
-                dispatchButton({ errors: formErrors.current });
                 handleBlur(e);
               }}
-              onChange={handleChange}
+              onChange={e => {
+                handleChange(e);
+              }}
               hasErrors={errors.url}
               value={values.url}
               name="url"
@@ -104,8 +63,6 @@ const UploadPage = () => {
               type="text"
               onBlur={e => {
                 handleBlur(e);
-                updateValueState(values);
-                dispatchButton({ errors: formErrors.current });
               }}
               onChange={handleChange}
               value={values.title}
@@ -143,10 +100,7 @@ const UploadPage = () => {
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
-              disabled={isSubmitting || isButtonDisabled}
-              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
-              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
-              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              disabled={isSubmitting || hasErrors}
               type="submit"
               height="56px"
               width="40%"
@@ -174,10 +128,7 @@ const UploadPage = () => {
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
-              disabled={isSubmitting || isButtonDisabled}
-              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
-              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
-              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              disabled={isSubmitting}
               type="submit"
               height="56px"
               width="40%"
@@ -213,10 +164,7 @@ const UploadPage = () => {
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
-              disabled={isSubmitting || isButtonDisabled}
-              backgroundColor={`${isButtonDisabled ? '#aaaaaa' : '#0074d9'}`}
-              color={`${isButtonDisabled ? '#111111' : '#ffffff'}`}
-              borderColor={`${isButtonDisabled ? '#111111' : '#0d47a1'}`}
+              disabled={!dirty || isSubmitting}
               type="submit"
               height="56px"
               width="40%"
@@ -229,8 +177,18 @@ const UploadPage = () => {
   };
 
   const FormToRender = withFormik({
-    mapPropsToValues: () => valueState,
-    validationSchema: schemaToUse,
+    mapPropsToValues: () => ({
+      selectedTab: currentTab,
+      url: '',
+      title: '',
+      description: '',
+      subject: '',
+      topic: '',
+      subjectName: '',
+      topicName: '',
+      topicBelongsTo: ''
+    }),
+    validationSchema: UploadSchema,
     displayName: 'Upload Form'
   })(formToRender);
 

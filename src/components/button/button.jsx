@@ -15,6 +15,7 @@ const GenericButtonStyle = styled.button`
   width: ${props => props.width}
   height: ${props => props.height};
   border-radius: 18px;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'auto')}
 
   :focus{
     outline: 1px solid blue;
