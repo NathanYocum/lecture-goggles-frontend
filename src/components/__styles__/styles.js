@@ -4,7 +4,7 @@ const primaryBlue = '#0074d9';
 const secondaryOrange = '#ff9800';
 const secondaryDarkOrange = '#e65100';
 const darkGrey = '#aaaaaa';
-// const lightGrey = '#e3e3e3';
+const lightGrey = '#e3e3e3';
 const blueGrey = '#90a4ae';
 const red = '#ff4136';
 
@@ -38,7 +38,7 @@ const FormContainer = styled.div`
   background-color: #ffffff;
   width: 100%;
   text-align: center;
-  border: 1px solid #e3e3e3;
+  border: 1px solid ${lightGrey};
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
@@ -87,7 +87,7 @@ const SelectStyle = styled.select`
   margin-right: 10%;
   border-radius: 4px;
   border: 1px solid ${primaryBlue};
-  background-color: #e3e3e3;
+  background-color: ${lightGrey};
 `;
 
 const LabelStyle = styled.label`
@@ -105,7 +105,7 @@ const ErrorDiv = styled.div`
   margin-left: 10%;
   margin-right: 10%;
   border: 1px solid ${red};
-  background-color: #e3e3e3;
+  background-color: ${lightGrey};
   font-size: 16px;
 `;
 
@@ -153,7 +153,7 @@ const SubscribeButton = styled(UnstyledButton)`
 `;
 
 const CardContainerStyle = styled.div`
-  border: 1px solid #e3e3e3;
+  border: 1px solid ${lightGrey};
   border-radius: 4px;
   display: grid;
   width: 345px;
