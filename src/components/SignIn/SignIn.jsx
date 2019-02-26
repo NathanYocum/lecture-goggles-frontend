@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
+import { InputStyle } from '../__styles__/styles';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -35,16 +36,6 @@ const ContinueButtonStyle = styled.div`
   margin-right: 10%;
 `;
 
-const InputStyle = styled.input`
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 4px;
-  border: ${props => (props.emailError ? '1px solid #ff4136' : '1px solid #0074d9')};
-  text-align: center;
-  height: 56px;
-`;
-
 const ErrorDiv = styled.div`
   text-align: center;
   color: #ff4136;
@@ -56,70 +47,62 @@ const SignInSchema = Yup.object().shape({
     .required('Required')
 });
 
-const SignIn = () => {
-  const [isButtonDisabled, setButtonDisabled] = React.useState(true);
-  return (
-    <GridBody data-testid="sign-in">
-      <LogoStyle>
-        <LectureGogglesLogo width={200} height={200} />
-      </LogoStyle>
-      <WelcomeStyle>
-        <h3> Sign In </h3>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={SignInSchema}
-          render={props => {
-            // eslint-disable-next-line
-            const { handleBlur, handleChange, values, errors, isSubmitting } = props;
-            return (
-              <form>
-                <InputStyle
-                  data-testid="sign-in-email-input"
-                  placeholder="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  type="email"
-                  name="email"
-                  emailError={errors.email}
+const SignIn = () => (
+  <GridBody data-testid="sign-in">
+    <LogoStyle>
+      <LectureGogglesLogo width={200} height={200} />
+    </LogoStyle>
+    <WelcomeStyle>
+      <h3> Sign In </h3>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={SignInSchema}
+        render={props => {
+          // eslint-disable-next-line
+          const { handleBlur, handleChange, values, errors, dirty, isSubmitting } = props;
+          const hasErrors = !(errors.email === undefined && dirty);
+          return (
+            <form>
+              <InputStyle
+                data-testid="sign-in-email-input"
+                placeholder="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                type="email"
+                name="email"
+                emailError={errors.email}
+                hasErrors={errors.email}
+              />
+              {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
+              <br />
+              <InputStyle data-testid="sign-in-password-input" placeholder="password" type="password" name="password" />
+              <a href="/">Forgot your password?</a>
+              <br />
+              <ContinueButtonStyle>
+                <GenericButton
+                  disabled={isSubmitting || hasErrors}
+                  borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                  color={hasErrors ? '#333333' : '#ffffff'}
+                  backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                  width="100%"
+                  height="56px"
+                  type="submit"
+                  text="Continue"
                 />
-                {errors.email ? (
-                  <ErrorDiv data-testid="sign-in-email-error">
-                    {errors.email} {setButtonDisabled(true)}
-                  </ErrorDiv>
-                ) : (
-                  setButtonDisabled(false)
-                )}
-                <br />
-                <InputStyle
-                  data-testid="sign-in-password-input"
-                  placeholder="password"
-                  type="password"
-                  name="password"
-                />
-                <a href="/">Forgot your password?</a>
-                <br />
-                <ContinueButtonStyle>
-                  <GenericButton width="100%" height="56px" type="submit" text="Continue" />
-                  <a href="/">
-                    <GenericButton
-                      disabled={isSubmitting || isButtonDisabled}
-                      backgroundColor="#90A4AE"
-                      color="#0D47A1"
-                      text="Cancel"
-                    />
-                  </a>
-                  <a href="/newAccount">
-                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
-                  </a>
-                </ContinueButtonStyle>
-              </form>
-            );
-          }}
-        />
-      </WelcomeStyle>
-    </GridBody>
-  );
-};
+                <a href="/">
+                  <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                </a>
+                <a href="/newAccount">
+                  <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
+                </a>
+              </ContinueButtonStyle>
+            </form>
+          );
+        }}
+      />
+    </WelcomeStyle>
+  </GridBody>
+);
 
 export default SignIn;
