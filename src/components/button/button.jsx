@@ -12,13 +12,13 @@ const GenericButtonStyle = styled.button`
   cursor: pointer;
   outline: inherit;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
-  width: ${props => props.width}
+  width: ${props => props.width};
   height: ${props => props.height};
   border-radius: 18px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'auto')}
-  opacity: ${props => (props.disabled ? '0.65' : '1.0')}
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'auto')};
+  opacity: ${props => (props.disabled ? '0.65' : '1.0')};
 
-  :focus{
+  :focus {
     outline: 1px solid blue;
   }
 `;
