@@ -20,14 +20,14 @@ const UploadSchema = Yup.object().shape({
   subjectName: Yup.string()
     .max(40, "Subjects can't be longer than 40 characters")
     .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
-    .notRequired('Required'),
+    .required('Required'),
   topicName: Yup.string()
     .max(40, "Topics can't be longer than 40 characters")
     .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
-    .notRequired('Required'),
+    .required('Required'),
   topicBelongsTo: Yup.string()
     .max(40, "Subject can't be longer than 40 characters")
-    .notRequired('Required')
+    .required('Required')
 });
 
 const UploadPage = () => {
@@ -35,8 +35,21 @@ const UploadPage = () => {
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
     const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
-    const hasErrors = Object.keys(errors).length !== 0;
-    console.log(hasErrors);
+    const hasErrors = (errs => {
+      if (!dirty) {
+        return true;
+      }
+      if (currentTab === 'Resource') {
+        return !(errs.url === undefined && errs.title === undefined);
+      }
+      if (currentTab === 'Subject') {
+        return !(errs.subjectName === undefined);
+      }
+      if (currentTab === 'Topic') {
+        return !(errs.topicName === undefined && errs.topicBelongsTo === undefined);
+      }
+      return false;
+    })(errors);
     return (
       <form>
         {currentTab === 'Resource' && (
@@ -101,6 +114,9 @@ const UploadPage = () => {
             <GenericButton
               testId="submit-button"
               disabled={isSubmitting || hasErrors}
+              borderColor={hasErrors ? '#888888' : '#0d47a1'}
+              color={hasErrors ? '#333333' : '#ffffff'}
+              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
               type="submit"
               height="56px"
               width="40%"
@@ -128,7 +144,10 @@ const UploadPage = () => {
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || hasErrors}
+              borderColor={hasErrors ? '#888888' : '#0d47a1'}
+              color={hasErrors ? '#333333' : '#ffffff'}
+              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
               type="submit"
               height="56px"
               width="40%"
@@ -164,7 +183,10 @@ const UploadPage = () => {
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
-              disabled={!dirty || isSubmitting}
+              disabled={isSubmitting || hasErrors}
+              borderColor={hasErrors ? '#888888' : '#0d47a1'}
+              color={hasErrors ? '#333333' : '#ffffff'}
+              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
               type="submit"
               height="56px"
               width="40%"
