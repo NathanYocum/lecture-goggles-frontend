@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 // Button fills the entire div it is contained in
 const GenericButtonStyle = styled.button`
@@ -16,7 +15,7 @@ const GenericButtonStyle = styled.button`
   width: ${props => props.width};
   height: ${props => props.height};
   border-radius: 18px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'auto')};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? '0.65' : '1.0')};
 
   :focus {
@@ -57,23 +56,7 @@ GenericButton.propTypes = {
 };
 
 GenericButton.defaultProps = {
-  onClickFunction: event => {
-    event.preventDefault();
-    console.log('hello');
-    var url = 'http://127.0.0.1:5000/signup';
-    axios
-      .post(url, {
-        first_name: 'z',
-        last_name: 'j',
-        email: 'zz@gmail.com',
-        password: 'killerpassword',
-        school: 'unr'
-      })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      });
-  },
+  onClickFunction: () => {},
   backgroundColor: '#0074d9',
   borderColor: '#0d47a1',
   color: '#ffffff',

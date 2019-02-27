@@ -96,7 +96,7 @@ const SignUp = () => (
           password: '',
           confirmPassword: '',
           institution: '',
-          confirmInstructor: 'no-confirmInstructor' // Need to figure out defaults for radio
+          confirmInstructor: 'no-confirmInstructor'
         }}
         validationSchema={SignUpSchema}
         render={renderProps => {
