@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 // Button fills the entire div it is contained in
 const GenericButtonStyle = styled.button`
@@ -56,7 +57,23 @@ GenericButton.propTypes = {
 };
 
 GenericButton.defaultProps = {
-  onClickFunction: () => {},
+  onClickFunction: event => {
+    event.preventDefault();
+    console.log('hello');
+    var url = 'http://127.0.0.1:5000/signup';
+    axios
+      .post(url, {
+        first_name: 'z',
+        last_name: 'j',
+        email: 'zz@gmail.com',
+        password: 'killerpassword',
+        school: 'unr'
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      });
+  },
   backgroundColor: '#0074d9',
   borderColor: '#0d47a1',
   color: '#ffffff',
