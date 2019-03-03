@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
@@ -47,6 +48,15 @@ const SignInSchema = Yup.object().shape({
     .required('Required')
 });
 
+function handleSignInSubmit(values, actions) {
+  console.log(values);
+  console.log(actions);
+  axios
+    .get('/users/login')
+    .then()
+    .catch();
+}
+
 const SignIn = () => (
   <GridBody data-testid="sign-in">
     <LogoStyle>
@@ -57,12 +67,12 @@ const SignIn = () => (
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={SignInSchema}
-        render={props => {
-          // eslint-disable-next-line
-          const { handleBlur, handleChange, values, errors, dirty, isSubmitting } = props;
+        onSubmit={handleSignInSubmit}
+        render={formikProps => {
+          const { handleSubmit, handleBlur, handleChange, values, errors, dirty, isSubmitting } = formikProps;
           const hasErrors = !(errors.email === undefined && dirty);
           return (
-            <form>
+            <form onSubmit={handleSubmit}>
               <InputStyle
                 data-testid="sign-in-email-input"
                 placeholder="email"
@@ -76,7 +86,15 @@ const SignIn = () => (
               />
               {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
               <br />
-              <InputStyle data-testid="sign-in-password-input" placeholder="password" type="password" name="password" />
+              <InputStyle
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                data-testid="sign-in-password-input"
+                placeholder="password"
+                type="password"
+                name="password"
+              />
               <a href="/">Forgot your password?</a>
               <br />
               <ContinueButtonStyle>
