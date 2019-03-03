@@ -85,14 +85,20 @@ const SignUpSchema = Yup.object().shape({
   institution: Yup.string().required('Required')
 });
 
-function handleFormSubmit(event) {
-  console.log(event);
+function handleFormSubmit(values, actions) {
   // Need to find what the request will look like here
   // Also will want this to be to https://api.lecturegoggles.io/...
   axios
-    .post('/users/signup')
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
+    .post('/users/signup', {
+      data: {
+        username: values.userName,
+        email: values.email,
+        password: values.password,
+        school: values.institution
+      }
+    })
+    .then()
+    .catch(() => actions.resetForm());
 }
 
 const SignUp = () => (
