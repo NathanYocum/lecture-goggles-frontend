@@ -56,6 +56,9 @@ const ErrorDiv = styled.div`
 `;
 
 const SignUpSchema = Yup.object().shape({
+  userName: Yup.string()
+    .matches(/^[A-Za-z\-_0-9]+$/, "Only alphanumeric characters, '-' and '_' allowed")
+    .required('Required'),
   firstName: Yup.string()
     .matches(/^[A-Za-z][A-Za-z\- ]*$/, 'Only alphabetical characters (A-Za-z) and hyphens accepted')
     .required('Required'),
@@ -81,6 +84,10 @@ const SignUpSchema = Yup.object().shape({
   institution: Yup.string().required('Required')
 });
 
+function handleFormSubmit(event) {
+  console.log(event);
+}
+
 const SignUp = () => (
   <GridBody data-testid="sign-up">
     <LogoStyle>
@@ -88,7 +95,9 @@ const SignUp = () => (
     </LogoStyle>
     <WelcomeStyle>
       <Formik
+        onSubmit={handleFormSubmit}
         initialValues={{
+          userName: '',
           firstName: '',
           lastName: '',
           email: '',
@@ -100,9 +109,10 @@ const SignUp = () => (
         }}
         validationSchema={SignUpSchema}
         render={renderProps => {
-          const { handleBlur, handleChange, values, errors, isSubmitting, dirty } = renderProps;
+          const { handleSubmit, handleBlur, handleChange, values, errors, isSubmitting, dirty } = renderProps;
           const hasErrors = !(
             dirty &&
+            errors.userName === undefined &&
             errors.email === undefined &&
             errors.firstName === undefined &&
             errors.lastName === undefined &&
@@ -112,7 +122,21 @@ const SignUp = () => (
             errors.institution === undefined
           );
           return (
-            <form>
+            <form onSubmit={handleSubmit}>
+              <LabelStyle htmlFor="userName">
+                User Name
+                <br />
+                <InputStyle
+                  data-testid="user-name-input"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  hasErrors={errors.userName}
+                  value={values.userName}
+                  type="text"
+                  name="userName"
+                />
+                {errors.userName && <ErrorDiv data-testid="user-name-error">{errors.userName}</ErrorDiv>}
+              </LabelStyle>
               <LabelStyle htmlFor="firstName">
                 First Name
                 <br />
