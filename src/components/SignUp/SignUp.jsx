@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import GenericButton from '../button/button';
@@ -86,6 +87,11 @@ const SignUpSchema = Yup.object().shape({
 
 function handleFormSubmit(event) {
   console.log(event);
+  // Need to find what the request will look like here
+  axios
+    .post('/users/signup')
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
 }
 
 const SignUp = () => (
