@@ -86,10 +86,17 @@ const SignUpSchema = Yup.object().shape({
 });
 
 function handleFormSubmit(values, actions) {
+  const urlToUse = (() => {
+    if (process.env.NODE_ENV === 'development') {
+      return '';
+    }
+    return 'https://lecturegoggles.io/';
+  })();
+
   // Need to find what the request will look like here
   // Also will want this to be to https://api.lecturegoggles.io/...
   axios
-    .post('/users/signup', {
+    .post(`${urlToUse}/users/signup`, {
       data: {
         username: values.userName,
         email: values.email,
