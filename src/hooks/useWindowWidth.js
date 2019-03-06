@@ -8,7 +8,7 @@ const useWindowWidth = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  });
+  }, [window.innerWidth]);
   return width;
 };
 

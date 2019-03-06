@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
-import useWindowWidth from '../__hooks__/useWindowWidth';
+import useWindowWidth from '../../hooks/useWindowWidth';
 
 const NavBarStyle = styled.nav`
   background-color: #0074d9;

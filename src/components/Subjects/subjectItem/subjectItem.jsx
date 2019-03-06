@@ -6,7 +6,7 @@ import {
   UnstyledButton,
   SubscribeButton
 } from '../../__styles__/styles';
-import useWindowWidth from '../../__hooks__/useWindowWidth';
+import useWindowWidth from '../../../hooks/useWindowWidth';
 
 const SubjectItem = () => {
   const width = useWindowWidth();

@@ -32,14 +32,14 @@ const ResourceCard = ({
     <ItemStyle>
       {subject} - {topic}
     </ItemStyle>
-    <ItemStyle>Uploaded by {author}</ItemStyle>
     <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
     <PreviewA href={url}>
       <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
     </PreviewA>
-    <PreviewLink>
+    <PreviewLink href={url}>
       <LinkStyle>{url.length < 42 ? url : `${url.substring(0, 39)}...`}</LinkStyle>
     </PreviewLink>
+    <ItemStyle>Uploaded by {author}</ItemStyle>
     {/* Todo: Match style docuement for these */}
     <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
     <br />
@@ -53,6 +53,9 @@ const ResourceCard = ({
       </UnstyledButton>
       <UnstyledButton data-testid={`${title}-downvote-arrow`}>
         <FontAwesomeIcon icon="arrow-down" />
+      </UnstyledButton>
+      <UnstyledButton data-testid={`${title}-options`}>
+        <FontAwesomeIcon icon="ellipsis-v" />
       </UnstyledButton>
     </BottomContainer>
   </CardContainerStyle>
