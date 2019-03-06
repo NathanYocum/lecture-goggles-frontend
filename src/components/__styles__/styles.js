@@ -140,6 +140,7 @@ const UnstyledButton = styled.button`
   background: none;
   text-align: center;
   font-size: inherit;
+  cursor: pointer;
 `;
 
 const SubscribeButton = styled(UnstyledButton)`
@@ -153,15 +154,15 @@ const SubscribeButton = styled(UnstyledButton)`
 `;
 
 const CardContainerStyle = styled.div`
-  border: 1px solid ${lightGrey};
   border-radius: 4px;
   display: grid;
   width: 345px;
-  grid-template-rows: 20px 12px 12px 159px 36px repeat(2, 15px) 62px;
+  grid-template-rows: 20px 12px 12px 165px 40px repeat(2, 15px) 62px;
   grid-template-columns: auto 56px;
   font-family: 'IBMPlexSans-SemiBold';
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
   margin-bottom: 12px;
+  background-color: #f8f8f8;
 `;
 
 const TitleStyle = styled.div`
@@ -187,20 +188,21 @@ const AvatarStyle = styled.img`
 const PreviewStyle = styled.img`
   grid-column: 1 / span 2;
   grid-row: 4 / span 2;
-  align-self: center;
 `;
 const PreviewA = styled.a`
   grid-column: 1 / span 2;
   grid-row: 4 / span 2;
+  align-self: end;
 `;
 
-const PreviewLink = styled.div`
+const PreviewLink = styled.a`
   grid-row: 5;
   grid-column: 1 / span 2;
   background-color: rgba(38, 50, 56, 0.55);
   height: 36px;
   color: white;
-  display: flex;
+  align-content: center;
+  display: grid;
 `;
 
 const LinkStyle = styled.div`
@@ -212,7 +214,10 @@ const LinkStyle = styled.div`
 `;
 
 const BottomContainer = styled.div`
-  grid-column: 2;
+  grid-column: 1 / span 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 export {

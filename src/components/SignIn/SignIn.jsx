@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/label-has-for */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
@@ -47,62 +48,87 @@ const SignInSchema = Yup.object().shape({
     .required('Required')
 });
 
-const SignIn = () => (
-  <GridBody data-testid="sign-in">
-    <LogoStyle>
-      <LectureGogglesLogo width={200} height={200} />
-    </LogoStyle>
-    <WelcomeStyle>
-      <h3> Sign In </h3>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={SignInSchema}
-        render={props => {
-          // eslint-disable-next-line
-          const { handleBlur, handleChange, values, errors, dirty, isSubmitting } = props;
-          const hasErrors = !(errors.email === undefined && dirty);
-          return (
-            <form>
-              <InputStyle
-                data-testid="sign-in-email-input"
-                placeholder="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-                type="email"
-                name="email"
-                emailError={errors.email}
-                hasErrors={errors.email}
-              />
-              {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
-              <br />
-              <InputStyle data-testid="sign-in-password-input" placeholder="password" type="password" name="password" />
-              <a href="/">Forgot your password?</a>
-              <br />
-              <ContinueButtonStyle>
-                <GenericButton
-                  disabled={isSubmitting || hasErrors}
-                  borderColor={hasErrors ? '#888888' : '#0d47a1'}
-                  color={hasErrors ? '#333333' : '#ffffff'}
-                  backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-                  width="100%"
-                  height="56px"
-                  type="submit"
-                  text="Continue"
+const SignIn = () => {
+  const [isRedirecting, setRedirect] = useState(false);
+  function handleSignInSubmit(values, actions) {
+    const { email, password } = values;
+    axios
+      .post('/users/login', { email, password })
+      .then(() => {
+        setRedirect(true);
+      })
+      .catch(() => {
+        actions.resetForm();
+        actions.setSubmitting(false);
+        console.log(actions);
+      });
+  }
+  return (
+    <GridBody data-testid="sign-in">
+      {isRedirecting && <Redirect to="/" />}
+      <LogoStyle>
+        <LectureGogglesLogo width={200} height={200} />
+      </LogoStyle>
+      <WelcomeStyle>
+        <h3> Sign In </h3>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          validationSchema={SignInSchema}
+          onSubmit={handleSignInSubmit}
+          render={formikProps => {
+            const { handleSubmit, handleBlur, handleChange, values, errors, dirty, isSubmitting } = formikProps;
+            const hasErrors = !(errors.email === undefined && dirty);
+            return (
+              <form onSubmit={handleSubmit}>
+                <InputStyle
+                  data-testid="sign-in-email-input"
+                  placeholder="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  type="email"
+                  name="email"
+                  emailError={errors.email}
+                  hasErrors={errors.email}
                 />
-                <a href="/">
-                  <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
-                </a>
-                <a href="/newAccount">
-                  <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
-                </a>
-              </ContinueButtonStyle>
-            </form>
-          );
-        }}
-      />
-    </WelcomeStyle>
-  </GridBody>
-);
+                {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
+                <br />
+                <InputStyle
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  data-testid="sign-in-password-input"
+                  placeholder="password"
+                  type="password"
+                  name="password"
+                />
+                <a href="/">Forgot your password?</a>
+                <br />
+                <ContinueButtonStyle>
+                  <GenericButton
+                    disabled={isSubmitting || hasErrors}
+                    borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                    color={hasErrors ? '#333333' : '#ffffff'}
+                    backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                    width="100%"
+                    height="56px"
+                    type="submit"
+                    text="Continue"
+                  />
+                  <a href="/">
+                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                  </a>
+                  <a href="/newAccount">
+                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
+                  </a>
+                </ContinueButtonStyle>
+              </form>
+            );
+          }}
+        />
+      </WelcomeStyle>
+    </GridBody>
+  );
+};
 
 export default SignIn;

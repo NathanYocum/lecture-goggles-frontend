@@ -94,6 +94,7 @@ it('Renders an error when no institution is included', async () => {
 
 it('Does not render any errors when the form is filled out correctly', async () => {
   const { queryByTestId, getByTestId } = render(<SignUp />);
+  fireEvent.change(getByTestId('user-name-input'), { target: { value: 'JohnDoe' } });
   fireEvent.change(getByTestId('first-name-input'), { target: { value: 'John' } });
   fireEvent.change(getByTestId('last-name-input'), { target: { value: 'Doe' } });
   fireEvent.change(getByTestId('email-input'), { target: { value: 'example@example.com' } });
