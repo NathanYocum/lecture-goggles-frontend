@@ -41,29 +41,34 @@ const AccountCreateButtonStyle = styled(SignInButtonStyle)`
 
 const LandingPage = () => {
   const { signedInAs } = useContext(AuthContext);
-  console.log(signedInAs);
   return (
     <GridBody data-testid="landing-page">
       <LogoStyle>
         <LectureGogglesLogo width={200} height={200} />
       </LogoStyle>
       <WelcomeStyle>
-        <h1>Welcome!</h1>
-        <p>
-          Lecture Goggles is a free, open-source, educational resource repository to help students gain a better
-          understanding of school subjects.
-        </p>
+        <h1>Welcome{signedInAs !== '' && ` ${signedInAs}`}!</h1>
+        {signedInAs === '' && (
+          <p>
+            Lecture Goggles is a free, open-source, educational resource repository to help students gain a better
+            understanding of school subjects.
+          </p>
+        )}
       </WelcomeStyle>
-      <SignInButtonStyle>
-        <a data-testid="sign-in-button" href="/signIn">
-          <GenericButton text="SIGN IN" />
-        </a>
-      </SignInButtonStyle>
-      <AccountCreateButtonStyle>
-        <a href="/newAccount">
-          <GenericButton text="CREATE AN ACCOUNT" />
-        </a>
-      </AccountCreateButtonStyle>
+      {signedInAs === '' && (
+        <>
+          <SignInButtonStyle>
+            <a data-testid="sign-in-button" href="/signIn">
+              <GenericButton text="SIGN IN" />
+            </a>
+          </SignInButtonStyle>
+          <AccountCreateButtonStyle>
+            <a href="/newAccount">
+              <GenericButton text="CREATE AN ACCOUNT" />
+            </a>
+          </AccountCreateButtonStyle>
+        </>
+      )}
     </GridBody>
   );
 };

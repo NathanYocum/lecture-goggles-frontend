@@ -58,21 +58,21 @@ it('Renders a link to Developers when the hamburger button is not rendered', () 
 });
 
 // Need to modify these tests when we get the token based authentication working
-it('Renders a link to Sign In when the hamburger button is not rendered', () => {
-  global.innerWidth = 1080;
-  const { queryByTestId } = render(<NavBar />);
-  expect(queryByTestId('sign-in-link-full')).not.toBeNull();
-  expect(queryByTestId('sign-in-link-full').outerHTML).toMatch(/<a .* href="\/signIn" .*>Sign In<\/a>/gm);
-});
+// it('Renders a link to Sign In when the hamburger button is not rendered', () => {
+//   global.innerWidth = 1080;
+//   const { queryByTestId } = render(<NavBar />);
+//   expect(queryByTestId('sign-in-link-full')).not.toBeNull();
+//   expect(queryByTestId('sign-in-link-full').outerHTML).toMatch(/<a .* href="\/signIn" .*>Sign In<\/a>/gm);
+// });
 
-it('Renders a link to Create An Account when the hamburger button is not rendered', () => {
-  global.innerWidth = 1080;
-  const { queryByTestId } = render(<NavBar />);
-  expect(queryByTestId('new-account-link-full')).not.toBeNull();
-  expect(queryByTestId('new-account-link-full').outerHTML).toMatch(
-    /<a .* href="\/newAccount" .*>Create an Account<\/a>/gm
-  );
-});
+// it('Renders a link to Create An Account when the hamburger button is not rendered', () => {
+//   global.innerWidth = 1080;
+//   const { queryByTestId } = render(<NavBar />);
+//   expect(queryByTestId('new-account-link-full')).not.toBeNull();
+//   expect(queryByTestId('new-account-link-full').outerHTML).toMatch(
+//     /<a .* href="\/newAccount" .*>Create an Account<\/a>/gm
+//   );
+// });
 
 it("Doesn't render full links on mobile", () => {
   global.innerWidth = 320;
