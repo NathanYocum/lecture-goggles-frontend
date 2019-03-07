@@ -55,7 +55,7 @@ const LandingPage = () => {
           </p>
         )}
       </WelcomeStyle>
-      {signedInAs === '' && (
+      {signedInAs === '' ? (
         <>
           <SignInButtonStyle>
             <a data-testid="sign-in-button" href="/signIn">
@@ -68,6 +68,13 @@ const LandingPage = () => {
             </a>
           </AccountCreateButtonStyle>
         </>
+      ) : (
+        <SignInButtonStyle>
+          {/* Move this to a FAB */}
+          <a href="/upload">
+            <GenericButton text="+ Upload" />
+          </a>
+        </SignInButtonStyle>
       )}
     </GridBody>
   );
