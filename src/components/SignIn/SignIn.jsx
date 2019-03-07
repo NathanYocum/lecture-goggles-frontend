@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import { InputStyle } from '../__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -50,17 +51,35 @@ const SignInSchema = Yup.object().shape({
 
 const SignIn = () => {
   const [isRedirecting, setRedirect] = useState(false);
+  const { signedInAs, setUser } = useContext(AuthContext);
   function handleSignInSubmit(values, actions) {
     const { email, password } = values;
     axios
       .post('/users/login', { email, password })
+      .then(({ data }) => {
+        localStorage.setItem('token', data.access_token);
+      })
       .then(() => {
-        setRedirect(true);
+        const urlToUse = (() => {
+          if (process.env.NODE_ENV === 'development') {
+            return '';
+          }
+          return 'https://api.lecturegoggles.io';
+        })();
+        const token = localStorage.getItem('token');
+        axios
+          .get(`${urlToUse}/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
+          .then(response => {
+            const { data } = response;
+            setUser(data.logged_in_as);
+          })
+          .then(() => {
+            setRedirect(true);
+          });
       })
       .catch(() => {
         actions.resetForm();
         actions.setSubmitting(false);
-        console.log(actions);
       });
   }
   return (

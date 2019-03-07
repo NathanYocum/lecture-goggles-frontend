@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import GenericButton from '../button/button';
@@ -31,7 +31,7 @@ const UploadSchema = Yup.object().shape({
 });
 
 const UploadPage = () => {
-  const [currentTab, setCurrentTab] = React.useState('Resource');
+  const [currentTab, setCurrentTab] = useState('Resource');
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
     const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
