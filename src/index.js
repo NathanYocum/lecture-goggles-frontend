@@ -30,7 +30,9 @@ const AppToRender = () => {
           const { data } = response;
           setUser(data.logged_in_as);
         })
-        .catch(err => console.error(err));
+        .catch(() => {
+          setUser('');
+        });
     } else {
       setUser('');
     }
