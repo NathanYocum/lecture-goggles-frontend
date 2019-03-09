@@ -156,8 +156,8 @@ const SubscribeButton = styled(UnstyledButton)`
 const CardContainerStyle = styled.div`
   border-radius: 4px;
   display: grid;
-  width: 345px;
-  grid-template-rows: 20px 12px 12px 165px 40px repeat(2, 15px) 62px;
+  width: 288px;
+  grid-template-rows: 20px 12px 12px 165px 40px repeat(2, 15px) auto 36px;
   grid-template-columns: auto 56px;
   font-family: 'IBMPlexSans-SemiBold';
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
@@ -177,6 +177,8 @@ const ItemStyle = styled.div`
 
 const DescriptionStyle = styled(ItemStyle)`
   padding-top: 10px;
+  grid-column: 1 / span 2;
+  overflow: hidden;
 `;
 
 const AvatarStyle = styled.img`

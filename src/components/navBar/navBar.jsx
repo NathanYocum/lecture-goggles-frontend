@@ -113,7 +113,7 @@ const NavBar = props => {
                 <NavItem>
                   <NavLink
                     data-testid="logout-link-full"
-                    href="/"
+                    href="."
                     onClick={() => {
                       localStorage.removeItem('token');
                     }}
