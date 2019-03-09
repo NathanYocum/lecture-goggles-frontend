@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import { InputStyle } from '../__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -50,17 +51,35 @@ const SignInSchema = Yup.object().shape({
 
 const SignIn = () => {
   const [isRedirecting, setRedirect] = useState(false);
+  const { signedInAs, setUser } = useContext(AuthContext);
   function handleSignInSubmit(values, actions) {
     const { email, password } = values;
     axios
       .post('/users/login', { email, password })
+      .then(({ data }) => {
+        localStorage.setItem('token', data.access_token);
+      })
       .then(() => {
-        setRedirect(true);
+        const urlToUse = (() => {
+          if (process.env.NODE_ENV === 'development') {
+            return '';
+          }
+          return 'https://api.lecturegoggles.io';
+        })();
+        const token = localStorage.getItem('token');
+        axios
+          .get(`${urlToUse}/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
+          .then(response => {
+            const { data } = response;
+            setUser(data.logged_in_as);
+          })
+          .then(() => {
+            setRedirect(true);
+          });
       })
       .catch(() => {
         actions.resetForm();
         actions.setSubmitting(false);
-        console.log(actions);
       });
   }
   return (
@@ -70,62 +89,83 @@ const SignIn = () => {
         <LectureGogglesLogo width={200} height={200} />
       </LogoStyle>
       <WelcomeStyle>
-        <h3> Sign In </h3>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={SignInSchema}
-          onSubmit={handleSignInSubmit}
-          render={formikProps => {
-            const { handleSubmit, handleBlur, handleChange, values, errors, dirty, isSubmitting } = formikProps;
-            const hasErrors = !(errors.email === undefined && dirty);
-            return (
-              <form onSubmit={handleSubmit}>
-                <InputStyle
-                  data-testid="sign-in-email-input"
-                  placeholder="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  type="email"
-                  name="email"
-                  emailError={errors.email}
-                  hasErrors={errors.email}
+        {signedInAs === '' ? (
+          <>
+            <h3> Sign In </h3>
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              validationSchema={SignInSchema}
+              onSubmit={handleSignInSubmit}
+              render={formikProps => {
+                const { handleSubmit, handleBlur, handleChange, values, errors, dirty, isSubmitting } = formikProps;
+                const hasErrors = !(errors.email === undefined && dirty);
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <InputStyle
+                      data-testid="sign-in-email-input"
+                      placeholder="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      type="email"
+                      name="email"
+                      emailError={errors.email}
+                      hasErrors={errors.email}
+                    />
+                    {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
+                    <br />
+                    <InputStyle
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      data-testid="sign-in-password-input"
+                      placeholder="password"
+                      type="password"
+                      name="password"
+                    />
+                    <a href="/">Forgot your password?</a>
+                    <br />
+                    <ContinueButtonStyle>
+                      <GenericButton
+                        disabled={isSubmitting || hasErrors}
+                        borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                        color={hasErrors ? '#333333' : '#ffffff'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        width="100%"
+                        height="56px"
+                        type="submit"
+                        text="Continue"
+                      />
+                      <a href="/">
+                        <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                      </a>
+                      <a href="/newAccount">
+                        <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
+                      </a>
+                    </ContinueButtonStyle>
+                  </form>
+                );
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <h3>You are signed in as {signedInAs}, would you like to sign out? </h3>
+            <ContinueButtonStyle>
+              <a href="/signIn">
+                <GenericButton
+                  onClickFunction={() => localStorage.removeItem('token')}
+                  height="56px"
+                  width="50%"
+                  text="Yes"
                 />
-                {errors.email && <ErrorDiv data-testid="sign-in-email-error">{errors.email}</ErrorDiv>}
-                <br />
-                <InputStyle
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  data-testid="sign-in-password-input"
-                  placeholder="password"
-                  type="password"
-                  name="password"
-                />
-                <a href="/">Forgot your password?</a>
-                <br />
-                <ContinueButtonStyle>
-                  <GenericButton
-                    disabled={isSubmitting || hasErrors}
-                    borderColor={hasErrors ? '#888888' : '#0d47a1'}
-                    color={hasErrors ? '#333333' : '#ffffff'}
-                    backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-                    width="100%"
-                    height="56px"
-                    type="submit"
-                    text="Continue"
-                  />
-                  <a href="/">
-                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
-                  </a>
-                  <a href="/newAccount">
-                    <GenericButton backgroundColor="#90A4AE" color="#0D47A1" text="Create An Account" />
-                  </a>
-                </ContinueButtonStyle>
-              </form>
-            );
-          }}
-        />
+              </a>
+              <a href="/">
+                <GenericButton backgroundColor="#90a4ae" color="#0074d9" height="56px" width="50%" text="No" />
+              </a>
+            </ContinueButtonStyle>
+          </>
+        )}
       </WelcomeStyle>
     </GridBody>
   );

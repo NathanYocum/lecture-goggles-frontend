@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import HamburgerButton from './hamburgerButton/hamburgerButton';
 import useWindowWidth from '../../hooks/useWindowWidth';
+import AuthContext from '../../contexts/AuthContext';
 
 const NavBarStyle = styled.nav`
   background-color: #0074d9;
@@ -45,9 +46,10 @@ const NavLink = styled.a`
 const NavBar = props => {
   const { title } = props;
   const width = useWindowWidth();
-  const [renderMenu, setMenuRendered] = React.useState(false);
+  const [renderMenu, setMenuRendered] = useState(false);
   const renderButton = width < 768;
   const onHamburgerClick = () => setMenuRendered(!renderMenu);
+  const { signedInAs } = useContext(AuthContext);
   return (
     <NavBarStyle data-testid="nav-bar">
       <NavList>
@@ -88,16 +90,39 @@ const NavBar = props => {
                 Developers
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink data-testid="sign-in-link-full" href="/signIn">
-                Sign In
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink data-testid="new-account-link-full" href="/newAccount">
-                Create an Account
-              </NavLink>
-            </NavItem>
+            {signedInAs === '' ? (
+              <>
+                <NavItem>
+                  <NavLink data-testid="sign-in-link-full" href="/signIn">
+                    Sign In
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink data-testid="new-account-link-full" href="/newAccount">
+                    Create an Account
+                  </NavLink>
+                </NavItem>
+              </>
+            ) : (
+              <>
+                <NavItem>
+                  <NavLink data-testid="account-link-full" href="/account">
+                    Account
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    data-testid="logout-link-full"
+                    href="/"
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                    }}
+                  >
+                    Logout
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
           </>
         ) : (
           !renderMenu && (

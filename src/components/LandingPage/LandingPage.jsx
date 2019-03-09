@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import LectureGogglesLogo from '../logo/logo';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
+import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -38,29 +39,45 @@ const AccountCreateButtonStyle = styled(SignInButtonStyle)`
   grid-row: 5;
 `;
 
-const LandingPage = () => (
-  <GridBody data-testid="landing-page">
-    <LogoStyle>
-      <LectureGogglesLogo width={200} height={200} />
-    </LogoStyle>
-    <WelcomeStyle>
-      <h1>Welcome!</h1>
-      <p>
-        Lecture Goggles is a free, open-source, educational resource repository to help students gain a better
-        understanding of school subjects.
-      </p>
-    </WelcomeStyle>
-    <SignInButtonStyle>
-      <a data-testid="sign-in-button" href="/signIn">
-        <GenericButton text="SIGN IN" />
-      </a>
-    </SignInButtonStyle>
-    <AccountCreateButtonStyle>
-      <a href="/newAccount">
-        <GenericButton text="CREATE AN ACCOUNT" />
-      </a>
-    </AccountCreateButtonStyle>
-  </GridBody>
-);
+const LandingPage = () => {
+  const { signedInAs } = useContext(AuthContext);
+  return (
+    <GridBody data-testid="landing-page">
+      <LogoStyle>
+        <LectureGogglesLogo width={200} height={200} />
+      </LogoStyle>
+      <WelcomeStyle>
+        <h1>Welcome{signedInAs !== '' && ` ${signedInAs}`}!</h1>
+        {signedInAs === '' && (
+          <p>
+            Lecture Goggles is a free, open-source, educational resource repository to help students gain a better
+            understanding of school subjects.
+          </p>
+        )}
+      </WelcomeStyle>
+      {signedInAs === '' ? (
+        <>
+          <SignInButtonStyle>
+            <a data-testid="sign-in-button" href="/signIn">
+              <GenericButton text="SIGN IN" />
+            </a>
+          </SignInButtonStyle>
+          <AccountCreateButtonStyle>
+            <a href="/newAccount">
+              <GenericButton text="CREATE AN ACCOUNT" />
+            </a>
+          </AccountCreateButtonStyle>
+        </>
+      ) : (
+        <SignInButtonStyle>
+          {/* Move this to a FAB */}
+          <a href="/upload">
+            <GenericButton text="+ Upload" />
+          </a>
+        </SignInButtonStyle>
+      )}
+    </GridBody>
+  );
+};
 
 export default LandingPage;

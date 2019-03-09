@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
+import { Redirect } from 'react-router-dom';
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import TabBar from './tabBar';
 import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const UploadSchema = Yup.object().shape({
   url: Yup.string()
@@ -31,7 +33,8 @@ const UploadSchema = Yup.object().shape({
 });
 
 const UploadPage = () => {
-  const [currentTab, setCurrentTab] = React.useState('Resource');
+  const [currentTab, setCurrentTab] = useState('Resource');
+  const { signedInAs } = useContext(AuthContext);
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
     const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
@@ -217,17 +220,21 @@ const UploadPage = () => {
   return (
     <GridBody data-testid="upload">
       <BG />
-      <FormContainer>
-        <TabBar
-          onClickFunction={item => {
-            setCurrentTab(item);
-          }}
-          currentTab={currentTab}
-          tabNames={['Resource', 'Subject', 'Topic']}
-        />
-        <h1>Upload {currentTab}</h1>
-        <FormToRender />
-      </FormContainer>
+      {signedInAs === '' ? (
+        <Redirect to="/signIn" from="/upload" />
+      ) : (
+        <FormContainer>
+          <TabBar
+            onClickFunction={item => {
+              setCurrentTab(item);
+            }}
+            currentTab={currentTab}
+            tabNames={['Resource', 'Subject', 'Topic']}
+          />
+          <h1>Upload {currentTab}</h1>
+          <FormToRender />
+        </FormContainer>
+      )}
     </GridBody>
   );
 };
