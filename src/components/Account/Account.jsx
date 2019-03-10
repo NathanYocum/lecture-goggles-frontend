@@ -6,7 +6,6 @@ import AuthContext from '../../contexts/AuthContext';
 
 const AccountPage = () => {
   const { signedInAs } = useContext(AuthContext);
-  console.log(signedInAs);
   return (
     <GridBody data-testid="account">
       {signedInAs === '' && <Redirect to="/signIn" from="/account" />}

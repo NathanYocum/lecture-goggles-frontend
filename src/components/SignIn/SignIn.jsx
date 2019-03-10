@@ -91,7 +91,7 @@ const SignIn = () => {
       <WelcomeStyle>
         {signedInAs === '' ? (
           <>
-            <h3> Sign In </h3>
+            <h3 data-testid="sign-in-form"> Sign In </h3>
             <Formik
               initialValues={{ email: '', password: '' }}
               validationSchema={SignInSchema}
@@ -154,6 +154,7 @@ const SignIn = () => {
             <ContinueButtonStyle>
               <a href="/signIn">
                 <GenericButton
+                  testId="confirm-logout-button"
                   onClickFunction={() => localStorage.removeItem('token')}
                   height="56px"
                   width="50%"
@@ -161,7 +162,14 @@ const SignIn = () => {
                 />
               </a>
               <a href="/">
-                <GenericButton backgroundColor="#90a4ae" color="#0074d9" height="56px" width="50%" text="No" />
+                <GenericButton
+                  testId="cancel-logout-button"
+                  backgroundColor="#90a4ae"
+                  color="#0074d9"
+                  height="56px"
+                  width="50%"
+                  text="No"
+                />
               </a>
             </ContinueButtonStyle>
           </>

@@ -11,7 +11,7 @@ it('Renders', () => {
 });
 
 it('Renders a list of tabs given an array of names', () => {
-  const tabs = ['a', 'b', 'c'];
+  const tabs = ['A', 'b', 'c'];
   const { queryByTestId } = render(<TabBar onClickFunction={() => {}} currentTab={tabs[0]} tabNames={tabs} />);
   expect(queryByTestId('a-tab')).toBeInTheDocument();
   expect(queryByTestId('b-tab')).toBeInTheDocument();

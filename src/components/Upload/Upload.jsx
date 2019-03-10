@@ -223,7 +223,7 @@ const UploadPage = () => {
       {signedInAs === '' ? (
         <Redirect to="/signIn" from="/upload" />
       ) : (
-        <FormContainer>
+        <FormContainer data-testid={`${currentTab.toLowerCase()}-form`}>
           <TabBar
             onClickFunction={item => {
               setCurrentTab(item);
