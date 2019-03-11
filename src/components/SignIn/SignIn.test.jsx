@@ -9,7 +9,6 @@ import 'jest-dom/extend-expect';
 
 afterEach(cleanup);
 jest.mock('axios');
-jest.mock('react-router-dom');
 
 describe('Behavior when not logged in', () => {
   const renderFunction = () => (
