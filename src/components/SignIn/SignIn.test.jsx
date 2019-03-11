@@ -48,6 +48,9 @@ describe('Behavior when not logged in', () => {
           expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/login', { email, password })
         ).then(() => {
           expect(localStorage.getItem('token')).toBe('some_jwt');
+          expect(axios.get).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/auth', {
+            headers: { Authorization: 'Bearer some_jwt' }
+          });
         });
       });
   });
