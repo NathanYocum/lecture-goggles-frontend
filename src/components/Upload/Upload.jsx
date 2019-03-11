@@ -131,7 +131,7 @@ const UploadPage = () => {
           <>
             <LabelStyle htmlFor="subjectName">Subject Name</LabelStyle>
             <InputStyle
-              data-testid="subjectName-upload-input"
+              data-testid="subject-name-upload-input"
               type="text"
               onBlur={handleBlur}
               onChange={handleChange}

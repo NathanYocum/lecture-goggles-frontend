@@ -54,18 +54,18 @@ const SignIn = () => {
   const { signedInAs, setUser } = useContext(AuthContext);
   function handleSignInSubmit(values, actions) {
     const { email, password } = values;
+    const urlToUse = (() => {
+      if (process.env.NODE_ENV === 'development') {
+        return '';
+      }
+      return 'https://api.lecturegoggles.io';
+    })();
     axios
-      .post('/users/login', { email, password })
+      .post(`${urlToUse}/users/login`, { email, password })
       .then(({ data }) => {
         localStorage.setItem('token', data.access_token);
       })
       .then(() => {
-        const urlToUse = (() => {
-          if (process.env.NODE_ENV === 'development') {
-            return '';
-          }
-          return 'https://api.lecturegoggles.io';
-        })();
         const token = localStorage.getItem('token');
         axios
           .get(`${urlToUse}/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
@@ -100,7 +100,7 @@ const SignIn = () => {
                 const { handleSubmit, handleBlur, handleChange, values, errors, dirty, isSubmitting } = formikProps;
                 const hasErrors = !(errors.email === undefined && dirty);
                 return (
-                  <form onSubmit={handleSubmit}>
+                  <form data-testid="sign-in-form" onSubmit={handleSubmit}>
                     <InputStyle
                       data-testid="sign-in-email-input"
                       placeholder="email"
@@ -127,6 +127,7 @@ const SignIn = () => {
                     <br />
                     <ContinueButtonStyle>
                       <GenericButton
+                        testId="sign-in-submit"
                         disabled={isSubmitting || hasErrors}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
