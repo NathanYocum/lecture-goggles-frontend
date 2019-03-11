@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { render, cleanup, fireEvent, wait } from 'react-testing-library';
 import axios from 'axios';
@@ -9,6 +10,7 @@ import 'jest-dom/extend-expect';
 
 afterEach(cleanup);
 jest.mock('axios');
+jest.mock('react-router-dom');
 
 describe('Behavior when not logged in', () => {
   const renderFunction = () => (
@@ -35,24 +37,22 @@ describe('Behavior when not logged in', () => {
     fireEvent.change(queryByTestId('sign-in-email-input'), { target: { value: email } });
     fireEvent.change(queryByTestId('sign-in-password-input'), { target: { value: password } });
 
+    console.error = jest.fn();
+
     axios.post.mockResolvedValue({ data: { access_token: 'some_jwt' } });
     axios.get.mockResolvedValue({ data: { logged_in_as: 'JohnDeer' } });
 
-    await wait(() => expect(queryByTestId('sign-in-submit')).not.toHaveAttribute('disabled'))
-      .then(() => {
-        fireEvent.submit(queryByTestId('sign-in-form'));
-        fireEvent.click(queryByTestId('sign-in-submit'));
-      })
-      .then(() => {
-        wait(() =>
-          expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/login', { email, password })
-        ).then(() => {
-          expect(localStorage.getItem('token')).toBe('some_jwt');
-          expect(axios.get).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/auth', {
-            headers: { Authorization: 'Bearer some_jwt' }
-          });
-        });
+    await wait(() => expect(queryByTestId('sign-in-submit')).not.toHaveAttribute('disabled')).then(() => {
+      fireEvent.click(queryByTestId('sign-in-submit'));
+    });
+    await wait(() =>
+      expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/login', { email, password })
+    ).then(() => {
+      expect(localStorage.getItem('token')).toBe('some_jwt');
+      expect(axios.get).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/auth', {
+        headers: { Authorization: 'Bearer some_jwt' }
       });
+    });
   });
 });
 

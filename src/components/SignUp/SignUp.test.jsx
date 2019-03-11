@@ -1,10 +1,15 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { render, cleanup, fireEvent, waitForElement, wait } from 'react-testing-library';
+import axios from 'axios';
+
 import SignUp from './SignUp';
 import AuthContext from '../../contexts/AuthContext';
 import 'jest-dom/extend-expect';
 
 afterEach(cleanup);
+jest.mock('axios');
+jest.mock('react-router-dom');
 
 const renderSignUp = value => (
   <AuthContext.Provider value={{ signedInAs: value, setUser: () => {} }}>
@@ -124,4 +129,36 @@ it('Lets me choose whether I am an instructor or not', () => {
   expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'no-confirmInstructor');
   fireEvent.click(queryByTestId('yes-confirmInstructor'));
   expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'yes-confirmInstructor');
+});
+
+it('Makes a post to /users/signup request on form submission', async () => {
+  console.log(
+    'There is an error with react-dom and hooks when testing. See: https://github.com/facebook/react/issues/14769#issuecomment-470097212'
+  );
+
+  // Mocking this until fixed
+  console.error = jest.fn();
+
+  const { queryByTestId } = render(renderSignUp(''));
+  fireEvent.change(queryByTestId('user-name-input'), { target: { value: 'JohnDoe' } });
+  fireEvent.change(queryByTestId('first-name-input'), { target: { value: 'John' } });
+  fireEvent.change(queryByTestId('last-name-input'), { target: { value: 'Doe' } });
+  fireEvent.change(queryByTestId('email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(queryByTestId('password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(queryByTestId('confirm-password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(queryByTestId('institution-input'), { target: { value: 'University of Nevada, Reno' } });
+
+  axios.post.mockResolvedValue({ data: true });
+  await wait(() => expect(queryByTestId('continue-button')).not.toHaveAttribute('disabled')).then(() => {
+    fireEvent.click(queryByTestId('continue-button'));
+  });
+  await wait(() =>
+    expect(axios.post).toHaveBeenCalledWith('https://lecturegoggles.io//users/signup', {
+      email: 'example@example.com',
+      password: 'password123!',
+      school: 'University of Nevada, Reno',
+      username: 'JohnDoe'
+    })
+  );
 });
