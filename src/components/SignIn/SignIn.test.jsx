@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, cleanup, fireEvent, wait } from 'react-testing-library';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 import SignIn from './SignIn';
 import AuthContext from '../../contexts/AuthContext';
@@ -56,22 +55,20 @@ describe('Behavior when not logged in', () => {
 });
 
 describe('Behavior while logged in', () => {
+  const renderFunction = () => (
+    <AuthContext.Provider value={{ signedInAs: 'JaneDoe', setUser: () => {} }}>
+      <SignIn />
+    </AuthContext.Provider>
+  );
+
   it('Asks me to logout if I am signed in', () => {
-    const { queryByTestId } = render(
-      <AuthContext.Provider value={{ signedInAs: 'JaneDoe', setUser: () => {} }}>
-        <SignIn />
-      </AuthContext.Provider>
-    );
+    const { queryByTestId } = render(renderFunction());
     expect(queryByTestId('confirm-logout-button')).toBeInTheDocument();
     expect(queryByTestId('cancel-logout-button')).toBeInTheDocument();
   });
 
   it('Deletes my token if I press on the logout button', async () => {
-    const { queryByTestId } = render(
-      <AuthContext.Provider value={{ signedInAs: 'JaneDoe', setUser: () => {} }}>
-        <SignIn />
-      </AuthContext.Provider>
-    );
+    const { queryByTestId } = render(renderFunction());
     localStorage.setItem('token', 'some_jwt_here');
     expect(localStorage.getItem('token')).toMatch(/some_jwt_here/);
     fireEvent.click(queryByTestId('confirm-logout-button'));
