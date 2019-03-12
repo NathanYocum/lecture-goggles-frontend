@@ -8,36 +8,46 @@ import TabBar from './tabBar';
 import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
-const UploadSchema = Yup.object().shape({
-  url: Yup.string()
-    .url('Invalid URL')
-    .required('Required'),
-  title: Yup.string()
-    .max(40, "Titles can't be longer than 40 characters ")
-    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  description: Yup.string()
-    .max(240, "Description can't be longer than 240 characters")
-    .notRequired(),
-  subjectName: Yup.string()
-    .max(40, "Subjects can't be longer than 40 characters")
-    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  topicName: Yup.string()
-    .max(40, "Topics can't be longer than 40 characters")
-    .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  topicBelongsTo: Yup.string()
-    .max(40, "Subject can't be longer than 40 characters")
-    .required('Required')
-});
+function GetUploadSchema(currentTab) {
+  if (currentTab === 'Resource') {
+    return Yup.object().shape({
+      url: Yup.string()
+        .url('Invalid URL')
+        .required('Required'),
+      title: Yup.string()
+        .max(40, "Titles can't be longer than 40 characters ")
+        .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
+        .required('Required'),
+      description: Yup.string()
+        .max(240, "Description can't be longer than 240 characters")
+        .notRequired()
+    });
+  }
+  if (currentTab === 'Subject') {
+    return Yup.object().shape({
+      subjectName: Yup.string()
+        .max(40, "Subjects can't be longer than 40 characters")
+        .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
+        .required('Required')
+    });
+  }
+  return Yup.object().shape({
+    stopicName: Yup.string()
+      .max(40, "Topics can't be longer than 40 characters")
+      .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
+      .required('Required'),
+    topicBelongsTo: Yup.string()
+      .max(40, "Subject can't be longer than 40 characters")
+      .required('Required')
+  });
+}
 
 const UploadPage = () => {
   const [currentTab, setCurrentTab] = useState('Resource');
   const { signedInAs } = useContext(AuthContext);
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
-    const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
+    const { dirty, values, errors, handleBlur, handleChange, isSubmitting, handleSubmit } = formikProps;
     const hasErrors = (errs => {
       if (!dirty) {
         return true;
@@ -54,7 +64,7 @@ const UploadPage = () => {
       return false;
     })(errors);
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         {currentTab === 'Resource' && (
           <>
             <LabelStyle htmlFor="url">URL</LabelStyle>
@@ -177,12 +187,16 @@ const UploadPage = () => {
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.topicBelongsTo}
-              name="topic"
+              name="topicBelongsTo"
+              style={{ height: '36px' }}
             >
               <option>Something</option>
               <option>Something else</option>
               <option>TODO</option>
             </SelectStyle>
+            <br />
+            <br />
+            <br />
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
@@ -213,8 +227,12 @@ const UploadPage = () => {
       topicName: '',
       topicBelongsTo: ''
     }),
-    validationSchema: UploadSchema,
-    displayName: 'Upload Form'
+    validationSchema: GetUploadSchema(currentTab),
+    displayName: 'Upload Form',
+    handleSubmit: (values, actions) => {
+      console.log(values);
+      console.log(actions);
+    }
   })(formToRender);
 
   return (

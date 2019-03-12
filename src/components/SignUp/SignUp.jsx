@@ -95,10 +95,6 @@ const SignUp = () => {
       return 'https://lecturegoggles.io/';
     })();
 
-    setRedirect(true);
-
-    // Need to find what the request will look like here
-    // Also will want this to be to https://api.lecturegoggles.io/...
     axios
       .post(`${urlToUse}/users/signup`, {
         username: values.userName,
@@ -106,7 +102,9 @@ const SignUp = () => {
         password: values.password,
         school: values.institution
       })
-      .then()
+      .then(() => {
+        setRedirect(true);
+      })
       .catch(() => actions.resetForm());
   }
 
