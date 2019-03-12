@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import TabBar from './tabBar';
@@ -215,6 +217,31 @@ const UploadPage = () => {
     );
   };
 
+  function handleFormSubmit(values, actions) {
+    const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+    const token = localStorage.getItem('token');
+    if (values.selectedTab === 'Subject') {
+      axios
+        .post(
+          `${urlToUse}/subject/create`,
+          {
+            subject: values.subjectName
+              .toLowerCase()
+              .split(' ')
+              .map(s => `${s.charAt(0).toUpperCase()}${s.substring(1)}`)
+              .join(' '),
+            description: ''
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(({ data }) => {
+          console.log(data);
+          actions.resetForm();
+        })
+        .catch(() => actions.resetForm());
+    }
+  }
+
   const FormToRender = withFormik({
     mapPropsToValues: () => ({
       selectedTab: currentTab,
@@ -229,10 +256,7 @@ const UploadPage = () => {
     }),
     validationSchema: GetUploadSchema(currentTab),
     displayName: 'Upload Form',
-    handleSubmit: (values, actions) => {
-      console.log(values);
-      console.log(actions);
-    }
+    handleSubmit: handleFormSubmit
   })(formToRender);
 
   return (
@@ -251,6 +275,7 @@ const UploadPage = () => {
           />
           <h1>Upload {currentTab}</h1>
           <FormToRender />
+          {/* <PostErrors /> */}
         </FormContainer>
       )}
     </GridBody>

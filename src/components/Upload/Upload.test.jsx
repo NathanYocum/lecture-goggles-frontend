@@ -1,10 +1,15 @@
 import React from 'react';
 import { cleanup, render, fireEvent, wait } from 'react-testing-library';
+import axios from 'axios';
+
 import UploadPage from './Upload';
 import AuthContext from '../../contexts/AuthContext';
 import 'jest-dom/extend-expect';
+import 'react-router-dom';
 
 afterEach(cleanup);
+jest.mock('axios');
+localStorage.setItem('token', 'some_jwt');
 
 const renderUploadPage = signedInAs => (
   <AuthContext.Provider value={{ signedInAs, setUser: () => {} }}>
@@ -106,5 +111,30 @@ describe('Subject form tests', () => {
     fireEvent.click(queryByTestId('subject-tab'), { button: 0 });
     await wait(() => expect(queryByTestId('subject-form')).toBeInTheDocument());
     expect(queryByTestId('submit-button')).toHaveAttribute('disabled');
+  });
+
+  it('Submits a post request on submission', async () => {
+    const { queryByTestId } = render(renderUploadPage('JaneDoe'));
+    fireEvent.click(queryByTestId('subject-tab'), { button: 0 });
+    await wait(() => expect(queryByTestId('subject-form')).toBeInTheDocument());
+    fireEvent.change(queryByTestId('subject-name-upload-input'), { target: { value: 'Physics' } });
+    axios.post.mockResolvedValue({ success: 'True', code: 400 });
+
+    // Until https://github.com/facebook/react/issues/14769#issuecomment-470097212 fixed
+    console.error = jest.fn();
+
+    await wait(() => expect(queryByTestId('submit-button')).not.toHaveAttribute('disabled')).then(() => {
+      fireEvent.click(queryByTestId('submit-button'));
+    });
+    await wait(() =>
+      expect(axios.post).toHaveBeenCalledWith(
+        'https://api.lecturegoggles.io/subject/create',
+        {
+          description: '',
+          subject: 'Physics'
+        },
+        { headers: { Authorization: 'Bearer some_jwt' } }
+      )
+    );
   });
 });
