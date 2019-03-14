@@ -38,7 +38,7 @@ const AppToRender = () => {
     }
   });
   if (signedInAs === null) {
-    return <></>;
+    return <div />;
   }
   return (
     <AuthContext.Provider value={{ signedInAs, setUser }}>

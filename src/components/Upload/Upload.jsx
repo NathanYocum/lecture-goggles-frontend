@@ -2,42 +2,54 @@ import React, { useState, useContext } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import TabBar from './tabBar';
 import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
-const UploadSchema = Yup.object().shape({
-  url: Yup.string()
-    .url('Invalid URL')
-    .required('Required'),
-  title: Yup.string()
-    .max(40, "Titles can't be longer than 40 characters ")
-    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  description: Yup.string()
-    .max(240, "Description can't be longer than 240 characters")
-    .notRequired(),
-  subjectName: Yup.string()
-    .max(40, "Subjects can't be longer than 40 characters")
-    .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  topicName: Yup.string()
-    .max(40, "Topics can't be longer than 40 characters")
-    .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
-    .required('Required'),
-  topicBelongsTo: Yup.string()
-    .max(40, "Subject can't be longer than 40 characters")
-    .required('Required')
-});
+function GetUploadSchema(currentTab) {
+  if (currentTab === 'Resource') {
+    return Yup.object().shape({
+      url: Yup.string()
+        .url('Invalid URL')
+        .required('Required'),
+      title: Yup.string()
+        .max(40, "Titles can't be longer than 40 characters ")
+        .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
+        .required('Required'),
+      description: Yup.string()
+        .max(240, "Description can't be longer than 240 characters")
+        .notRequired()
+    });
+  }
+  if (currentTab === 'Subject') {
+    return Yup.object().shape({
+      subjectName: Yup.string()
+        .max(40, "Subjects can't be longer than 40 characters")
+        .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
+        .required('Required')
+    });
+  }
+  return Yup.object().shape({
+    stopicName: Yup.string()
+      .max(40, "Topics can't be longer than 40 characters")
+      .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
+      .required('Required'),
+    topicBelongsTo: Yup.string()
+      .max(40, "Subject can't be longer than 40 characters")
+      .required('Required')
+  });
+}
 
 const UploadPage = () => {
   const [currentTab, setCurrentTab] = useState('Resource');
   const { signedInAs } = useContext(AuthContext);
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
-    const { dirty, values, errors, handleBlur, handleChange, isSubmitting } = formikProps;
+    const { dirty, values, errors, handleBlur, handleChange, isSubmitting, handleSubmit } = formikProps;
     const hasErrors = (errs => {
       if (!dirty) {
         return true;
@@ -54,7 +66,7 @@ const UploadPage = () => {
       return false;
     })(errors);
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         {currentTab === 'Resource' && (
           <>
             <LabelStyle htmlFor="url">URL</LabelStyle>
@@ -131,7 +143,7 @@ const UploadPage = () => {
           <>
             <LabelStyle htmlFor="subjectName">Subject Name</LabelStyle>
             <InputStyle
-              data-testid="subjectName-upload-input"
+              data-testid="subject-name-upload-input"
               type="text"
               onBlur={handleBlur}
               onChange={handleChange}
@@ -177,12 +189,16 @@ const UploadPage = () => {
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.topicBelongsTo}
-              name="topic"
+              name="topicBelongsTo"
+              style={{ height: '36px' }}
             >
               <option>Something</option>
               <option>Something else</option>
               <option>TODO</option>
             </SelectStyle>
+            <br />
+            <br />
+            <br />
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
@@ -201,6 +217,27 @@ const UploadPage = () => {
     );
   };
 
+  function handleFormSubmit(values, actions) {
+    const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+    const token = localStorage.getItem('token');
+    if (values.selectedTab === 'Subject') {
+      axios
+        .post(
+          `${urlToUse}/subject/create`,
+          {
+            subject: values.subjectName.toLocaleString().toLowerCase(),
+            description: ''
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(({ data }) => {
+          console.log(data);
+          actions.resetForm();
+        })
+        .catch(() => actions.resetForm());
+    }
+  }
+
   const FormToRender = withFormik({
     mapPropsToValues: () => ({
       selectedTab: currentTab,
@@ -213,8 +250,9 @@ const UploadPage = () => {
       topicName: '',
       topicBelongsTo: ''
     }),
-    validationSchema: UploadSchema,
-    displayName: 'Upload Form'
+    validationSchema: GetUploadSchema(currentTab),
+    displayName: 'Upload Form',
+    handleSubmit: handleFormSubmit
   })(formToRender);
 
   return (
@@ -223,7 +261,7 @@ const UploadPage = () => {
       {signedInAs === '' ? (
         <Redirect to="/signIn" from="/upload" />
       ) : (
-        <FormContainer>
+        <FormContainer data-testid={`${currentTab.toLowerCase()}-form`}>
           <TabBar
             onClickFunction={item => {
               setCurrentTab(item);
@@ -233,6 +271,7 @@ const UploadPage = () => {
           />
           <h1>Upload {currentTab}</h1>
           <FormToRender />
+          {/* <PostErrors /> */}
         </FormContainer>
       )}
     </GridBody>

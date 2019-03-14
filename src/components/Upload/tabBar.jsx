@@ -11,7 +11,7 @@ const TabBar = props => {
           isActive={item === currentTab}
           onClick={() => onClickFunction(item)}
           key={item}
-          data-testid={`${item}-tab`}
+          data-testid={`${item.toLowerCase()}-tab`}
         >
           {item}
         </TabBarTabStyle>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AuthContext from '../../contexts/AuthContext';
 import {
   UnstyledButton,
   CardContainerStyle,
@@ -26,40 +27,48 @@ const ResourceCard = ({
   timeStamp,
   description,
   url
-}) => (
-  <CardContainerStyle>
-    <TitleStyle>{title}</TitleStyle>
-    <ItemStyle>
-      {subject} - {topic}
-    </ItemStyle>
-    <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
-    <PreviewA href={url}>
-      <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
-    </PreviewA>
-    <PreviewLink href={url}>
-      <LinkStyle>{url.length < 42 ? url : `${url.substring(0, 39)}...`}</LinkStyle>
-    </PreviewLink>
-    <ItemStyle>Uploaded by {author}</ItemStyle>
-    {/* Todo: Match style docuement for these */}
-    <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
-    <br />
-    <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
-    <br />
-    <DescriptionStyle>{description}</DescriptionStyle>
-    <br />
-    <BottomContainer>
-      <UnstyledButton data-testid={`${title}-upvote-arrow`}>
-        <FontAwesomeIcon icon="arrow-up" />
-      </UnstyledButton>
-      <UnstyledButton data-testid={`${title}-downvote-arrow`}>
-        <FontAwesomeIcon icon="arrow-down" />
-      </UnstyledButton>
-      <UnstyledButton data-testid={`${title}-options`}>
-        <FontAwesomeIcon icon="ellipsis-v" />
-      </UnstyledButton>
-    </BottomContainer>
-  </CardContainerStyle>
-);
+}) => {
+  const { signedInAs } = useContext(AuthContext);
+  return (
+    <CardContainerStyle>
+      <TitleStyle>{title}</TitleStyle>
+      <ItemStyle>
+        {subject} - {topic}
+      </ItemStyle>
+      <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
+      <PreviewA href={url}>
+        <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
+      </PreviewA>
+      <PreviewLink href={url}>
+        <LinkStyle>{url.length < 42 ? url : `${url.substring(0, 39)}...`}</LinkStyle>
+      </PreviewLink>
+      <ItemStyle>Uploaded by {author}</ItemStyle>
+      {/* Todo: Match style docuement for these */}
+      <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
+      <br />
+      <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
+      <br />
+      <DescriptionStyle>{description}</DescriptionStyle>
+      <BottomContainer>
+        {signedInAs === '' ? (
+          <a href="/signIn">Sign in to vote!</a>
+        ) : (
+          <>
+            <UnstyledButton data-testid={`${title}-upvote-arrow`}>
+              <FontAwesomeIcon icon="arrow-up" />
+            </UnstyledButton>
+            <UnstyledButton data-testid={`${title}-downvote-arrow`}>
+              <FontAwesomeIcon icon="arrow-down" />
+            </UnstyledButton>
+            <UnstyledButton data-testid={`${title}-options`}>
+              <FontAwesomeIcon icon="ellipsis-v" />
+            </UnstyledButton>
+          </>
+        )}
+      </BottomContainer>
+    </CardContainerStyle>
+  );
+};
 
 ResourceCard.propTypes = {
   title: PropTypes.string.isRequired,

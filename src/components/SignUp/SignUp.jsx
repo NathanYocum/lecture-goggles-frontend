@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Formik } from 'formik';
@@ -8,6 +8,7 @@ import GenericButton from '../button/button';
 import GridBody from '../gridBody';
 import FullLectureGogglesLogo from '../logo/fullLogo';
 import { InputStyle } from '../__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -94,10 +95,6 @@ const SignUp = () => {
       return 'https://lecturegoggles.io/';
     })();
 
-    setRedirect(true);
-
-    // Need to find what the request will look like here
-    // Also will want this to be to https://api.lecturegoggles.io/...
     axios
       .post(`${urlToUse}/users/signup`, {
         username: values.userName,
@@ -105,214 +102,241 @@ const SignUp = () => {
         password: values.password,
         school: values.institution
       })
-      .then()
+      .then(() => {
+        setRedirect(true);
+      })
       .catch(() => actions.resetForm());
   }
+
+  const { signedInAs } = useContext(AuthContext);
   return (
     <GridBody data-testid="sign-up">
       {isRedirecting && <Redirect to="/" />}
-      <LogoStyle>
-        <FullLectureGogglesLogo width={250} height={100} />
-      </LogoStyle>
-      <WelcomeStyle>
-        <Formik
-          onSubmit={handleFormSubmit}
-          initialValues={{
-            userName: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            confirmEmail: '',
-            password: '',
-            confirmPassword: '',
-            institution: '',
-            confirmInstructor: 'no-confirmInstructor'
-          }}
-          validationSchema={SignUpSchema}
-          render={renderProps => {
-            const { handleSubmit, handleBlur, handleChange, values, errors, isSubmitting, dirty } = renderProps;
-            const hasErrors = !(
-              dirty &&
-              errors.userName === undefined &&
-              errors.email === undefined &&
-              errors.firstName === undefined &&
-              errors.lastName === undefined &&
-              errors.password === undefined &&
-              errors.confirmEmail === undefined &&
-              errors.confirmEmail === undefined &&
-              errors.institution === undefined
-            );
-            return (
-              <form onSubmit={handleSubmit}>
-                <LabelStyle htmlFor="userName">
-                  User Name
-                  <br />
-                  <InputStyle
-                    data-testid="user-name-input"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    hasErrors={errors.userName}
-                    value={values.userName}
-                    type="text"
-                    name="userName"
-                  />
-                  {errors.userName && <ErrorDiv data-testid="user-name-error">{errors.userName}</ErrorDiv>}
-                </LabelStyle>
-                <LabelStyle htmlFor="firstName">
-                  First Name
-                  <br />
-                  <InputStyle
-                    data-testid="first-name-input"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    hasErrors={errors.firstName}
-                    value={values.firstName}
-                    type="text"
-                    name="firstName"
-                  />
-                  {errors.firstName && <ErrorDiv data-testid="first-name-error">{errors.firstName}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="lastName">
-                  Last Name
-                  <br />
-                  <InputStyle
-                    data-testid="last-name-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.lastName}
-                    value={values.lastName}
-                    type="text"
-                    name="lastName"
-                  />
-                  {errors.lastName && <ErrorDiv data-testid="last-name-error">{errors.lastName}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="email">
-                  Email
-                  <br />
-                  <InputStyle
-                    data-testid="email-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.email}
-                    value={values.email}
-                    type="email"
-                    name="email"
-                  />
-                  {errors.email && <ErrorDiv data-testid="email-error">{errors.email}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="confirmEmail">
-                  Confirm Email
-                  <br />
-                  <InputStyle
-                    data-testid="confirm-email-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.confirmEmail}
-                    value={values.confirmEmail}
-                    type="email"
-                    name="confirmEmail"
-                  />
-                  {errors.confirmEmail && <ErrorDiv data-testid="confirm-email-error">{errors.confirmEmail}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="password">
-                  Password
-                  <br />
-                  <InputStyle
-                    data-testid="password-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.password}
-                    value={values.password}
-                    type="password"
-                    name="password"
-                  />
-                  {errors.password && <ErrorDiv data-testid="password-error">{errors.password}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="confirmPassword">
-                  Confirm Password
-                  <br />
-                  <InputStyle
-                    data-testid="confirm-password-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.confirmPassword}
-                    value={values.confirmPassword}
-                    type="password"
-                    name="confirmPassword"
-                  />
-                  {errors.confirmPassword && (
-                    <ErrorDiv data-testid="confirm-password-error">{errors.confirmPassword}</ErrorDiv>
-                  )}
-                </LabelStyle>
-                <br />
-                <LabelStyle htmlFor="institution">
-                  Institution
-                  <br />
-                  <InputStyle
-                    data-testid="institution-input"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    hasErrors={errors.institution}
-                    value={values.institution}
-                    type="text"
-                    name="institution"
-                  />
-                  {errors.institution && <ErrorDiv data-testid="institution-error">{errors.institution}</ErrorDiv>}
-                </LabelStyle>
-                <br />
-                <LabelStyle
-                  value={values.confirmInstructor}
-                  data-testid="confirmInstructor"
-                  htmlFor="confirmInstructor"
-                >
-                  Are you an instructor at your institution?
-                  <br />
-                  <input
-                    data-testid="yes-confirmInstructor"
-                    type="radio"
-                    value="yes-confirmInstructor"
-                    name="confirmInstructor"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    checked={values.confirmInstructor === 'yes-confirmInstructor'}
-                  />
-                  Yes
-                  <input
-                    data-testid="no-confirmInstructor"
-                    type="radio"
-                    value="no-confirmInstructor"
-                    name="confirmInstructor"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    checked={values.confirmInstructor === 'no-confirmInstructor'}
-                  />
-                  No
-                </LabelStyle>
-                <br />
-                <ContinueButtonStyle>
-                  <GenericButton
-                    disabled={hasErrors || isSubmitting}
-                    borderColor={hasErrors ? '#888888' : '#0d47a1'}
-                    color={hasErrors ? '#333333' : '#ffffff'}
-                    backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-                    testId="continue-button"
-                    type="submit"
-                    text="Continue"
-                  />
-                  <a href="/">
-                    <GenericButton testId="cancel-button" backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
-                  </a>
-                </ContinueButtonStyle>
-              </form>
-            );
-          }}
-        />
-      </WelcomeStyle>
+      {signedInAs === '' ? (
+        <>
+          <LogoStyle>
+            <FullLectureGogglesLogo width={250} height={100} />
+          </LogoStyle>
+          <WelcomeStyle>
+            <Formik
+              onSubmit={handleFormSubmit}
+              initialValues={{
+                userName: '',
+                firstName: '',
+                lastName: '',
+                email: '',
+                confirmEmail: '',
+                password: '',
+                confirmPassword: '',
+                institution: '',
+                confirmInstructor: 'no-confirmInstructor'
+              }}
+              validationSchema={SignUpSchema}
+              render={renderProps => {
+                const { handleSubmit, handleBlur, handleChange, values, errors, isSubmitting, dirty } = renderProps;
+                const hasErrors = !(
+                  dirty &&
+                  errors.userName === undefined &&
+                  errors.email === undefined &&
+                  errors.firstName === undefined &&
+                  errors.lastName === undefined &&
+                  errors.password === undefined &&
+                  errors.confirmEmail === undefined &&
+                  errors.confirmEmail === undefined &&
+                  errors.institution === undefined
+                );
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <LabelStyle htmlFor="userName">
+                      User Name
+                      <br />
+                      <InputStyle
+                        data-testid="user-name-input"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        hasErrors={errors.userName}
+                        value={values.userName}
+                        type="text"
+                        name="userName"
+                      />
+                      {errors.userName && <ErrorDiv data-testid="user-name-error">{errors.userName}</ErrorDiv>}
+                    </LabelStyle>
+                    <LabelStyle htmlFor="firstName">
+                      First Name
+                      <br />
+                      <InputStyle
+                        data-testid="first-name-input"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        hasErrors={errors.firstName}
+                        value={values.firstName}
+                        type="text"
+                        name="firstName"
+                      />
+                      {errors.firstName && <ErrorDiv data-testid="first-name-error">{errors.firstName}</ErrorDiv>}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="lastName">
+                      Last Name
+                      <br />
+                      <InputStyle
+                        data-testid="last-name-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.lastName}
+                        value={values.lastName}
+                        type="text"
+                        name="lastName"
+                      />
+                      {errors.lastName && <ErrorDiv data-testid="last-name-error">{errors.lastName}</ErrorDiv>}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="email">
+                      Email
+                      <br />
+                      <InputStyle
+                        data-testid="email-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.email}
+                        value={values.email}
+                        type="email"
+                        name="email"
+                      />
+                      {errors.email && <ErrorDiv data-testid="email-error">{errors.email}</ErrorDiv>}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="confirmEmail">
+                      Confirm Email
+                      <br />
+                      <InputStyle
+                        data-testid="confirm-email-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.confirmEmail}
+                        value={values.confirmEmail}
+                        type="email"
+                        name="confirmEmail"
+                      />
+                      {errors.confirmEmail && (
+                        <ErrorDiv data-testid="confirm-email-error">{errors.confirmEmail}</ErrorDiv>
+                      )}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="password">
+                      Password
+                      <br />
+                      <InputStyle
+                        data-testid="password-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.password}
+                        value={values.password}
+                        type="password"
+                        name="password"
+                      />
+                      {errors.password && <ErrorDiv data-testid="password-error">{errors.password}</ErrorDiv>}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="confirmPassword">
+                      Confirm Password
+                      <br />
+                      <InputStyle
+                        data-testid="confirm-password-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.confirmPassword}
+                        value={values.confirmPassword}
+                        type="password"
+                        name="confirmPassword"
+                      />
+                      {errors.confirmPassword && (
+                        <ErrorDiv data-testid="confirm-password-error">{errors.confirmPassword}</ErrorDiv>
+                      )}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle htmlFor="institution">
+                      Institution
+                      <br />
+                      <InputStyle
+                        data-testid="institution-input"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.institution}
+                        value={values.institution}
+                        type="text"
+                        name="institution"
+                      />
+                      {errors.institution && <ErrorDiv data-testid="institution-error">{errors.institution}</ErrorDiv>}
+                    </LabelStyle>
+                    <br />
+                    <LabelStyle
+                      value={values.confirmInstructor}
+                      data-testid="confirmInstructor"
+                      htmlFor="confirmInstructor"
+                    >
+                      Are you an instructor at your institution?
+                      <br />
+                      <input
+                        data-testid="yes-confirmInstructor"
+                        type="radio"
+                        value="yes-confirmInstructor"
+                        name="confirmInstructor"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        checked={values.confirmInstructor === 'yes-confirmInstructor'}
+                      />
+                      Yes
+                      <input
+                        data-testid="no-confirmInstructor"
+                        type="radio"
+                        value="no-confirmInstructor"
+                        name="confirmInstructor"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        checked={values.confirmInstructor === 'no-confirmInstructor'}
+                      />
+                      No
+                    </LabelStyle>
+                    <br />
+                    <ContinueButtonStyle>
+                      <GenericButton
+                        disabled={hasErrors || isSubmitting}
+                        borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                        color={hasErrors ? '#333333' : '#ffffff'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        testId="continue-button"
+                        type="submit"
+                        text="Continue"
+                      />
+                      <a href="/">
+                        <GenericButton testId="cancel-button" backgroundColor="#90A4AE" color="#0D47A1" text="Cancel" />
+                      </a>
+                    </ContinueButtonStyle>
+                  </form>
+                );
+              }}
+            />
+          </WelcomeStyle>
+        </>
+      ) : (
+        <>
+          <h3 style={{ gridColumn: 2, gridRow: 2 }}>You are signed in as {signedInAs}, would you like to sign out? </h3>
+          <ContinueButtonStyle>
+            <a href="/newAccount">
+              <GenericButton
+                onClickFunction={() => localStorage.removeItem('token')}
+                height="56px"
+                width="50%"
+                text="Yes"
+              />
+            </a>
+            <a href="/">
+              <GenericButton backgroundColor="#90a4ae" color="#0074d9" height="56px" width="50%" text="No" />
+            </a>
+          </ContinueButtonStyle>
+        </>
+      )}
     </GridBody>
   );
 };

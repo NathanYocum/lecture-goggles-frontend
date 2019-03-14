@@ -1,12 +1,24 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { render, cleanup, fireEvent, waitForElement, wait } from 'react-testing-library';
+import axios from 'axios';
+
 import SignUp from './SignUp';
+import AuthContext from '../../contexts/AuthContext';
 import 'jest-dom/extend-expect';
 
 afterEach(cleanup);
+jest.mock('axios');
+jest.mock('react-router-dom');
+
+const renderSignUp = value => (
+  <AuthContext.Provider value={{ signedInAs: value, setUser: () => {} }}>
+    <SignUp />
+  </AuthContext.Provider>
+);
 
 it('Renders an error when I type in an incorrect first name', async () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   fireEvent.change(queryByTestId('first-name-input'), { target: { value: '---' } });
   await waitForElement(() => queryByTestId('first-name-error'));
 
@@ -15,7 +27,7 @@ it('Renders an error when I type in an incorrect first name', async () => {
 });
 
 it('Renders an error when I type in an incorrect last name', async () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   fireEvent.change(queryByTestId('last-name-input'), { target: { value: '---' } });
   await waitForElement(() => queryByTestId('last-name-error'));
 
@@ -24,7 +36,7 @@ it('Renders an error when I type in an incorrect last name', async () => {
 });
 
 it('Renders an error when I type in an incorrect email', async () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   fireEvent.change(queryByTestId('email-input'), { target: { value: '---' } });
   fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: '---' } });
   await waitForElement(() => queryByTestId('email-error'));
@@ -36,7 +48,7 @@ it('Renders an error when I type in an incorrect email', async () => {
 });
 
 it('Renders an error with two correct emails, and the error disappears after the emails match', async () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   fireEvent.change(queryByTestId('email-input'), { target: { value: 'example@example.com' } });
   fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'test@test.com' } });
   await waitForElement(() => queryByTestId('email-error'));
@@ -56,7 +68,7 @@ it('Renders an error with two correct emails, and the error disappears after the
 });
 
 it('Renders an error when password is < 6 characters', async () => {
-  const { getByTestId } = render(<SignUp />);
+  const { getByTestId } = render(renderSignUp(''));
   fireEvent.change(getByTestId('password-input'), { target: { value: '!1A' } });
   fireEvent.change(getByTestId('confirm-password-input'), { target: { value: '!1A' } });
   await waitForElement(() => getByTestId('confirm-password-error'));
@@ -70,7 +82,7 @@ it('Renders an error when password is < 6 characters', async () => {
 });
 
 it('Renders an error when passwords do not match, that disappears when the passwords do match', async () => {
-  const { queryByTestId, getByTestId } = render(<SignUp />);
+  const { queryByTestId, getByTestId } = render(renderSignUp(''));
   fireEvent.change(getByTestId('password-input'), { target: { value: 'password123!' } });
   fireEvent.change(getByTestId('confirm-password-input'), { target: { value: '123password!' } });
   await waitForElement(() => [getByTestId('confirm-password-error'), getByTestId('password-error')]);
@@ -85,7 +97,7 @@ it('Renders an error when passwords do not match, that disappears when the passw
 });
 
 it('Renders an error when no institution is included', async () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   fireEvent.change(queryByTestId('institution-input'), { target: { value: ' ' } });
   fireEvent.change(queryByTestId('institution-input'), { target: { value: '' } });
   await waitForElement(() => queryByTestId('institution-error'));
@@ -93,7 +105,7 @@ it('Renders an error when no institution is included', async () => {
 });
 
 it('Does not render any errors when the form is filled out correctly', async () => {
-  const { queryByTestId, getByTestId } = render(<SignUp />);
+  const { queryByTestId, getByTestId } = render(renderSignUp(''));
   fireEvent.change(getByTestId('user-name-input'), { target: { value: 'JohnDoe' } });
   fireEvent.change(getByTestId('first-name-input'), { target: { value: 'John' } });
   fireEvent.change(getByTestId('last-name-input'), { target: { value: 'Doe' } });
@@ -107,7 +119,7 @@ it('Does not render any errors when the form is filled out correctly', async () 
 });
 
 it('Lets me choose whether I am an instructor or not', () => {
-  const { queryByTestId } = render(<SignUp />);
+  const { queryByTestId } = render(renderSignUp(''));
   expect(queryByTestId('yes-confirmInstructor').value).toBe('yes-confirmInstructor');
   expect(queryByTestId('yes-confirmInstructor')).not.toHaveAttribute('checked');
   expect(queryByTestId('no-confirmInstructor').value).toBe('no-confirmInstructor');
@@ -117,4 +129,36 @@ it('Lets me choose whether I am an instructor or not', () => {
   expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'no-confirmInstructor');
   fireEvent.click(queryByTestId('yes-confirmInstructor'));
   expect(queryByTestId('confirmInstructor')).toHaveAttribute('value', 'yes-confirmInstructor');
+});
+
+it('Makes a post to /users/signup request on form submission', async () => {
+  console.log(
+    'There is an error with react-dom and hooks when testing. See: https://github.com/facebook/react/issues/14769#issuecomment-470097212'
+  );
+
+  // Mocking this until fixed
+  console.error = jest.fn();
+
+  const { queryByTestId } = render(renderSignUp(''));
+  fireEvent.change(queryByTestId('user-name-input'), { target: { value: 'JohnDoe' } });
+  fireEvent.change(queryByTestId('first-name-input'), { target: { value: 'John' } });
+  fireEvent.change(queryByTestId('last-name-input'), { target: { value: 'Doe' } });
+  fireEvent.change(queryByTestId('email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(queryByTestId('confirm-email-input'), { target: { value: 'example@example.com' } });
+  fireEvent.change(queryByTestId('password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(queryByTestId('confirm-password-input'), { target: { value: 'password123!' } });
+  fireEvent.change(queryByTestId('institution-input'), { target: { value: 'University of Nevada, Reno' } });
+
+  axios.post.mockResolvedValue({ data: true });
+  await wait(() => expect(queryByTestId('continue-button')).not.toHaveAttribute('disabled')).then(() => {
+    fireEvent.click(queryByTestId('continue-button'));
+  });
+  await wait(() =>
+    expect(axios.post).toHaveBeenCalledWith('https://lecturegoggles.io//users/signup', {
+      email: 'example@example.com',
+      password: 'password123!',
+      school: 'University of Nevada, Reno',
+      username: 'JohnDoe'
+    })
+  );
 });
