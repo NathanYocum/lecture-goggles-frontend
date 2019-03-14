@@ -92,7 +92,7 @@ const SignUp = () => {
       if (process.env.NODE_ENV === 'development') {
         return '';
       }
-      return 'https://lecturegoggles.io/';
+      return 'https://api.lecturegoggles.io';
     })();
 
     axios
