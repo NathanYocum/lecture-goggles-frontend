@@ -131,7 +131,7 @@ describe('Subject form tests', () => {
         'https://api.lecturegoggles.io/subject/create',
         {
           description: '',
-          subject: 'Physics'
+          subject: 'physics'
         },
         { headers: { Authorization: 'Bearer some_jwt' } }
       )

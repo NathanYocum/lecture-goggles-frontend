@@ -225,11 +225,7 @@ const UploadPage = () => {
         .post(
           `${urlToUse}/subject/create`,
           {
-            subject: values.subjectName
-              .toLowerCase()
-              .split(' ')
-              .map(s => `${s.charAt(0).toUpperCase()}${s.substring(1)}`)
-              .join(' '),
+            subject: values.subjectName.toLocaleString().toLowerCase(),
             description: ''
           },
           { headers: { Authorization: `Bearer ${token}` } }
