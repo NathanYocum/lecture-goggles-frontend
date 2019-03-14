@@ -28,7 +28,7 @@ const AppToRender = () => {
       if (process.env.NODE_ENV === 'development') {
         return '';
       }
-      return 'https://api.lecturegoggles.io';
+      return 'http://api.lecturegoggles.io';
     })();
     const token = localStorage.getItem('token');
     if (token) {

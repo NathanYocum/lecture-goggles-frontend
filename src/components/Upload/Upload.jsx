@@ -218,7 +218,7 @@ const UploadPage = () => {
   };
 
   function handleFormSubmit(values, actions) {
-    const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+    const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
     const token = localStorage.getItem('token');
     if (values.selectedTab === 'Subject') {
       axios

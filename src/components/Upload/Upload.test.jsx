@@ -128,7 +128,7 @@ describe('Subject form tests', () => {
     });
     await wait(() =>
       expect(axios.post).toHaveBeenCalledWith(
-        'https://api.lecturegoggles.io/subject/create',
+        'http://api.lecturegoggles.io/subject/create',
         {
           description: '',
           subject: 'physics'
