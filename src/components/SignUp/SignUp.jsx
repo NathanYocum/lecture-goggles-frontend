@@ -99,6 +99,8 @@ const SignUp = () => {
       .post(`${urlToUse}/users/signup`, {
         username: values.userName,
         email: values.email,
+        firstname: values.firstName,
+        lastname: values.lastName,
         password: values.password,
         school: values.institution
       })

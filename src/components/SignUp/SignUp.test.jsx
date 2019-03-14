@@ -157,6 +157,8 @@ it('Makes a post to /users/signup request on form submission', async () => {
     expect(axios.post).toHaveBeenCalledWith('https://lecturegoggles.io//users/signup', {
       email: 'example@example.com',
       password: 'password123!',
+      firstname: 'John',
+      lastname: 'Doe',
       school: 'University of Nevada, Reno',
       username: 'JohnDoe'
     })
