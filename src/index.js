@@ -5,11 +5,19 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import axios from 'axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronDown, faChevronUp, faArrowUp, faArrowDown, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faChevronUp,
+  faArrowUp,
+  faArrowDown,
+  faEllipsisV,
+  faUser,
+  faUserPlus
+} from '@fortawesome/free-solid-svg-icons';
 import App from './App';
 import AuthContext from './contexts/AuthContext';
 
-library.add(faChevronDown, faChevronUp, faArrowUp, faArrowDown, faEllipsisV);
+library.add(faChevronDown, faChevronUp, faArrowUp, faArrowDown, faEllipsisV, faUser, faUserPlus);
 
 const history = createBrowserHistory();
 

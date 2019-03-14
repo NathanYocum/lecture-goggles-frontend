@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import HamburgerButton from './hamburgerButton/hamburgerButton';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import AuthContext from '../../contexts/AuthContext';
@@ -128,9 +130,15 @@ const NavBar = props => {
           !renderMenu && (
             <>
               <NavItem>
-                <NavLink data-testid="sign-in-link-mobile" href="/signIn">
-                  Sign In
-                </NavLink>
+                {signedInAs === '' ? (
+                  <NavLink data-testid="sign-in-link-mobile" href="/signIn">
+                    <FontAwesomeIcon icon="user-plus" size="lg" />
+                  </NavLink>
+                ) : (
+                  <NavLink data-testid="account-link-mobile" href="/account">
+                    <FontAwesomeIcon icon="user" size="lg" />
+                  </NavLink>
+                )}
               </NavItem>
             </>
           )
@@ -164,16 +172,39 @@ const NavBar = props => {
             </NavLink>
           </MenuItem>
           <br />
-          <MenuItem>
-            <NavLink data-testid="sign-in-link-menu" href="/signIn">
-              Sign In
-            </NavLink>
-          </MenuItem>
-          <MenuItem>
-            <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
-              Create an Account
-            </NavLink>
-          </MenuItem>
+          {signedInAs === '' ? (
+            <>
+              <MenuItem>
+                <NavLink data-testid="sign-in-link-menu" href="/signIn">
+                  Sign In
+                </NavLink>
+              </MenuItem>
+              <MenuItem>
+                <NavLink data-testid="create-an-account-link-menu" href="/newAccount">
+                  Create an Account
+                </NavLink>
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem>
+                <NavLink data-testid="account-link-menu" href="/account">
+                  Account
+                </NavLink>
+              </MenuItem>
+              <MenuItem>
+                <NavLink
+                  data-testid="logout-link-menu"
+                  href="."
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                  }}
+                >
+                  Logout
+                </NavLink>
+              </MenuItem>
+            </>
+          )}
         </>
       )}
     </NavBarStyle>
