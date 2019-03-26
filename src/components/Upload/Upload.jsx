@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import GenericButton from '../button/button';
 import GridBody from '../gridBody';
@@ -30,7 +31,10 @@ function GetUploadSchema(currentTab) {
       subjectName: Yup.string()
         .max(40, "Subjects can't be longer than 40 characters")
         .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Subjects can only contain alpha-numeric characters, hyphens, and spaces')
-        .required('Required')
+        .required('Required'),
+      subjectDescription: Yup.string()
+        .max(240, "Description can't be longer than 240 characters")
+        .notRequired()
     });
   }
   return Yup.object().shape({
@@ -45,8 +49,24 @@ function GetUploadSchema(currentTab) {
 }
 
 const UploadPage = () => {
+  const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+
+  const [subjects, setSubjects] = useState([]);
   const [currentTab, setCurrentTab] = useState('Resource');
+  const [submitMessage, setSubmitMessage] = useState({ success: '', error: '' });
   const { signedInAs } = useContext(AuthContext);
+
+  useEffect(() => {
+    axios
+      .get(`${urlToUse}/subject`)
+      .then(response => setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id }))));
+  }, []);
+  useEffect(() => {
+    axios
+      .get(`${urlToUse}/subject`)
+      .then(response => setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id }))));
+  }, [currentTab, urlToUse]);
+
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
     const { dirty, values, errors, handleBlur, handleChange, isSubmitting, handleSubmit } = formikProps;
@@ -114,9 +134,9 @@ const UploadPage = () => {
             )}
             Subject
             <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.subject} name="subject">
-              <option>Accounting</option>
-              <option>Agriculture</option>
-              <option>TODO</option>
+              {subjects.map(subject => (
+                <option key={subject.subject}>{subject.subject}</option>
+              ))}
             </SelectStyle>
             Topic
             <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
@@ -192,9 +212,9 @@ const UploadPage = () => {
               name="topicBelongsTo"
               style={{ height: '36px' }}
             >
-              <option>Something</option>
-              <option>Something else</option>
-              <option>TODO</option>
+              {subjects.map(subject => (
+                <option key={subject.subject}>{subject.subject}</option>
+              ))}
             </SelectStyle>
             <br />
             <br />
@@ -213,29 +233,54 @@ const UploadPage = () => {
             />
           </>
         )}
+        {submitMessage.success && (
+          <div style={{ color: '#0074d9', marginTop: '40px', border: '1px solid #0074d9' }}>
+            <FontAwesomeIcon icon="check-circle" style={{ paddingRight: '16px' }} />
+            {submitMessage.success}
+          </div>
+        )}
+        {submitMessage.error && (
+          <div style={{ color: '#ff2200', marginTop: '40px', border: '1px solid #ff2200' }}>{submitMessage.error}</div>
+        )}
       </form>
     );
   };
 
-  function handleFormSubmit(values, actions) {
-    const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+  function createSubject(subject, description) {
     const token = localStorage.getItem('token');
+    axios
+      .post(
+        `${urlToUse}/subject/create`,
+        {
+          subject,
+          description
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(response => {
+        if (response.status === 200) {
+          setSubmitMessage({ success: `Created subject ${subject}!` });
+        }
+      })
+      .catch(error => {
+        setSubmitMessage({ error: `Error ${error.response.status}: ${error.response.data.message}` });
+      });
+  }
+
+  function handleFormSubmit(values, actions) {
     if (values.selectedTab === 'Subject') {
-      axios
-        .post(
-          `${urlToUse}/subject/create`,
-          {
-            subject: values.subjectName.toLocaleString().toLowerCase(),
-            description: ''
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then(({ data }) => {
-          console.log(data);
-          actions.resetForm();
-        })
-        .catch(() => actions.resetForm());
+      createSubject(
+        values.subjectName.toLocaleString().toLowerCase(),
+        values.subjectDescription.toLocaleString().toLowerCase()
+      );
     }
+    // if (values.selectedTab === 'Topic') {
+    //   createSubject(
+    //     values.subjectName.toLocaleString().toLowerCase(),
+    //     values.subjectDescription.toLocaleString().toLowerCase()
+    //   );
+    // }
+    actions.setSubmitting(false);
   }
 
   const FormToRender = withFormik({
@@ -245,6 +290,7 @@ const UploadPage = () => {
       title: '',
       description: '',
       subject: '',
+      subjectDescription: '',
       topic: '',
       subjectName: '',
       topicName: '',
@@ -265,13 +311,14 @@ const UploadPage = () => {
           <TabBar
             onClickFunction={item => {
               setCurrentTab(item);
+              // Clear any submit messages
+              setSubmitMessage({ success: '', error: '' });
             }}
             currentTab={currentTab}
             tabNames={['Resource', 'Subject', 'Topic']}
           />
           <h1>Upload {currentTab}</h1>
           <FormToRender />
-          {/* <PostErrors /> */}
         </FormContainer>
       )}
     </GridBody>
