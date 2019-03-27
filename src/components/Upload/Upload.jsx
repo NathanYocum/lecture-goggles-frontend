@@ -23,7 +23,13 @@ function GetUploadSchema(currentTab) {
         .required('Required'),
       description: Yup.string()
         .max(240, "Description can't be longer than 240 characters")
-        .notRequired()
+        .notRequired(),
+      subject: Yup.number()
+        .integer()
+        .required('Required'),
+      topic: Yup.number()
+        .integer()
+        .required('Required')
     });
   }
   if (currentTab === 'Subject') {
@@ -38,7 +44,7 @@ function GetUploadSchema(currentTab) {
     });
   }
   return Yup.object().shape({
-    stopicName: Yup.string()
+    topicName: Yup.string()
       .max(40, "Topics can't be longer than 40 characters")
       .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
       .required('Required'),
@@ -48,24 +54,21 @@ function GetUploadSchema(currentTab) {
   });
 }
 
-const UploadPage = () => {
-  const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
 
-  const [subjects, setSubjects] = useState([]);
+const UploadPage = () => {
+  const [subjects, setSubjects] = useState([{ id: '', subject: '' }]);
   const [currentTab, setCurrentTab] = useState('Resource');
   const [submitMessage, setSubmitMessage] = useState({ success: '', error: '' });
   const { signedInAs } = useContext(AuthContext);
 
   useEffect(() => {
-    axios
-      .get(`${urlToUse}/subject`)
-      .then(response => setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id }))));
+    axios.get(`${urlToUse}/subject`).then(response => {
+      if (response.data.subjects[0].length !== 0) {
+        setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+      }
+    });
   }, []);
-  useEffect(() => {
-    axios
-      .get(`${urlToUse}/subject`)
-      .then(response => setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id }))));
-  }, [currentTab, urlToUse]);
 
   let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
   formToRender = formikProps => {
@@ -75,16 +78,29 @@ const UploadPage = () => {
         return true;
       }
       if (currentTab === 'Resource') {
-        return !(errs.url === undefined && errs.title === undefined);
+        return !(
+          errs.url === undefined &&
+          errs.title === undefined &&
+          errs.description === undefined &&
+          errs.subject === undefined &&
+          errs.topic === undefined
+        );
       }
       if (currentTab === 'Subject') {
         return !(errs.subjectName === undefined);
       }
       if (currentTab === 'Topic') {
-        return !(errs.topicName === undefined && errs.topicBelongsTo === undefined);
+        return !(errs.topicName === undefined) && !(errs.topicBelongsTo === undefined);
       }
       return false;
     })(errors);
+
+    if (values.subject !== '') {
+      axios.get(`${urlToUse}/${values.subject}/topic`).then(response => {
+        // eslint-disable-next-line prefer-destructuring
+        values.topics = response.data.topics[0];
+      });
+    }
     return (
       <form onSubmit={handleSubmit}>
         {currentTab === 'Resource' && (
@@ -133,17 +149,38 @@ const UploadPage = () => {
               <></>
             )}
             Subject
-            <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.subject} name="subject">
+            <SelectStyle
+              type="text"
+              onBlur={handleBlur}
+              onChange={e => {
+                values.topic = '';
+                handleChange(e);
+              }}
+              value={values.subject}
+              name="subject"
+            >
+              <option value="">Chose one</option>
               {subjects.map(subject => (
-                <option key={subject.subject}>{subject.subject}</option>
+                <option value={subject.id} key={subject.id}>
+                  {subject.subject}
+                </option>
               ))}
             </SelectStyle>
-            Topic
-            <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
-              <option>TODO</option>
-              <option>TODO</option>
-              <option>TODO</option>
-            </SelectStyle>
+            {errors.subject ? <ErrorDiv data-testid="subject-upload-error">{errors.subject}</ErrorDiv> : <></>}
+            {values.subject !== '' && (
+              <>
+                Topic
+                <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
+                  <option value="">Choose One</option>
+                  {values.topics.map(topic => (
+                    <option value={topic.id} key={topic.id}>
+                      {topic.topic}
+                    </option>
+                  ))}
+                </SelectStyle>
+                {errors.topic ? <ErrorDiv data-testid="topic-upload-error">{errors.topic}</ErrorDiv> : <></>}
+              </>
+            )}
             <br />
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
@@ -213,12 +250,11 @@ const UploadPage = () => {
               style={{ height: '36px' }}
             >
               {subjects.map(subject => (
-                <option key={subject.subject}>{subject.subject}</option>
+                <option value={subject.id} key={subject.id}>
+                  {subject.subject}
+                </option>
               ))}
             </SelectStyle>
-            <br />
-            <br />
-            <br />
             <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
             <GenericButton
               testId="submit-button"
@@ -267,6 +303,49 @@ const UploadPage = () => {
       });
   }
 
+  function createTopic(subjectId, topic, description) {
+    const token = localStorage.getItem('token');
+    axios
+      .post(
+        `${urlToUse}/${subjectId}/topic/create`,
+        {
+          topic,
+          description
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(response => {
+        if (response.status === 200) {
+          setSubmitMessage({ success: `Created topic ${topic}!` });
+        }
+      })
+      .catch(error => {
+        setSubmitMessage({ error: `Error ${error.response.status}: ${error.response.data.message}` });
+      });
+  }
+
+  function createResource(topicId, resource, resourceUrl, description) {
+    const token = localStorage.getItem('token');
+    axios
+      .post(
+        `${urlToUse}/${topicId}/post/create`,
+        {
+          resource,
+          resource_url: resourceUrl,
+          description
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(response => {
+        if (response.status === 200) {
+          setSubmitMessage({ success: `Created resource ${resource}!` });
+        }
+      })
+      .catch(error => {
+        setSubmitMessage({ error: `Error ${error.response.status}: ${error.response.data.message}` });
+      });
+  }
+
   function handleFormSubmit(values, actions) {
     if (values.selectedTab === 'Subject') {
       createSubject(
@@ -274,27 +353,32 @@ const UploadPage = () => {
         values.subjectDescription.toLocaleString().toLowerCase()
       );
     }
-    // if (values.selectedTab === 'Topic') {
-    //   createSubject(
-    //     values.subjectName.toLocaleString().toLowerCase(),
-    //     values.subjectDescription.toLocaleString().toLowerCase()
-    //   );
-    // }
+    if (values.selectedTab === 'Topic') {
+      createTopic(values.topicBelongsTo, values.topicName.toLocaleString().toLowerCase(), '');
+    }
+    if (values.selectedTab === 'Resource') {
+      createResource(values.topic, values.title, values.url, values.description);
+    }
     actions.setSubmitting(false);
   }
 
   const FormToRender = withFormik({
     mapPropsToValues: () => ({
       selectedTab: currentTab,
+      topics: [],
+
       url: '',
       title: '',
       description: '',
       subject: '',
-      subjectDescription: '',
       topic: '',
+
       subjectName: '',
+      subjectDescription: '',
+
       topicName: '',
-      topicBelongsTo: ''
+      topicDescription: '',
+      topicBelongsTo: subjects[0].id
     }),
     validationSchema: GetUploadSchema(currentTab),
     displayName: 'Upload Form',

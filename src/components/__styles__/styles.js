@@ -88,6 +88,7 @@ const SelectStyle = styled.select`
   border-radius: 4px;
   border: 1px solid ${primaryBlue};
   background-color: ${lightGrey};
+  height: 36px;
 `;
 
 const LabelStyle = styled.label`
