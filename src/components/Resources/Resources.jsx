@@ -27,6 +27,9 @@ const Resources = () => {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
     });
+    axios.get(`${urlToUse}/all/post`).then(response => {
+      setResources(response.data.posts[0]);
+    });
   }, []);
   useEffect(() => {
     if (currentSubject !== '') {
@@ -37,7 +40,7 @@ const Resources = () => {
   }, [currentSubject]);
   useEffect(() => {
     if (currentTopic !== '') {
-      axios.get(`${urlToUse}/${currentTopic}/post`).then(response => {
+      axios.get(`${urlToUse}/topic/${currentTopic}/post`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
@@ -64,7 +67,7 @@ const Resources = () => {
           onChange={event => setCurrentTopic(event.target.value)}
           style={{ gridColumn: 2 }}
         >
-          <option>Choose a topic</option>
+          <option value="">Choose a topic</option>
           {topics.length !== 0 &&
             topics.map(topic => (
               <option value={topic.id} key={topic.id}>
@@ -73,71 +76,29 @@ const Resources = () => {
             ))}
         </SelectStyle>
       )}
-      {currentTopic !== '' && (
-        <TempCardStyle>
-          {/*
-              This card is a temporary card we will use until the backend is
-              linked up
-      */}
-          {resources.length === 0 ? (
-            <div>Sorry, no resources have been added to this topic</div>
-          ) : (
-            <div>
-              {resources.map(post => (
-                <ResourceCard
-                  key={post.resource_url}
-                  title={post.resource}
-                  subject={currentSubject}
-                  topic={currentTopic}
-                  author="author"
-                  authorImg="Avatar.svg"
-                  previewImg="Image.svg"
-                  points={36}
-                  description={post.description}
-                  timeStamp={post.created_at}
-                  url={post.resource_url}
-                />
-              ))}
-            </div>
-          )}
-          {/* <ResourceCard
-          title="TITLE"
-          subject="SUBJECT"
-          topic="TOPIC"
-          author="AUTHOR"
-          authorImg="Avatar.svg"
-          previewImg="Image.svg"
-          points={36}
-          timeStamp="TIMESTAMP"
-          description="DESCRIPTION"
-          url="http://localhost:3000/"
-        />
-        <ResourceCard
-          title="TITLE"
-          subject="SUBJECT"
-          topic="TOPIC"
-          author="AUTHOR"
-          authorImg="Avatar.svg"
-          previewImg="Image.svg"
-          points={36}
-          timeStamp="TIMESTAMP"
-          description="DESCRIPTION"
-          url="http://localhost:3000/"
-        />
-        <ResourceCard
-          title="TITLE"
-          subject="SUBJECT"
-          topic="TOPIC"
-          author="AUTHOR"
-          authorImg="Avatar.svg"
-          previewImg="Image.svg"
-          points={36}
-          timeStamp="TIMESTAMP"
-          description="DESCRIPTION"
-          url="http://localhost:3000/"
-        /> */}
-        </TempCardStyle>
-      )}
+      <TempCardStyle>
+        {resources.length === 0 ? (
+          <div>Sorry, no resources have been added to this topic</div>
+        ) : (
+          <div>
+            {resources.map(post => (
+              <ResourceCard
+                key={post.resource_url}
+                title={post.resource}
+                subject={currentSubject}
+                topic={currentTopic}
+                author="author"
+                authorImg="Avatar.svg"
+                previewImg="Image.svg"
+                points={36}
+                description={post.description}
+                timeStamp={post.created_at}
+                url={post.resource_url}
+              />
+            ))}
+          </div>
+        )}
+      </TempCardStyle>
     </ResourcesBody>
   );
 };
