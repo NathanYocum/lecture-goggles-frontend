@@ -88,6 +88,7 @@ const SelectStyle = styled.select`
   border-radius: 4px;
   border: 1px solid ${primaryBlue};
   background-color: ${lightGrey};
+  height: 36px;
 `;
 
 const LabelStyle = styled.label`
@@ -157,7 +158,7 @@ const CardContainerStyle = styled.div`
   border-radius: 4px;
   display: grid;
   width: 288px;
-  grid-template-rows: 20px 12px 12px 165px 40px repeat(2, 15px) auto 36px;
+  grid-template-rows: auto auto auto 165px 40px auto auto auto 36px;
   grid-template-columns: auto 56px;
   font-family: 'IBMPlexSans-SemiBold';
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
@@ -166,6 +167,7 @@ const CardContainerStyle = styled.div`
 `;
 
 const TitleStyle = styled.div`
+  margin-top: 20px;
   font-size: 20px;
   font-weight: bold;
 `;
@@ -205,6 +207,7 @@ const PreviewLink = styled.a`
   color: white;
   align-content: center;
   display: grid;
+  overflow: hidden;
 `;
 
 const LinkStyle = styled.div`
