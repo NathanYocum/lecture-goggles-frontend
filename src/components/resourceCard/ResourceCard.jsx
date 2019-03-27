@@ -40,14 +40,11 @@ const ResourceCard = ({
         <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
       </PreviewA>
       <PreviewLink href={url}>
-        <LinkStyle>{url.length < 42 ? url : `${url.substring(0, 39)}...`}</LinkStyle>
+        <LinkStyle>{url.length < 37 ? url : `${url.substring(0, 34)}...`}</LinkStyle>
       </PreviewLink>
       <ItemStyle>Uploaded by {author}</ItemStyle>
-      {/* Todo: Match style docuement for these */}
-      <ItemStyle>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
-      <br />
-      <ItemStyle>Uploaded {timeStamp} ago</ItemStyle>
-      <br />
+      <ItemStyle style={{ gridColumn: '1 / span 2' }}>{points > 0 ? `+${points}` : `${points}`} points</ItemStyle>
+      <ItemStyle style={{ marginBottom: '6px', gridColumn: '1 / span 2' }}>Uploaded at {Date(timeStamp)}</ItemStyle>
       <DescriptionStyle>{description}</DescriptionStyle>
       <BottomContainer>
         {signedInAs === '' ? (
