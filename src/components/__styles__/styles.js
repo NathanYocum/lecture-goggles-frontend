@@ -116,7 +116,7 @@ const SubjectItemContainer = styled.div`
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
-  grid-template-rows: 56px;
+  grid-template-rows: minmax(56px, auto);
   grid-column: 2;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
   display: grid;
@@ -132,6 +132,7 @@ const SubjectDescriptionContainer = styled.div`
   color: ${darkGrey};
   padding-left: 8px;
   background-color: #ffffff;
+  min-height: 56px;
 `;
 
 const UnstyledButton = styled.button`

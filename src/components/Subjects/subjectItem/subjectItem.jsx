@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
 import {
   SubjectItemContainer,
   SubjectDescriptionContainer,
@@ -8,7 +9,8 @@ import {
 } from '../../__styles__/styles';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 
-const SubjectItem = () => {
+const SubjectItem = props => {
+  const { subjectName, description } = props;
   const width = useWindowWidth();
   const [renderDescription, dispatch] = useReducer(state => {
     if (state === true) {
@@ -18,14 +20,23 @@ const SubjectItem = () => {
   }, false);
   return (
     <SubjectItemContainer width={width}>
-      <div style={{ color: '#ffffff', paddingLeft: '8px' }}>Subject</div>
+      <div style={{ color: '#ffffff', paddingLeft: '8px' }}>{subjectName}</div>
       <SubscribeButton type="button">{width > 475 ? '+Subscribe' : '+'}</SubscribeButton>
       <UnstyledButton type="button" onClick={() => dispatch(renderDescription)}>
         <FontAwesomeIcon icon={renderDescription ? 'chevron-up' : 'chevron-down'} color="#ffffff" />
       </UnstyledButton>
-      {renderDescription && <SubjectDescriptionContainer>Brief Description</SubjectDescriptionContainer>}
+      {renderDescription && (
+        <SubjectDescriptionContainer>
+          {description === '' ? 'no description provided' : description}
+        </SubjectDescriptionContainer>
+      )}
     </SubjectItemContainer>
   );
+};
+
+SubjectItem.propTypes = {
+  subjectName: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default SubjectItem;
