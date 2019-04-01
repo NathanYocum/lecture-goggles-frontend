@@ -191,7 +191,7 @@ it('Truncates a long url of the resource', () => {
     />
   );
 
-  expect(getByText(/a{39}.../gm)).toBeTruthy();
+  expect(getByText(/a{34}.../gm)).toBeTruthy();
 });
 
 it('Renders the points of a post', () => {
@@ -211,7 +211,7 @@ it('Renders the points of a post', () => {
   );
 
   expect(getByText(/-2/gm)).toBeTruthy();
-  expect(getByText(/-2/gm).outerHTML).toMatch(/<div class=".*">-2 points<\/div>/gm);
+  expect(getByText(/-2/gm).outerHTML).toMatch(/<div.*>-2 points<\/div>/gm);
 });
 
 it('Renders the positive points of a post', () => {
@@ -231,7 +231,7 @@ it('Renders the positive points of a post', () => {
   );
 
   expect(getByText(/\+20/gm)).toBeTruthy();
-  expect(getByText(/\+20/gm).outerHTML).toMatch(/<div class=".*">\+20 points<\/div>/gm);
+  expect(getByText(/\+20/gm).outerHTML).toMatch(/<div .*>\+20 points<\/div>/gm);
 });
 
 // Timestamp tests will depend on how the api and database format the data. Test tbd.
