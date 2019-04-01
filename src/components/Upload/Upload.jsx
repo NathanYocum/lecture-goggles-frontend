@@ -66,18 +66,26 @@ const UploadPage = () => {
 
   useEffect(() => {
     axios.get(`${urlToUse}/subject`).then(response => {
-      if (response.data.subjects[0].length !== 0) {
-        setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+      if (response.data === undefined) {
+        return setSubjects([]);
       }
+      if (response.data.subjects[0].length !== 0) {
+        return setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+      }
+      return setSubjects([]);
     });
   }, []);
 
   useEffect(() => {
     if (currentSubject !== '') {
       axios.get(`${urlToUse}/${currentSubject}/topic`).then(response => {
+        if (response.data === undefined) {
+          return setTopics([]);
+        }
         if (response.data.topics[0].length !== 0) {
           setTopics(response.data.topics[0]);
         }
+        return setTopics([]);
       });
     }
   }, [currentSubject]);
@@ -126,6 +134,9 @@ const UploadPage = () => {
 
   function createResource(topicId, resource, resourceUrl, description) {
     const token = localStorage.getItem('token');
+    if (topicId === '') {
+      return;
+    }
     axios
       .post(
         `${urlToUse}/${topicId}/post/create`,
