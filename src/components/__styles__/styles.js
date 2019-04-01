@@ -82,6 +82,7 @@ const TextAreaStyle = styled.textarea`
 `;
 
 const SelectStyle = styled.select`
+  color: #111111;
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;

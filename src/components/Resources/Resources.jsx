@@ -83,7 +83,7 @@ const Resources = () => {
           <div>
             {resources.map(post => (
               <ResourceCard
-                key={post.resource_url}
+                key={`${post.resource_url}_${post.id}`}
                 title={post.resource}
                 subject={currentSubject}
                 topic={currentTopic}

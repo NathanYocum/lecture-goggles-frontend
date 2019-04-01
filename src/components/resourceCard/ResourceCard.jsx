@@ -52,13 +52,13 @@ const ResourceCard = ({
         ) : (
           <>
             <UnstyledButton data-testid={`${title}-upvote-arrow`}>
-              <FontAwesomeIcon icon="arrow-up" />
+              <FontAwesomeIcon color="#111111" icon="arrow-up" />
             </UnstyledButton>
             <UnstyledButton data-testid={`${title}-downvote-arrow`}>
-              <FontAwesomeIcon icon="arrow-down" />
+              <FontAwesomeIcon color="#111111" icon="arrow-down" />
             </UnstyledButton>
             <UnstyledButton data-testid={`${title}-options`}>
-              <FontAwesomeIcon icon="ellipsis-v" />
+              <FontAwesomeIcon color="#111111" icon="ellipsis-v" />
             </UnstyledButton>
           </>
         )}
