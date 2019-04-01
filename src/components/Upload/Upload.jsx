@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { withFormik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
@@ -58,229 +58,37 @@ const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lectu
 
 const UploadPage = () => {
   const [subjects, setSubjects] = useState([{ id: '', subject: '' }]);
+  const [currentSubject, setCurrentSubject] = useState('');
+  const [topics, setTopics] = useState([]);
   const [currentTab, setCurrentTab] = useState('Resource');
   const [submitMessage, setSubmitMessage] = useState({ success: '', error: '' });
   const { signedInAs } = useContext(AuthContext);
 
   useEffect(() => {
     axios.get(`${urlToUse}/subject`).then(response => {
-      if (response.data.subjects[0].length !== 0) {
-        setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+      if (response.data === undefined) {
+        return setSubjects([]);
       }
+      if (response.data.subjects[0].length !== 0) {
+        return setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+      }
+      return setSubjects([]);
     });
   }, []);
 
-  let formToRender = () => <div>Oops! Try refreshing the page, or contact support if the issue persists.</div>;
-  formToRender = formikProps => {
-    const { dirty, values, errors, handleBlur, handleChange, isSubmitting, handleSubmit } = formikProps;
-    const hasErrors = (errs => {
-      if (!dirty) {
-        return true;
-      }
-      if (currentTab === 'Resource') {
-        return !(
-          errs.url === undefined &&
-          errs.title === undefined &&
-          errs.description === undefined &&
-          errs.subject === undefined &&
-          errs.topic === undefined
-        );
-      }
-      if (currentTab === 'Subject') {
-        return !(errs.subjectName === undefined);
-      }
-      if (currentTab === 'Topic') {
-        return !(errs.topicName === undefined) && !(errs.topicBelongsTo === undefined);
-      }
-      return false;
-    })(errors);
-
-    if (values.subject !== '') {
-      axios.get(`${urlToUse}/${values.subject}/topic`).then(response => {
-        // eslint-disable-next-line prefer-destructuring
-        values.topics = response.data.topics[0];
+  useEffect(() => {
+    if (currentSubject !== '') {
+      axios.get(`${urlToUse}/${currentSubject}/topic`).then(response => {
+        if (response.data === undefined) {
+          return setTopics([]);
+        }
+        if (response.data.topics[0].length !== 0) {
+          setTopics(response.data.topics[0]);
+        }
+        return setTopics([]);
       });
     }
-    return (
-      <form onSubmit={handleSubmit}>
-        {currentTab === 'Resource' && (
-          <>
-            <LabelStyle htmlFor="url">URL</LabelStyle>
-            <InputStyle
-              data-testid="url-upload-input"
-              type="url"
-              onBlur={e => {
-                handleBlur(e);
-              }}
-              onChange={e => {
-                handleChange(e);
-              }}
-              hasErrors={errors.url}
-              value={values.url}
-              name="url"
-            />
-            {errors.url ? <ErrorDiv data-testid="url-upload-error">{errors.url}</ErrorDiv> : <></>}
-            <LabelStyle htmlFor="title">Title</LabelStyle>
-            <InputStyle
-              data-testid="title-upload-input"
-              hasErrors={errors.title}
-              type="text"
-              onBlur={e => {
-                handleBlur(e);
-              }}
-              onChange={handleChange}
-              value={values.title}
-              name="title"
-            />
-            {errors.title ? <ErrorDiv data-testid="title-upload-error">{errors.title}</ErrorDiv> : <></>}
-            <LabelStyle htmlFor="description">Description</LabelStyle>
-            <TextAreaStyle
-              data-testid="description-upload-input"
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.description}
-              hasErrors={errors.description}
-              name="description"
-            />
-            {errors.description ? (
-              <ErrorDiv data-testid="description-upload-error">{errors.description}</ErrorDiv>
-            ) : (
-              <></>
-            )}
-            Subject
-            <SelectStyle
-              type="text"
-              onBlur={handleBlur}
-              onChange={e => {
-                values.topic = '';
-                handleChange(e);
-              }}
-              value={values.subject}
-              name="subject"
-            >
-              <option value="">Chose one</option>
-              {subjects.map(subject => (
-                <option value={subject.id} key={subject.id}>
-                  {subject.subject}
-                </option>
-              ))}
-            </SelectStyle>
-            {errors.subject ? <ErrorDiv data-testid="subject-upload-error">{errors.subject}</ErrorDiv> : <></>}
-            {values.subject !== '' && (
-              <>
-                Topic
-                <SelectStyle type="text" onBlur={handleBlur} onChange={handleChange} value={values.topic} name="topic">
-                  <option value="">Choose One</option>
-                  {values.topics.map(topic => (
-                    <option value={topic.id} key={topic.id}>
-                      {topic.topic}
-                    </option>
-                  ))}
-                </SelectStyle>
-                {errors.topic ? <ErrorDiv data-testid="topic-upload-error">{errors.topic}</ErrorDiv> : <></>}
-              </>
-            )}
-            <br />
-            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
-            <GenericButton
-              testId="submit-button"
-              disabled={isSubmitting || hasErrors}
-              borderColor={hasErrors ? '#888888' : '#0d47a1'}
-              color={hasErrors ? '#333333' : '#ffffff'}
-              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-              type="submit"
-              height="56px"
-              width="40%"
-              text="SUBMIT"
-            />
-          </>
-        )}
-        {currentTab === 'Subject' && (
-          <>
-            <LabelStyle htmlFor="subjectName">Subject Name</LabelStyle>
-            <InputStyle
-              data-testid="subject-name-upload-input"
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              hasErrors={errors.subjectName}
-              value={values.subjectName}
-              name="subjectName"
-            />
-            {errors.subjectName ? (
-              <ErrorDiv data-testid="subject-name-upload-error">{errors.subjectName}</ErrorDiv>
-            ) : (
-              <></>
-            )}
-            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
-            <GenericButton
-              testId="submit-button"
-              disabled={isSubmitting || hasErrors}
-              borderColor={hasErrors ? '#888888' : '#0d47a1'}
-              color={hasErrors ? '#333333' : '#ffffff'}
-              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-              type="submit"
-              height="56px"
-              width="40%"
-              text="SUBMIT"
-            />
-          </>
-        )}
-        {currentTab === 'Topic' && (
-          <>
-            <LabelStyle htmlFor="topicName">Topic Name</LabelStyle>
-            <InputStyle
-              data-testid="topic-name-upload-input"
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              hasErrors={errors.topicName}
-              value={values.topicName}
-              name="topicName"
-            />
-            {errors.topicName ? <ErrorDiv data-testid="topic-name-upload-error">{errors.topicName}</ErrorDiv> : <></>}
-            <LabelStyle htmlFor="topicBelongsTo">Subject</LabelStyle>
-            <SelectStyle
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.topicBelongsTo}
-              name="topicBelongsTo"
-              style={{ height: '36px' }}
-            >
-              {subjects.map(subject => (
-                <option value={subject.id} key={subject.id}>
-                  {subject.subject}
-                </option>
-              ))}
-            </SelectStyle>
-            <GenericButton height="56px" width="40%" text="CANCEL" backgroundColor="#90a4ae" color="#0074d9" />
-            <GenericButton
-              testId="submit-button"
-              disabled={isSubmitting || hasErrors}
-              borderColor={hasErrors ? '#888888' : '#0d47a1'}
-              color={hasErrors ? '#333333' : '#ffffff'}
-              backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
-              type="submit"
-              height="56px"
-              width="40%"
-              text="SUBMIT"
-            />
-          </>
-        )}
-        {submitMessage.success && (
-          <div style={{ color: '#0074d9', marginTop: '40px', border: '1px solid #0074d9' }}>
-            <FontAwesomeIcon icon="check-circle" style={{ paddingRight: '16px' }} />
-            {submitMessage.success}
-          </div>
-        )}
-        {submitMessage.error && (
-          <div style={{ color: '#ff2200', marginTop: '40px', border: '1px solid #ff2200' }}>{submitMessage.error}</div>
-        )}
-      </form>
-    );
-  };
+  }, [currentSubject]);
 
   function createSubject(subject, description) {
     const token = localStorage.getItem('token');
@@ -326,6 +134,9 @@ const UploadPage = () => {
 
   function createResource(topicId, resource, resourceUrl, description) {
     const token = localStorage.getItem('token');
+    if (topicId === '') {
+      return;
+    }
     axios
       .post(
         `${urlToUse}/${topicId}/post/create`,
@@ -362,29 +173,6 @@ const UploadPage = () => {
     actions.setSubmitting(false);
   }
 
-  const FormToRender = withFormik({
-    mapPropsToValues: () => ({
-      selectedTab: currentTab,
-      topics: [],
-
-      url: '',
-      title: '',
-      description: '',
-      subject: '',
-      topic: '',
-
-      subjectName: '',
-      subjectDescription: '',
-
-      topicName: '',
-      topicDescription: '',
-      topicBelongsTo: subjects[0].id
-    }),
-    validationSchema: GetUploadSchema(currentTab),
-    displayName: 'Upload Form',
-    handleSubmit: handleFormSubmit
-  })(formToRender);
-
   return (
     <GridBody data-testid="upload">
       <BG />
@@ -402,7 +190,263 @@ const UploadPage = () => {
             tabNames={['Resource', 'Subject', 'Topic']}
           />
           <h1>Upload {currentTab}</h1>
-          <FormToRender />
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={{
+              selectedTab: currentTab,
+              subjects,
+              topics,
+              url: '',
+              title: '',
+              description: '',
+              subject: currentSubject,
+              topic: '',
+              subjectName: '',
+              subjectDescription: '',
+              topicName: '',
+              topicBelongsTo: ''
+            }}
+            validationSchema={GetUploadSchema(currentTab)}
+            render={formikProps => {
+              const { dirty, values, errors, handleBlur, handleChange, isSubmitting, handleSubmit } = formikProps;
+              const hasErrors = (errs => {
+                if (!dirty) {
+                  return true;
+                }
+                if (currentTab === 'Resource') {
+                  return !(
+                    errs.url === undefined &&
+                    errs.title === undefined &&
+                    errs.description === undefined &&
+                    errs.subject === undefined &&
+                    errs.topic === undefined
+                  );
+                }
+                if (currentTab === 'Subject') {
+                  return !(errs.subjectName === undefined);
+                }
+                if (currentTab === 'Topic') {
+                  return !(errs.topicName === undefined) && !(errs.topicBelongsTo === undefined);
+                }
+                return false;
+              })(errors);
+              return (
+                <form onSubmit={handleSubmit}>
+                  {currentTab === 'Resource' && (
+                    <>
+                      <LabelStyle htmlFor="url">URL</LabelStyle>
+                      <InputStyle
+                        data-testid="url-upload-input"
+                        type="url"
+                        onBlur={e => {
+                          handleBlur(e);
+                        }}
+                        onChange={e => {
+                          handleChange(e);
+                        }}
+                        hasErrors={errors.url}
+                        value={values.url}
+                        name="url"
+                      />
+                      {errors.url ? <ErrorDiv data-testid="url-upload-error">{errors.url}</ErrorDiv> : <></>}
+                      <LabelStyle htmlFor="title">Title</LabelStyle>
+                      <InputStyle
+                        data-testid="title-upload-input"
+                        hasErrors={errors.title}
+                        type="text"
+                        onBlur={e => {
+                          handleBlur(e);
+                        }}
+                        onChange={handleChange}
+                        value={values.title}
+                        name="title"
+                      />
+                      {errors.title ? <ErrorDiv data-testid="title-upload-error">{errors.title}</ErrorDiv> : <></>}
+                      <LabelStyle htmlFor="description">Description</LabelStyle>
+                      <TextAreaStyle
+                        data-testid="description-upload-input"
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.description}
+                        hasErrors={errors.description}
+                        name="description"
+                      />
+                      {errors.description ? (
+                        <ErrorDiv data-testid="description-upload-error">{errors.description}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
+                      Subject
+                      <SelectStyle
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={e => {
+                          values.topic = '';
+                          handleChange(e);
+                          setCurrentSubject(e.target.value);
+                        }}
+                        value={values.subject}
+                        name="subject"
+                      >
+                        <option value="">Chose one</option>
+                        {subjects.map(subject => (
+                          <option value={subject.id} key={subject.id}>
+                            {subject.subject}
+                          </option>
+                        ))}
+                      </SelectStyle>
+                      {errors.subject ? (
+                        <ErrorDiv data-testid="subject-upload-error">{errors.subject}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
+                      {values.subject !== '' && (
+                        <>
+                          Topic
+                          <SelectStyle
+                            type="text"
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.topic}
+                            name="topic"
+                          >
+                            <option value="">Choose One</option>
+                            {topics.map(topic => (
+                              <option value={topic.id} key={topic.id}>
+                                {topic.topic}
+                              </option>
+                            ))}
+                          </SelectStyle>
+                          {errors.topic ? <ErrorDiv data-testid="topic-upload-error">{errors.topic}</ErrorDiv> : <></>}
+                        </>
+                      )}
+                      <br />
+                      <GenericButton
+                        height="56px"
+                        width="40%"
+                        text="CANCEL"
+                        backgroundColor="#90a4ae"
+                        color="#0074d9"
+                      />
+                      <GenericButton
+                        testId="submit-button"
+                        disabled={isSubmitting || hasErrors}
+                        borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                        color={hasErrors ? '#333333' : '#ffffff'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        type="submit"
+                        height="56px"
+                        width="40%"
+                        text="SUBMIT"
+                      />
+                    </>
+                  )}
+                  {currentTab === 'Subject' && (
+                    <>
+                      <LabelStyle htmlFor="subjectName">Subject Name</LabelStyle>
+                      <InputStyle
+                        data-testid="subject-name-upload-input"
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.subjectName}
+                        value={values.subjectName}
+                        name="subjectName"
+                      />
+                      {errors.subjectName ? (
+                        <ErrorDiv data-testid="subject-name-upload-error">{errors.subjectName}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
+                      <GenericButton
+                        height="56px"
+                        width="40%"
+                        text="CANCEL"
+                        backgroundColor="#90a4ae"
+                        color="#0074d9"
+                      />
+                      <GenericButton
+                        testId="submit-button"
+                        disabled={isSubmitting || hasErrors}
+                        borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                        color={hasErrors ? '#333333' : '#ffffff'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        type="submit"
+                        height="56px"
+                        width="40%"
+                        text="SUBMIT"
+                      />
+                    </>
+                  )}
+                  {currentTab === 'Topic' && (
+                    <>
+                      <LabelStyle htmlFor="topicName">Topic Name</LabelStyle>
+                      <InputStyle
+                        data-testid="topic-name-upload-input"
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        hasErrors={errors.topicName}
+                        value={values.topicName}
+                        name="topicName"
+                      />
+                      {errors.topicName ? (
+                        <ErrorDiv data-testid="topic-name-upload-error">{errors.topicName}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
+                      <LabelStyle htmlFor="topicBelongsTo">Subject</LabelStyle>
+                      <SelectStyle
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.topicBelongsTo}
+                        name="topicBelongsTo"
+                        style={{ height: '36px' }}
+                      >
+                        {subjects.map(subject => (
+                          <option value={subject.id} key={subject.id}>
+                            {subject.subject}
+                          </option>
+                        ))}
+                      </SelectStyle>
+                      <GenericButton
+                        height="56px"
+                        width="40%"
+                        text="CANCEL"
+                        backgroundColor="#90a4ae"
+                        color="#0074d9"
+                      />
+                      <GenericButton
+                        testId="submit-button"
+                        disabled={isSubmitting || hasErrors}
+                        borderColor={hasErrors ? '#888888' : '#0d47a1'}
+                        color={hasErrors ? '#333333' : '#ffffff'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        type="submit"
+                        height="56px"
+                        width="40%"
+                        text="SUBMIT"
+                      />
+                    </>
+                  )}
+                  {submitMessage.success && (
+                    <div style={{ color: '#0074d9', marginTop: '40px', border: '1px solid #0074d9' }}>
+                      <FontAwesomeIcon icon="check-circle" style={{ paddingRight: '16px' }} />
+                      {submitMessage.success}
+                    </div>
+                  )}
+                  {submitMessage.error && (
+                    <div style={{ color: '#ff2200', marginTop: '40px', border: '1px solid #ff2200' }}>
+                      {submitMessage.error}
+                    </div>
+                  )}
+                </form>
+              );
+            }}
+          />
+          ;
         </FormContainer>
       )}
     </GridBody>
