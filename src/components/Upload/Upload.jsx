@@ -83,7 +83,7 @@ const UploadPage = () => {
           return setTopics([]);
         }
         if (response.data.topics[0].length !== 0) {
-          setTopics(response.data.topics[0]);
+          return setTopics(response.data.topics[0]);
         }
         return setTopics([]);
       });
@@ -158,16 +158,16 @@ const UploadPage = () => {
   }
 
   function handleFormSubmit(values, actions) {
-    if (values.selectedTab === 'Subject') {
+    if (currentTab === 'Subject') {
       createSubject(
         values.subjectName.toLocaleString().toLowerCase(),
         values.subjectDescription.toLocaleString().toLowerCase()
       );
     }
-    if (values.selectedTab === 'Topic') {
+    if (currentTab === 'Topic') {
       createTopic(values.topicBelongsTo, values.topicName.toLocaleString().toLowerCase(), '');
     }
-    if (values.selectedTab === 'Resource') {
+    if (currentTab === 'Resource') {
       createResource(values.topic, values.title, values.url, values.description);
     }
     actions.setSubmitting(false);
@@ -193,7 +193,6 @@ const UploadPage = () => {
           <Formik
             onSubmit={handleFormSubmit}
             initialValues={{
-              selectedTab: currentTab,
               subjects,
               topics,
               url: '',
@@ -226,7 +225,7 @@ const UploadPage = () => {
                   return !(errs.subjectName === undefined);
                 }
                 if (currentTab === 'Topic') {
-                  return !(errs.topicName === undefined) && !(errs.topicBelongsTo === undefined);
+                  return !(errs.topicName === undefined && errs.topicBelongsTo === undefined);
                 }
                 return false;
               })(errors);
@@ -405,6 +404,7 @@ const UploadPage = () => {
                         name="topicBelongsTo"
                         style={{ height: '36px' }}
                       >
+                        <option value="">Choose a subject</option>
                         {subjects.map(subject => (
                           <option value={subject.id} key={subject.id}>
                             {subject.subject}
@@ -446,7 +446,6 @@ const UploadPage = () => {
               );
             }}
           />
-          ;
         </FormContainer>
       )}
     </GridBody>
