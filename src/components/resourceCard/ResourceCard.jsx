@@ -18,8 +18,8 @@ import {
 
 const ResourceCard = ({
   title,
-  subject,
-  topic,
+  // subject,
+  // topic,
   author,
   authorImg,
   previewImg,
@@ -32,9 +32,7 @@ const ResourceCard = ({
   return (
     <CardContainerStyle>
       <TitleStyle>{title}</TitleStyle>
-      <ItemStyle>
-        {subject} - {topic}
-      </ItemStyle>
+      <ItemStyle>---</ItemStyle>
       <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
       <PreviewA href={url}>
         <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />{' '}
@@ -69,8 +67,8 @@ const ResourceCard = ({
 
 ResourceCard.propTypes = {
   title: PropTypes.string.isRequired,
-  subject: PropTypes.string.isRequired,
-  topic: PropTypes.string.isRequired,
+  // subject: PropTypes.string.isRequired,
+  // topic: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   authorImg: PropTypes.string.isRequired,
   previewImg: PropTypes.string.isRequired,

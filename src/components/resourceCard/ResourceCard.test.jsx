@@ -27,45 +27,45 @@ it('Renders a title', () => {
   expect(getByText(/A Title I Have Chosen/gm).outerHTML).toMatch(/<div class=".*">A Title I Have Chosen<\/div>/gm);
 });
 
-it('Renders a Subject', () => {
-  const { getByText } = render(
-    <ResourceCard
-      title=""
-      subject="Some kind of subject"
-      topic=""
-      author=""
-      authorImg=""
-      previewImg=""
-      points={0}
-      timeStamp=""
-      description=""
-      url=""
-    />
-  );
+// it('Renders a Subject', () => {
+//   const { getByText } = render(
+//     <ResourceCard
+//       title=""
+//       subject="Some kind of subject"
+//       topic=""
+//       author=""
+//       authorImg=""
+//       previewImg=""
+//       points={0}
+//       timeStamp=""
+//       description=""
+//       url=""
+//     />
+//   );
 
-  expect(getByText(/Some kind of subject/gm)).toBeTruthy();
-  expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(/<div class=".*">Some kind of subject - <\/div>/gm);
-});
+//   expect(getByText(/Some kind of subject/gm)).toBeTruthy();
+//   expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(/<div class=".*">Some kind of subject - <\/div>/gm);
+// });
 
-it('Renders a topic', () => {
-  const { getByText } = render(
-    <ResourceCard
-      title=""
-      subject=""
-      topic="Some random topic"
-      author=""
-      authorImg=""
-      previewImg=""
-      points={0}
-      timeStamp=""
-      description=""
-      url=""
-    />
-  );
+// it('Renders a topic', () => {
+//   const { getByText } = render(
+//     <ResourceCard
+//       title=""
+//       subject=""
+//       topic="Some random topic"
+//       author=""
+//       authorImg=""
+//       previewImg=""
+//       points={0}
+//       timeStamp=""
+//       description=""
+//       url=""
+//     />
+//   );
 
-  expect(getByText(/Some random topic/gm)).toBeTruthy();
-  expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*"> - Some random topic<\/div>/gm);
-});
+//   expect(getByText(/Some random topic/gm)).toBeTruthy();
+//   expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*"> - Some random topic<\/div>/gm);
+// });
 
 it('Renders an author', () => {
   const { getByText } = render(

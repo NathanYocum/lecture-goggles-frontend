@@ -19,7 +19,10 @@ function GetUploadSchema(currentTab) {
         .required('Required'),
       title: Yup.string()
         .max(40, "Titles can't be longer than 40 characters ")
-        .matches(/^[A-Za-z][A-Za-z\- ]+$/, 'Titles can only contain alpha-numeric characters, hyphens, and spaces')
+        .matches(
+          /^[A-Za-z0-9][A-Za-z\-0-9 |_]+$/,
+          'Titles can only contain alpha-numeric characters, hyphens, and spaces'
+        )
         .required('Required'),
       description: Yup.string()
         .max(240, "Description can't be longer than 240 characters")
