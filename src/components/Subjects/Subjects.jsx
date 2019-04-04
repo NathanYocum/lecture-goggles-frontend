@@ -24,7 +24,12 @@ const SubjectsPage = () => {
         <div style={{ gridColumn: 2 }} />
       ) : (
         subjects.map(subject => (
-          <SubjectItem subjectName={subject.subject} key={subject.subject} description={subject.description} />
+          <SubjectItem
+            subjectName={subject.subject}
+            key={subject.subject}
+            subjectId={subject.id}
+            description={subject.description}
+          />
         ))
       )}
     </SubjectsBody>

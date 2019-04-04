@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GridBody from '../gridBody';
 import { SelectStyle } from '../__styles__/styles';
+import TopicItem from './TopicItem';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+
+const urlParams = new URLSearchParams(window.location.search);
 
 const TopicsPage = () => {
   const [subjects, setSubjects] = useState([]);
   const [topics, setTopics] = useState([]);
-
-  const urlParams = new URLSearchParams(window.location.search);
 
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
 
@@ -47,7 +48,13 @@ const TopicsPage = () => {
       </SelectStyle>
       <div style={{ gridColumn: 2 }}>
         {topics.map(topic => (
-          <div key={topic.id}>{topic.topic}</div>
+          <TopicItem
+            key={topic.id}
+            topicName={topic.topic}
+            description={topic.description}
+            subjectId={currentSubject}
+            topicId={topic.id}
+          />
         ))}
       </div>
     </GridBody>

@@ -8,9 +8,10 @@ import {
   SubscribeButton
 } from '../../__styles__/styles';
 import useWindowWidth from '../../../hooks/useWindowWidth';
+import GenericButton from '../../button/button';
 
 const SubjectItem = props => {
-  const { subjectName, description } = props;
+  const { subjectName, description, subjectId } = props;
   const width = useWindowWidth();
   const [renderDescription, dispatch] = useReducer(state => {
     if (state === true) {
@@ -28,6 +29,9 @@ const SubjectItem = props => {
       {renderDescription && (
         <SubjectDescriptionContainer>
           {description === '' ? 'no description provided' : description}
+          <a href={`/topics?subjectId=${subjectId}`}>
+            <GenericButton borderColor="#e65100" backgroundColor="#ff9800" text="View Topics" />
+          </a>
         </SubjectDescriptionContainer>
       )}
     </SubjectItemContainer>
@@ -36,7 +40,8 @@ const SubjectItem = props => {
 
 SubjectItem.propTypes = {
   subjectName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
+  subjectId: PropTypes.number.isRequired
 };
 
 export default SubjectItem;
