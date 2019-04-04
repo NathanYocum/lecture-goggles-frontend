@@ -16,11 +16,13 @@ const TempCardStyle = styled.div`
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
 
 const Resources = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
   const [subjects, setSubjects] = useState([]);
   const [topics, setTopics] = useState([]);
   const [resources, setResources] = useState([]);
-  const [currentSubject, setCurrentSubject] = useState('');
-  const [currentTopic, setCurrentTopic] = useState('');
+  const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
+  const [currentTopic, setCurrentTopic] = useState(urlParams.has('topicId') ? urlParams.get('topicId') : '');
   useEffect(() => {
     axios.get(`${urlToUse}/subject`).then(response => {
       if (response.data.subjects[0].length !== 0) {
@@ -85,8 +87,8 @@ const Resources = () => {
               <ResourceCard
                 key={`${post.resource_url}_${post.id}`}
                 title={post.resource}
-                subject={currentSubject}
-                topic={currentTopic}
+                // subject={currentSubject}
+                // topic={post.topic_id}
                 author="author"
                 authorImg="Avatar.svg"
                 previewImg="Image.svg"
