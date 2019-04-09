@@ -6,9 +6,9 @@ import {
   SubjectDescriptionContainer,
   UnstyledButton,
   SubscribeButton
-} from '../../__styles__/styles';
+} from '../../../components/__styles__/styles';
 import useWindowWidth from '../../../hooks/useWindowWidth';
-import GenericButton from '../../button/button';
+import GenericButton from '../../../components/button/button';
 
 const SubjectItem = props => {
   const { subjectName, description, subjectId } = props;

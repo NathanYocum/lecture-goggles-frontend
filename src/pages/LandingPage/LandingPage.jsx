@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import LectureGogglesLogo from '../logo/logo';
-import GenericButton from '../button/button';
-import GridBody from '../gridBody';
+import LectureGogglesLogo from '../../components/logo/logo';
+import GenericButton from '../../components/button/button';
+import GridBody from '../../components/gridBody';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`

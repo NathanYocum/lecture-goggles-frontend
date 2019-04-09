@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TabBarStyle, TabBarTabStyle } from '../__styles__/styles';
+import { TabBarStyle, TabBarTabStyle } from '../../components/__styles__/styles';
 
 const TabBar = props => {
   const { tabNames, onClickFunction, currentTab } = props;

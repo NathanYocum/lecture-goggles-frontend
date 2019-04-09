@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GenericButton from '../button/button';
+import GenericButton from '../../components/button/button';
 
 const TopicItem = props => {
   const { topicName, description, subjectId, topicId } = props;

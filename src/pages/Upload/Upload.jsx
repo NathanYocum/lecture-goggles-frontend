@@ -5,10 +5,18 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import GenericButton from '../button/button';
-import GridBody from '../gridBody';
+import GenericButton from '../../components/button/button';
+import GridBody from '../../components/gridBody';
 import TabBar from './tabBar';
-import { FormContainer, LabelStyle, BG, InputStyle, TextAreaStyle, SelectStyle, ErrorDiv } from '../__styles__/styles';
+import {
+  FormContainer,
+  LabelStyle,
+  BG,
+  InputStyle,
+  TextAreaStyle,
+  SelectStyle,
+  ErrorDiv
+} from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 function GetUploadSchema(currentTab) {

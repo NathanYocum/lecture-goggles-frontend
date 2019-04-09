@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import LectureGogglesLogo from '../logo/logo';
-import GridBody from '../gridBody';
+import LectureGogglesLogo from '../../components/logo/logo';
+import GridBody from '../../components/gridBody';
 
 const LogoStyle = styled.div`
   grid-column: 2;

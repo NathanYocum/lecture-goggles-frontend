@@ -1,5 +1,5 @@
 import React from 'react';
-import GridBody from '../gridBody';
+import GridBody from '../../components/gridBody';
 
 const SupportPage = () => <GridBody data-testid="support" />;
 

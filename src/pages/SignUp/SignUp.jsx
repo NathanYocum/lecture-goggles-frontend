@@ -4,10 +4,10 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Redirect } from 'react-router-dom';
-import GenericButton from '../button/button';
-import GridBody from '../gridBody';
-import FullLectureGogglesLogo from '../logo/fullLogo';
-import { InputStyle } from '../__styles__/styles';
+import GenericButton from '../../components/button/button';
+import GridBody from '../../components/gridBody';
+import FullLectureGogglesLogo from '../../components/logo/fullLogo';
+import { InputStyle } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`

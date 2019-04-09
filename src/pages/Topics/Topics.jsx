@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import GridBody from '../gridBody';
-import { SelectStyle } from '../__styles__/styles';
+import GridBody from '../../components/gridBody';
+import { SelectStyle } from '../../components/__styles__/styles';
 import TopicItem from './TopicItem';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';

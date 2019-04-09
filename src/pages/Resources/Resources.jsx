@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import GridBody from '../gridBody';
-import ResourceCard from '../resourceCard/ResourceCard';
-import { SelectStyle } from '../__styles__/styles';
+import GridBody from '../../components/gridBody';
+import ResourceCard from '../../components/resourceCard/ResourceCard';
+import { SelectStyle } from '../../components/__styles__/styles';
 
 const ResourcesBody = styled(GridBody)`
   grid-row-gap: 12px;
