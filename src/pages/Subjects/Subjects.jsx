@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import GridBody from '../gridBody';
+import GridBody from '../../components/gridBody';
 import SubjectItem from './subjectItem/subjectItem';
 
 const SubjectsBody = styled(GridBody)`

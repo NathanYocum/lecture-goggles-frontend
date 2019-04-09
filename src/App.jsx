@@ -1,17 +1,17 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import LandingPage from './components/LandingPage/LandingPage';
-import NotFound from './components/NotFound/NotFound';
-import Resources from './components/Resources/Resources';
-import DevelopersPage from './components/Developers/Developers';
-import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
-import SubjectsPage from './components/Subjects/Subjects';
-import TopicsPage from './components/Topics/Topics';
-import SupportPage from './components/Support/Support';
-import AccountPage from './components/Account/Account';
-import UploadPage from './components/Upload/Upload';
+import LandingPage from './pages/LandingPage/LandingPage';
+import NotFound from './pages/NotFound/NotFound';
+import Resources from './pages/Resources/Resources';
+import DevelopersPage from './pages/Developers/Developers';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
+import SubjectsPage from './pages/Subjects/Subjects';
+import TopicsPage from './pages/Topics/Topics';
+import SupportPage from './pages/Support/Support';
+import AccountPage from './pages/Account/Account';
+import UploadPage from './pages/Upload/Upload';
 import NavBar from './components/navBar/navBar';
 
 const App = () => (

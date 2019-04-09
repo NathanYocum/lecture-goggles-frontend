@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import GridBody from '../gridBody';
+import GridBody from '../../components/gridBody';
 import AuthContext from '../../contexts/AuthContext';
 
 const AccountPage = () => {

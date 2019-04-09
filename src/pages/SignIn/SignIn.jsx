@@ -5,10 +5,10 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-import LectureGogglesLogo from '../logo/logo';
-import GenericButton from '../button/button';
-import GridBody from '../gridBody';
-import { InputStyle } from '../__styles__/styles';
+import LectureGogglesLogo from '../../components/logo/logo';
+import GenericButton from '../../components/button/button';
+import GridBody from '../../components/gridBody';
+import { InputStyle } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
