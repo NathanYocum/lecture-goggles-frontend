@@ -11,6 +11,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const TopicsPage = () => {
   const [subjects, setSubjects] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
 
@@ -24,9 +25,14 @@ const TopicsPage = () => {
 
   useEffect(() => {
     if (currentSubject !== '') {
-      axios.get(`${urlToUse}/${currentSubject}/topic`).then(({ data }) => {
-        setTopics(data.topics[0]);
-      });
+      setLoading(true);
+      axios
+        .get(`${urlToUse}/${currentSubject}/topic`)
+        .then(({ data }) => {
+          setTopics(data.topics[0]);
+        })
+        .then(() => setLoading(false))
+        .catch(() => setLoading(false));
     }
     return setTopics([]);
   }, [currentSubject]);
@@ -46,6 +52,15 @@ const TopicsPage = () => {
             </option>
           ))}
       </SelectStyle>
+      {!loading && topics.length === 0 && currentSubject !== '' && (
+        <div style={{ gridColumn: 2, paddingTop: '56px', color: '#ff4500' }}>
+          There are no topics for the current subject.{' '}
+          <a style={{ color: '#711' }} href="/upload">
+            Upload
+          </a>{' '}
+          a topic for the subject.
+        </div>
+      )}
       <div style={{ gridColumn: 2 }}>
         {topics.map(topic => (
           <TopicItem

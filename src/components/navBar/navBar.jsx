@@ -13,6 +13,7 @@ const NavBarStyle = styled.nav`
   position: fixed;
   width: 100%;
   height: ${state => (state.renderMenu ? '56px' : 'auto')};
+  border-bottom: 1px solid #111111;
 `;
 
 const NavList = styled.ul`
