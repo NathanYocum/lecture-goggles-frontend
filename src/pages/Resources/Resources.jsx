@@ -24,25 +24,25 @@ const Resources = () => {
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
   const [currentTopic, setCurrentTopic] = useState(urlParams.has('topicId') ? urlParams.get('topicId') : '');
   useEffect(() => {
-    axios.get(`${urlToUse}/subject`).then(response => {
+    axios.get(`${urlToUse}/v1/subject/getAll`).then(response => {
       if (response.data.subjects[0].length !== 0) {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
     });
-    axios.get(`${urlToUse}/all/post`).then(response => {
+    axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
       setResources(response.data.posts[0]);
     });
   }, []);
   useEffect(() => {
     if (currentSubject !== '') {
-      axios.get(`${urlToUse}/${currentSubject}/topic`).then(response => {
+      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
         setTopics(response.data.topics[0]);
       });
     }
   }, [currentSubject]);
   useEffect(() => {
     if (currentTopic !== '') {
-      axios.get(`${urlToUse}/topic/${currentTopic}/post`).then(response => {
+      axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
@@ -50,6 +50,7 @@ const Resources = () => {
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
+      <div style={{ gridColumn: 2 }}>Subject</div>
       <SelectStyle
         value={currentSubject}
         onChange={event => setCurrentSubject(event.target.value)}
@@ -64,19 +65,22 @@ const Resources = () => {
           ))}
       </SelectStyle>
       {currentSubject !== '' && (
-        <SelectStyle
-          value={currentTopic}
-          onChange={event => setCurrentTopic(event.target.value)}
-          style={{ gridColumn: 2 }}
-        >
-          <option value="">Choose a topic</option>
-          {topics.length !== 0 &&
-            topics.map(topic => (
-              <option value={topic.id} key={topic.id}>
-                {topic.topic}
-              </option>
-            ))}
-        </SelectStyle>
+        <>
+          <div style={{ gridColumn: 2 }}>Topic</div>
+          <SelectStyle
+            value={currentTopic}
+            onChange={event => setCurrentTopic(event.target.value)}
+            style={{ gridColumn: 2 }}
+          >
+            <option value="">Choose a topic</option>
+            {topics.length !== 0 &&
+              topics.map(topic => (
+                <option value={topic.id} key={topic.id}>
+                  {topic.topic}
+                </option>
+              ))}
+          </SelectStyle>
+        </>
       )}
       <TempCardStyle>
         {resources.length === 0 ? (
@@ -89,7 +93,7 @@ const Resources = () => {
                 title={post.resource}
                 // subject={currentSubject}
                 // topic={post.topic_id}
-                author="author"
+                author="nyocum"
                 authorImg="Avatar.svg"
                 previewImg="Image.svg"
                 points={36}

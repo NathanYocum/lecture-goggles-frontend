@@ -76,7 +76,7 @@ const UploadPage = () => {
   const { signedInAs } = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get(`${urlToUse}/subject`).then(response => {
+    axios.get(`${urlToUse}/v1/subject/getAll`).then(response => {
       if (response.data === undefined) {
         return setSubjects([]);
       }
@@ -89,7 +89,7 @@ const UploadPage = () => {
 
   useEffect(() => {
     if (currentSubject !== '') {
-      axios.get(`${urlToUse}/${currentSubject}/topic`).then(response => {
+      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
         if (response.data === undefined) {
           return setTopics([]);
         }
@@ -105,7 +105,7 @@ const UploadPage = () => {
     const token = localStorage.getItem('token');
     axios
       .post(
-        `${urlToUse}/subject/create`,
+        `${urlToUse}/v1/subject/createSubject`,
         {
           subject,
           description
@@ -126,7 +126,7 @@ const UploadPage = () => {
     const token = localStorage.getItem('token');
     axios
       .post(
-        `${urlToUse}/${subjectId}/topic/create`,
+        `${urlToUse}/v1/topic/createTopic/${subjectId}/`,
         {
           topic,
           description
@@ -150,7 +150,7 @@ const UploadPage = () => {
     }
     axios
       .post(
-        `${urlToUse}/${topicId}/post/create`,
+        `${urlToUse}/v1/post/createPost/${topicId}/`,
         {
           resource,
           resource_url: resourceUrl,
