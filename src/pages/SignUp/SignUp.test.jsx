@@ -154,7 +154,7 @@ it('Makes a post to /users/signup request on form submission', async () => {
     fireEvent.click(queryByTestId('continue-button'));
   });
   await wait(() =>
-    expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/users/signup', {
+    expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/v1/users/signup', {
       email: 'example@example.com',
       password: 'password123!',
       firstname: 'John',

@@ -96,7 +96,7 @@ const SignUp = () => {
     })();
 
     axios
-      .post(`${urlToUse}/users/signup`, {
+      .post(`${urlToUse}/v1/users/signup`, {
         username: values.userName,
         email: values.email,
         firstname: values.firstName,

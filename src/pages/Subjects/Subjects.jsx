@@ -13,7 +13,7 @@ const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lectu
 const SubjectsPage = () => {
   const [subjects, setSubjects] = useState([]);
   useEffect(() => {
-    axios.get(`${urlToUse}/subject`).then(({ data }) => {
+    axios.get(`${urlToUse}/v1/subject/getAll`).then(({ data }) => {
       setSubjects(data.subjects[0]);
     });
   }, []);

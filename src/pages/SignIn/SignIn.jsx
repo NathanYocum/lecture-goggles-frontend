@@ -61,14 +61,14 @@ const SignIn = () => {
       return 'http://api.lecturegoggles.io';
     })();
     axios
-      .post(`${urlToUse}/users/login`, { email, password })
+      .post(`${urlToUse}/v1/users/login`, { email, password })
       .then(({ data }) => {
         localStorage.setItem('token', data.access_token);
       })
       .then(() => {
         const token = localStorage.getItem('token');
         axios
-          .get(`${urlToUse}/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
+          .get(`${urlToUse}/v1/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
           .then(response => {
             const { data } = response;
             setUser(data.logged_in_as);
