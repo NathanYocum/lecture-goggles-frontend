@@ -91,15 +91,16 @@ const Resources = () => {
               <ResourceCard
                 key={`${post.resource_url}_${post.id}`}
                 title={post.resource}
-                // subject={currentSubject}
-                // topic={post.topic_id}
-                author="nyocum"
+                subject={post.subject_name}
+                topic={post.topic_name}
+                author={post.author_name}
                 authorImg="Avatar.svg"
                 previewImg="Image.svg"
-                points={36}
+                points={post.upvote_count}
                 description={post.description}
                 timeStamp={post.created_at}
                 url={post.resource_url}
+                id={post.id}
               />
             ))}
           </div>
