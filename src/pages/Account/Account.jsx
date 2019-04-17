@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import GridBody from '../../components/gridBody';
 import AuthContext from '../../contexts/AuthContext';
-import ResourceCard from '../../components/resourceCard/ResourceCard';
+import ResourceCardAccountPage from '../../components/resourceCard/ResourceCardAccountPage';
 import GenericButton from '../../components/button/button';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
@@ -35,7 +35,7 @@ const AccountPage = () => {
       </div>
       <div style={{ gridColumn: 2, gridRow: 6 }}>
         {myPosts.map(post => (
-          <ResourceCard
+          <ResourceCardAccountPage
             key={`${post.resource_url}_${post.id}`}
             title={post.resource}
             subject={post.subject_name}

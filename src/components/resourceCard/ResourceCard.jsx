@@ -158,7 +158,7 @@ ResourceCard.propTypes = {
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  vote: PropTypes.shape({})
+  vote: PropTypes.shape({}).isRequired
 };
 
 export default ResourceCard;
