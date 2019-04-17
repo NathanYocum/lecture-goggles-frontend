@@ -1,6 +1,7 @@
 import React, { useContext, useState, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 
 import AuthContext from '../../contexts/AuthContext';
 import {
@@ -36,24 +37,29 @@ const ResourceCard = ({
 
   const [pointState, setPoints] = useState(points);
 
-  const createReducer = vote => (state, action) => {
+  const createReducer = () => (state, action) => {
+    const token = localStorage.getItem('token');
     if (state === 'upvote') {
       if (action === 'upvote') {
         setPoints(pointState);
+        axios.post(`${urlToUse}/v1/vote/upvotePost/${id}/`, {}, { headers: { Authorization: `Bearer ${token}` } });
         return 'none';
       }
     }
     if (state === 'downvote') {
       if (action === 'downvote') {
         setPoints(pointState);
+        axios.post(`${urlToUse}/v1/vote/downvotePost/${id}/`, {}, { headers: { Authorization: `Bearer ${token}` } });
         return 'none';
       }
     }
     if (action === 'upvote') {
       setPoints(pointState + 1);
+      axios.post(`${urlToUse}/v1/vote/upvotePost/${id}/`, {}, { headers: { Authorization: `Bearer ${token}` } });
     }
     if (action === 'downvote') {
       setPoints(pointState - 1);
+      axios.post(`${urlToUse}/v1/vote/downvotePost/${id}/`, {}, { headers: { Authorization: `Bearer ${token}` } });
     }
     return action;
   };

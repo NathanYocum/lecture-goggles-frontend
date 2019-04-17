@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import ResourceCard from '../../components/resourceCard/ResourceCard';
 import { SelectStyle } from '../../components/__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const ResourcesBody = styled(GridBody)`
   grid-row-gap: 12px;
@@ -16,6 +17,8 @@ const TempCardStyle = styled.div`
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
 
 const Resources = () => {
+  const { signedInAs } = useContext(AuthContext);
+
   const urlParams = new URLSearchParams(window.location.search);
 
   const [subjects, setSubjects] = useState([]);
@@ -29,10 +32,17 @@ const Resources = () => {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
     });
-    axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
-      setResources(response.data.posts[0]);
-    });
-  }, []);
+    if (signedInAs !== '') {
+      const token = localStorage.getItem('token');
+      axios.get(`${urlToUse}/v1/post/getAll`, {}, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+        setResources(response.data.posts[0]);
+      });
+    } else {
+      axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
+        setResources(response.data.posts[0]);
+      });
+    }
+  }, [signedInAs]);
   useEffect(() => {
     if (currentSubject !== '') {
       axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
