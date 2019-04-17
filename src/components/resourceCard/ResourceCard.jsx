@@ -31,11 +31,22 @@ const ResourceCard = ({
   timeStamp,
   description,
   url,
-  id
+  id,
+  vote
 }) => {
   const { signedInAs } = useContext(AuthContext);
 
-  const [pointState, setPoints] = useState(points);
+  const [pointState, setPoints] = useState(() => {
+    if (typeof vote !== 'undefined') {
+      if (vote.vote_choice === 1) {
+        return points - 1;
+      }
+      if (vote.vote_choice === -1) {
+        return points + 1;
+      }
+    }
+    return points;
+  });
 
   const createReducer = () => (state, action) => {
     const token = localStorage.getItem('token');
@@ -66,7 +77,19 @@ const ResourceCard = ({
 
   const memoizedCallback = useCallback(createReducer('none'), []);
 
-  const [voteState, dispatch] = useReducer(memoizedCallback, 'none');
+  const [voteState, dispatch] = useReducer(memoizedCallback, 'none', () => {
+    if (typeof vote !== 'undefined') {
+      if (vote.vote_choice === 1) {
+        setPoints(pointState + 1);
+        return 'upvote';
+      }
+      if (vote.vote_choice === -1) {
+        setPoints(pointState - 1);
+        return 'downvote';
+      }
+    }
+    return 'none';
+  });
 
   return (
     <CardContainerStyle>
@@ -134,7 +157,8 @@ ResourceCard.propTypes = {
   timeStamp: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  vote: PropTypes.shape({})
 };
 
 export default ResourceCard;

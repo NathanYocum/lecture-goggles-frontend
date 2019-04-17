@@ -34,8 +34,15 @@ const Resources = () => {
     });
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
-      axios.get(`${urlToUse}/v1/post/getAll`, {}, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
-        setResources(response.data.posts[0]);
+      axios.get(`${urlToUse}/v1/post/getAll`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+        setResources(
+          // Join the vote_status and the post
+          response.data.posts[0].map(post => {
+            const postCopy = post;
+            [postCopy.vote_status] = response.data.vote_status[0].filter(vote => post.id === vote.post_id);
+            return postCopy;
+          })
+        );
       });
     } else {
       axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
@@ -57,6 +64,7 @@ const Resources = () => {
       });
     }
   }, [currentTopic]);
+
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
@@ -111,6 +119,7 @@ const Resources = () => {
                 timeStamp={post.created_at}
                 url={post.resource_url}
                 id={post.id}
+                vote={post.vote_status}
               />
             ))}
           </div>
