@@ -24,6 +24,7 @@ const TabBarTabStyle = styled.button`
   height: 56px;
   width: 100%;
   background-color: ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)};
+  color: #111111;
   :hover {
     box-shadow: inset 0px 0px 0px 4px ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)},
       inset 0px 0px 0px 6px ${props => (props.isActive ? `${primaryBlue}` : '#ffffff')};
@@ -60,6 +61,8 @@ const InputStyle = styled.input`
   height: 56px;
   font-size: 24px;
   box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  background-color: #efefef;
+  color: #111111;
 
   :focus {
     outline-color: ${props => (props.hasErrors ? `${red}` : `${primaryBlue}`)};
@@ -74,6 +77,8 @@ const TextAreaStyle = styled.textarea`
   min-width: 80%;
   resize: vertical;
   height: 56px;
+  background-color: #efefef;
+  color: #111111;
   border: ${props => (props.hasErrors ? `1px solid ${red}` : `1px solid ${primaryBlue}`)};
 
   :focus {
