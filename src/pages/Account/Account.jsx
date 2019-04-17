@@ -23,7 +23,7 @@ const AccountPage = () => {
   return (
     <GridBody data-testid="account">
       {signedInAs === '' && <Redirect to="/signIn" from="/account" />}
-      <div style={{ gridColumn: 2, gridRow: 2 }}>User: {signedInAs}</div>
+      <h3 style={{ gridColumn: 2, gridRow: 2 }}>Hi {signedInAs}!</h3>
       <div style={{ gridColumn: 2, gridRow: 3 }}>
         <GenericButton width="200px" height="56px" text="CHANGE MY PASSWORD" />
       </div>
