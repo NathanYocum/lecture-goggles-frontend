@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import ResourceCard from '../../components/resourceCard/ResourceCard';
 import { SelectStyle } from '../../components/__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 
 const ResourcesBody = styled(GridBody)`
   grid-row-gap: 12px;
@@ -16,6 +17,8 @@ const TempCardStyle = styled.div`
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
 
 const Resources = () => {
+  const { signedInAs } = useContext(AuthContext);
+
   const urlParams = new URLSearchParams(window.location.search);
 
   const [subjects, setSubjects] = useState([]);
@@ -29,10 +32,24 @@ const Resources = () => {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
     });
-    axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
-      setResources(response.data.posts[0]);
-    });
-  }, []);
+    if (signedInAs !== '') {
+      const token = localStorage.getItem('token');
+      axios.get(`${urlToUse}/v1/post/getAll`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+        setResources(
+          // Join the vote_status and the post
+          response.data.posts[0].map(post => {
+            const postCopy = post;
+            [postCopy.vote_status] = response.data.vote_status[0].filter(vote => post.id === vote.post_id);
+            return postCopy;
+          })
+        );
+      });
+    } else {
+      axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
+        setResources(response.data.posts[0]);
+      });
+    }
+  }, [signedInAs]);
   useEffect(() => {
     if (currentSubject !== '') {
       axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
@@ -47,6 +64,7 @@ const Resources = () => {
       });
     }
   }, [currentTopic]);
+
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
@@ -91,15 +109,17 @@ const Resources = () => {
               <ResourceCard
                 key={`${post.resource_url}_${post.id}`}
                 title={post.resource}
-                // subject={currentSubject}
-                // topic={post.topic_id}
-                author="nyocum"
+                subject={post.subject_name}
+                topic={post.topic_name}
+                author={post.author_name}
                 authorImg="Avatar.svg"
                 previewImg="Image.svg"
-                points={36}
+                points={post.upvote_count}
                 description={post.description}
                 timeStamp={post.created_at}
                 url={post.resource_url}
+                id={post.id}
+                vote={post.vote_status}
               />
             ))}
           </div>
