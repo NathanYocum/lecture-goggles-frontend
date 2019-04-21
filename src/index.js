@@ -13,12 +13,13 @@ import {
   faEllipsisV,
   faUser,
   faUserPlus,
-  faCheckCircle
+  faCheckCircle,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import App from './App';
 import AuthContext from './contexts/AuthContext';
 
-library.add(faChevronDown, faChevronUp, faArrowUp, faArrowDown, faEllipsisV, faUser, faUserPlus, faCheckCircle);
+library.add(faChevronDown, faChevronUp, faArrowUp, faArrowDown, faEllipsisV, faUser, faUserPlus, faCheckCircle, faPlus);
 
 const history = createBrowserHistory();
 

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import UploadFAB from '../../components/FAB/UploadFAB';
 import LectureGogglesLogo from '../../components/logo/logo';
 import GenericButton from '../../components/button/button';
 import GridBody from '../../components/gridBody';
@@ -69,12 +70,7 @@ const LandingPage = () => {
           </AccountCreateButtonStyle>
         </>
       ) : (
-        <SignInButtonStyle>
-          {/* Move this to a FAB */}
-          <a href="/upload">
-            <GenericButton text="+ Upload" />
-          </a>
-        </SignInButtonStyle>
+        <UploadFAB />
       )}
     </GridBody>
   );

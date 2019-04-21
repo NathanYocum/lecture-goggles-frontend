@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import SubjectItem from './subjectItem/subjectItem';
+import UploadFAB from '../../components/FAB/UploadFAB';
 
 const SubjectsBody = styled(GridBody)`
   grid-row-gap: 8px;
@@ -32,6 +33,7 @@ const SubjectsPage = () => {
           />
         ))
       )}
+      <UploadFAB />
     </SubjectsBody>
   );
 };

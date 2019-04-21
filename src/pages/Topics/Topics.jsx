@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import { SelectStyle } from '../../components/__styles__/styles';
+import UploadFAB from '../../components/FAB/UploadFAB';
 import TopicItem from './TopicItem';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
@@ -72,6 +73,7 @@ const TopicsPage = () => {
           />
         ))}
       </div>
+      <UploadFAB />
     </GridBody>
   );
 };
