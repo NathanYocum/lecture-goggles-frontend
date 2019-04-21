@@ -105,7 +105,7 @@ const UploadPage = () => {
     const token = localStorage.getItem('token');
     axios
       .post(
-        `${urlToUse}/v1/subject/createSubject`,
+        `${urlToUse}/v1/subject/createSubject/`,
         {
           subject,
           description
