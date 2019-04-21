@@ -1,7 +1,8 @@
-import React, { useContext, useState, useCallback, useReducer } from 'react';
+import React, { useContext, useState, useCallback, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { Formik } from 'formik';
 
 import AuthContext from '../../contexts/AuthContext';
 import {
@@ -15,8 +16,12 @@ import {
   PreviewA,
   PreviewLink,
   LinkStyle,
-  BottomContainer
+  BottomContainer,
+  TextAreaStyle
 } from '../__styles__/styles';
+import ResourceCardDropDown from './DropDown';
+import ReportModal from './reportModal/ReportModal';
+import GenericButton from '../button/button';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
 
@@ -52,6 +57,34 @@ const ResourceCard = ({
     const date = new Date(timeStamp);
     return date.toDateString();
   });
+
+  const [isShowingDropDown, setShowingDropDown] = useState(false);
+
+  const [isShowingReportModal, setShowingReportModal] = useReducer((state, action) => {
+    setShowingDropDown(false);
+    return action;
+  }, false);
+
+  useEffect(() => {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        setShowingReportModal(false);
+      }
+    });
+  }, []);
+
+  function reportPost(values, actions) {
+    const token = localStorage.getItem('token');
+    if (values.description !== '') {
+      axios
+        .post(
+          `${urlToUse}/v1/report/createReport/${id}/`,
+          { description: values.description },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => actions.resetForm() && actions.setSubmitting(false));
+    }
+  }
 
   const createReducer = () => (state, action) => {
     const token = localStorage.getItem('token');
@@ -97,57 +130,118 @@ const ResourceCard = ({
   });
 
   return (
-    <CardContainerStyle>
-      <TitleStyle>{title}</TitleStyle>
-      <div>
-        <ItemStyle>{subject}</ItemStyle>
-        <ItemStyle>{topic}</ItemStyle>
-        <div style={{ height: '5px' }} />
-      </div>
-      <AvatarStyle width="40px" height="40px" src={authorImg} alt="uploader avatar" />
-      <PreviewA href={url}>
-        <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />
-      </PreviewA>
-      <PreviewLink href={url}>
-        <LinkStyle>{url.length < 37 ? url : `${url.substring(0, 34)}...`}</LinkStyle>
-      </PreviewLink>
-      <ItemStyle>Uploaded by {author}</ItemStyle>
-      <ItemStyle
-        style={{
-          color: `${(() => {
-            if (voteState === 'upvote') {
-              return '#ff945e';
-            }
-            if (voteState === 'downvote') {
-              return '#7fdbff';
-            }
-            return '';
-          })()}`,
-          gridColumn: '1 / span 2'
-        }}
-      >
-        {pointState > 0 ? `+${pointState}` : `${pointState}`} points
-      </ItemStyle>
-      <ItemStyle style={{ marginBottom: '6px', gridColumn: '1 / span 2' }}>Uploaded {dateToDisplay}</ItemStyle>
-      <DescriptionStyle>{description}</DescriptionStyle>
-      <BottomContainer>
-        {signedInAs === '' ? (
-          <a href="/signIn">Sign in to vote!</a>
-        ) : (
-          <>
-            <UnstyledButton data-testid={`${title}-upvote-arrow`} onClick={() => dispatch('upvote')}>
-              <FontAwesomeIcon color={voteState === 'upvote' ? '#ff945e' : '#111111'} icon="arrow-up" />
-            </UnstyledButton>
-            <UnstyledButton data-testid={`${title}-downvote-arrow`} onClick={() => dispatch('downvote')}>
-              <FontAwesomeIcon color={voteState === 'downvote' ? '#7fdbff' : '#111111'} icon="arrow-down" />
-            </UnstyledButton>
-            <UnstyledButton data-testid={`${title}-options`}>
-              <FontAwesomeIcon color="#111111" icon="ellipsis-v" />
-            </UnstyledButton>
-          </>
+    <>
+      <CardContainerStyle>
+        <TitleStyle style={{ gridColumn: 1, gridRow: 1 }}>{title}</TitleStyle>
+        <div style={{ gridColumn: '1 / span 2', gridRow: 2 }}>
+          <ItemStyle>{subject}</ItemStyle>
+          <ItemStyle>{topic}</ItemStyle>
+          <div style={{ height: '5px' }} />
+        </div>
+        <AvatarStyle
+          style={{ gridColumn: 2, gridRow: '1 / span 2' }}
+          width="40px"
+          height="40px"
+          src={authorImg}
+          alt="uploader avatar"
+        />
+        <ItemStyle style={{ gridColumn: '1 / span 2', gridRow: 3 }}>Uploaded by {author}</ItemStyle>
+        <PreviewA href={url}>
+          <PreviewStyle width="100%" height="195px" src={previewImg} alt="preview" />
+        </PreviewA>
+        <PreviewLink href={url}>
+          <LinkStyle>{url.length < 37 ? url : `${url.substring(0, 34)}...`}</LinkStyle>
+        </PreviewLink>
+        <ItemStyle
+          style={{
+            color: `${(() => {
+              if (voteState === 'upvote') {
+                return '#ff945e';
+              }
+              if (voteState === 'downvote') {
+                return '#7fdbff';
+              }
+              return '';
+            })()}`,
+            gridColumn: '1 / span 2',
+            gridRow: 6
+          }}
+        >
+          {pointState > 0 ? `+${pointState}` : `${pointState}`} points
+        </ItemStyle>
+        <ItemStyle style={{ marginBottom: '6px', gridColumn: '1 / span 2', gridRow: 7 }}>
+          Uploaded {dateToDisplay}
+        </ItemStyle>
+        <DescriptionStyle>{description === '' ? 'no description provided' : description}</DescriptionStyle>
+        <BottomContainer>
+          {signedInAs === '' ? (
+            <a href="/signIn">Sign in to vote!</a>
+          ) : (
+            <>
+              <UnstyledButton data-testid={`${title}-upvote-arrow`} onClick={() => dispatch('upvote')}>
+                <FontAwesomeIcon color={voteState === 'upvote' ? '#ff945e' : '#111111'} icon="arrow-up" />
+              </UnstyledButton>
+              <UnstyledButton data-testid={`${title}-downvote-arrow`} onClick={() => dispatch('downvote')}>
+                <FontAwesomeIcon color={voteState === 'downvote' ? '#7fdbff' : '#111111'} icon="arrow-down" />
+              </UnstyledButton>
+              <UnstyledButton data-testid={`${title}-options`} onClick={() => setShowingDropDown(!isShowingDropDown)}>
+                <FontAwesomeIcon color="#111111" icon="ellipsis-v" />
+              </UnstyledButton>
+            </>
+          )}
+        </BottomContainer>
+        {isShowingDropDown && (
+          <ResourceCardDropDown>
+            <div
+              style={{
+                color: '#0074d9',
+                width: '100%',
+                height: '32px',
+                borderBottom: '1px solid #e3e3e3',
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+              }}
+              onClick={() => setShowingReportModal(true)}
+              onKeyPress={() => setShowingReportModal(true)}
+              role="button"
+              tabIndex={0}
+            >
+              Report...
+            </div>
+          </ResourceCardDropDown>
         )}
-      </BottomContainer>
-    </CardContainerStyle>
+      </CardContainerStyle>
+      <ReportModal isOpen={isShowingReportModal}>
+        <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'auto 36px', cursor: 'pointer' }}>
+          <FontAwesomeIcon
+            style={{ gridRow: 1, gridColumn: 2 }}
+            onClick={() => setShowingReportModal(false)}
+            icon="times"
+          />
+          <h1 style={{ color: '#0074d9' }}>Report Post: {title}</h1>
+          <Formik
+            initialValues={{ description: '' }}
+            onSubmit={reportPost}
+            render={formikProps => {
+              const { handleChange, handleSubmit, values } = formikProps;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <TextAreaStyle
+                    onChange={handleChange}
+                    name="description"
+                    value={values.description}
+                    placeholder="What's wrong with this post?"
+                    style={{ gridColumn: '1 / span 2' }}
+                  />
+                  <GenericButton type="submit" text="SUBMIT" />
+                </form>
+              );
+            }}
+          />
+        </div>
+      </ReportModal>
+    </>
   );
 };
 
