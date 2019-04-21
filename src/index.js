@@ -24,6 +24,7 @@ const history = createBrowserHistory();
 
 const AppToRender = () => {
   const [signedInAs, setUser] = useState(null);
+  const [userData, setUserData] = useState({});
   useLayoutEffect(() => {
     const urlToUse = (() => {
       if (process.env.NODE_ENV === 'development') {
@@ -38,6 +39,7 @@ const AppToRender = () => {
         .then(response => {
           const { data } = response;
           setUser(data.logged_in_as);
+          setUserData(data.user_info);
         })
         .catch(() => {
           setUser('');
@@ -45,12 +47,12 @@ const AppToRender = () => {
     } else {
       setUser('');
     }
-  });
+  }, []);
   if (signedInAs === null) {
     return <div />;
   }
   return (
-    <AuthContext.Provider value={{ signedInAs, setUser }}>
+    <AuthContext.Provider value={{ signedInAs, setUser, userData }}>
       <Router history={history}>
         <App />
       </Router>
