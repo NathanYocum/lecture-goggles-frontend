@@ -85,11 +85,6 @@ const NavBar = props => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink data-testid="support-link-full" href="/support">
-                Support
-              </NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink data-testid="developers-link-full" href="/developers">
                 Developers
               </NavLink>
@@ -161,11 +156,6 @@ const NavBar = props => {
           <MenuItem>
             <NavLink data-testid="resources-link-menu" href="/resources">
               Resources
-            </NavLink>
-          </MenuItem>
-          <MenuItem>
-            <NavLink data-testid="support-link-menu" href="/support">
-              Support
             </NavLink>
           </MenuItem>
           <MenuItem>
