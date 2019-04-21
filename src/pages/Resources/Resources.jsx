@@ -5,6 +5,7 @@ import GridBody from '../../components/gridBody';
 import ResourceCard from '../../components/resourceCard/ResourceCard';
 import { SelectStyle } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
+import UploadFAB from '../../components/FAB/UploadFAB';
 
 const ResourcesBody = styled(GridBody)`
   grid-row-gap: 12px;
@@ -125,6 +126,7 @@ const Resources = () => {
           </div>
         )}
       </TempCardStyle>
+      <UploadFAB />
     </ResourcesBody>
   );
 };
