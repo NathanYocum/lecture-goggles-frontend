@@ -9,7 +9,6 @@ import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import SubjectsPage from './pages/Subjects/Subjects';
 import TopicsPage from './pages/Topics/Topics';
-import SupportPage from './pages/Support/Support';
 import AccountPage from './pages/Account/Account';
 import UploadPage from './pages/Upload/Upload';
 import NavBar from './components/navBar/navBar';
@@ -21,7 +20,6 @@ const App = () => (
       <Route exact path="/" component={LandingPage} />
       <Route path="/subjects" component={SubjectsPage} />
       <Route path="/topics" component={TopicsPage} />
-      <Route path="/support" component={SupportPage} />
       <Route path="/resources" component={Resources} />
       <Route path="/developers" component={DevelopersPage} />
       <Route path="/account" component={AccountPage} />

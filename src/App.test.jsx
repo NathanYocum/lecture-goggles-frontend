@@ -48,11 +48,6 @@ describe('Application routes', () => {
     expect(queryByTestId('topics')).not.toBeNull();
   });
 
-  it('Routes to Support on /support', () => {
-    const { queryByTestId } = renderWithRouter(<App />, { route: '/support' });
-    expect(queryByTestId('support')).not.toBeNull();
-  });
-
   it('Routes to Resources on /resources', () => {
     const { queryByTestId } = renderWithRouter(<App />, { route: '/resources' });
     expect(queryByTestId('resources')).not.toBeNull();

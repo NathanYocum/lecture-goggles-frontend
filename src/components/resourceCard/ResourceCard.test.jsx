@@ -20,6 +20,7 @@ it('Renders a title', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -27,45 +28,47 @@ it('Renders a title', () => {
   expect(getByText(/A Title I Have Chosen/gm).outerHTML).toMatch(/<div class=".*">A Title I Have Chosen<\/div>/gm);
 });
 
-// it('Renders a Subject', () => {
-//   const { getByText } = render(
-//     <ResourceCard
-//       title=""
-//       subject="Some kind of subject"
-//       topic=""
-//       author=""
-//       authorImg=""
-//       previewImg=""
-//       points={0}
-//       timeStamp=""
-//       description=""
-//       url=""
-//     />
-//   );
+it('Renders a Subject', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject="Some kind of subject"
+      topic=""
+      author=""
+      authorImg=""
+      previewImg=""
+      points={0}
+      timeStamp=""
+      description=""
+      url=""
+      id={1}
+    />
+  );
 
-//   expect(getByText(/Some kind of subject/gm)).toBeTruthy();
-//   expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(/<div class=".*">Some kind of subject - <\/div>/gm);
-// });
+  expect(getByText(/Some kind of subject/gm)).toBeTruthy();
+  expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(/<div class=".*">Some kind of subject<\/div>/gm);
+});
 
-// it('Renders a topic', () => {
-//   const { getByText } = render(
-//     <ResourceCard
-//       title=""
-//       subject=""
-//       topic="Some random topic"
-//       author=""
-//       authorImg=""
-//       previewImg=""
-//       points={0}
-//       timeStamp=""
-//       description=""
-//       url=""
-//     />
-//   );
+it('Renders a topic', () => {
+  const { getByText } = render(
+    <ResourceCard
+      title=""
+      subject=""
+      topic="Some random topic"
+      author=""
+      authorImg=""
+      previewImg=""
+      points={0}
+      timeStamp=""
+      description=""
+      url=""
+      id={1}
+    />
+  );
 
-//   expect(getByText(/Some random topic/gm)).toBeTruthy();
-//   expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*"> - Some random topic<\/div>/gm);
-// });
+  expect(getByText(/Some random topic/gm)).toBeTruthy();
+  expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*">Some random topic<\/div>/gm);
+});
 
 it('Renders an author', () => {
   const { getByText } = render(
@@ -80,6 +83,7 @@ it('Renders an author', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -100,6 +104,7 @@ it('Renders an image of the author with an alt image text', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -122,6 +127,7 @@ it('Renders an image of the author with an alt image text', () => {
       timeStamp=""
       description=""
       url="a_link"
+      id={1}
     />
   );
 
@@ -144,12 +150,13 @@ it('Includes a hyperlink of the url on the image', () => {
       timeStamp=""
       description=""
       url="a_link"
+      id={1}
     />
   );
 
   expect(getByAltText(/preview/gm)).toBeTruthy();
   expect(getByAltText(/preview/gm).parentElement.outerHTML).toMatch(
-    /<a href="a_link" class=".*"><img width=".*" height=".*" src="" alt="preview" class=".*"> <\/a>/gm
+    /<a href="a_link" class=".*"><img width=".*" height=".*" src="" alt="preview" class=".*"><\/a>/gm
   );
 });
 
@@ -166,6 +173,7 @@ it('Renders the url of the resource', () => {
       timeStamp=""
       description=""
       url="a_url"
+      id={1}
     />
   );
 
@@ -188,6 +196,7 @@ it('Truncates a long url of the resource', () => {
       timeStamp=""
       description=""
       url={url}
+      id={1}
     />
   );
 
@@ -207,6 +216,7 @@ it('Renders the points of a post', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -227,6 +237,7 @@ it('Renders the positive points of a post', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -250,6 +261,7 @@ it('Renders a description of a post', () => {
       timeStamp=""
       description={des}
       url=""
+      id={1}
     />
   );
   expect(getByText(/Brief description of some post/gm)).toBeTruthy();
@@ -276,6 +288,7 @@ it('Renders an upvote button', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 
@@ -297,6 +310,7 @@ it('Renders a downvote button', () => {
       timeStamp=""
       description=""
       url=""
+      id={1}
     />
   );
 

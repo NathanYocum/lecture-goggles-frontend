@@ -51,13 +51,6 @@ it('Renders a link to Resources when the hamburger button is not rendered', () =
   expect(queryByTestId('resources-link-full').outerHTML).toMatch(/<a .* href="\/resources" .*>Resources<\/a>/gm);
 });
 
-it('Renders a link to Support when the hamburger button is not rendered', () => {
-  global.innerWidth = 1080;
-  const { queryByTestId } = render(renderNavBar(''));
-  expect(queryByTestId('support-link-full')).not.toBeNull();
-  expect(queryByTestId('support-link-full').outerHTML).toMatch(/<a .* href="\/support" .*>Support<\/a>/gm);
-});
-
 it('Renders a link to Developers when the hamburger button is not rendered', () => {
   global.innerWidth = 1080;
   const { queryByTestId } = render(renderNavBar(''));
@@ -155,13 +148,6 @@ it('Renders a link to Resources when the hamburger button is pressed', () => {
   const { queryByTestId } = render(renderNavBar(''));
   fireEvent.click(queryByTestId('hamburger-button'), { button: 0 });
   expect(queryByTestId(/resources-link-menu/gm).outerHTML).toMatch(/<a .* href="\/resources" .*>Resources<\/a>/gm);
-});
-
-it('Renders a link to Support when the hamburger button is pressed', () => {
-  global.innerWidth = 320;
-  const { queryByTestId } = render(renderNavBar(''));
-  fireEvent.click(queryByTestId('hamburger-button'), { button: 0 });
-  expect(queryByTestId(/support-link-menu/gm).outerHTML).toMatch(/<a .* href="\/support" .*>Support<\/a>/gm);
 });
 
 it('Renders a link to Developers when the hamburger button is pressed', () => {
