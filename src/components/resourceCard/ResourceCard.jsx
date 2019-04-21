@@ -161,4 +161,8 @@ ResourceCard.propTypes = {
   vote: PropTypes.shape({})
 };
 
+ResourceCard.defaultProps = {
+  vote: undefined
+};
+
 export default ResourceCard;

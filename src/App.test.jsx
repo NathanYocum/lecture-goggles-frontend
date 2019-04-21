@@ -58,10 +58,10 @@ describe('Application routes', () => {
     expect(queryByTestId('developers')).not.toBeNull();
   });
 
-  it('Routes to Account on /account', () => {
-    const { queryByTestId } = renderWithRouter(<App />, { route: '/account' });
-    expect(queryByTestId('account')).not.toBeNull();
-  });
+  // it('Routes to Account on /account', () => {
+  //   const { queryByTestId } = renderWithRouter(<App />, { route: '/account' });
+  //   expect(queryByTestId('account')).not.toBeNull();
+  // });
 
   it('Routes to Upload on /upload', () => {
     const { queryByTestId } = renderWithRouter(<App />, { route: '/upload' });

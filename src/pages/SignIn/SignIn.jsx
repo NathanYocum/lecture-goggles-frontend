@@ -64,6 +64,7 @@ const SignIn = () => {
       .post(`${urlToUse}/v1/users/login`, { email, password })
       .then(({ data }) => {
         localStorage.setItem('token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
       })
       .then(() => {
         const token = localStorage.getItem('token');
@@ -150,31 +151,31 @@ const SignIn = () => {
             />
           </>
         ) : (
-          <>
-            <h3>You are signed in as {signedInAs}, would you like to sign out? </h3>
-            <ContinueButtonStyle>
-              <a href="/signIn">
-                <GenericButton
-                  testId="confirm-logout-button"
-                  onClickFunction={() => localStorage.removeItem('token')}
-                  height="56px"
-                  width="50%"
-                  text="Yes"
-                />
-              </a>
-              <a href="/">
-                <GenericButton
-                  testId="cancel-logout-button"
-                  backgroundColor="#90a4ae"
-                  color="#0074d9"
-                  height="56px"
-                  width="50%"
-                  text="No"
-                />
-              </a>
-            </ContinueButtonStyle>
-          </>
-        )}
+            <>
+              <h3>You are signed in as {signedInAs}, would you like to sign out? </h3>
+              <ContinueButtonStyle>
+                <a href="/signIn">
+                  <GenericButton
+                    testId="confirm-logout-button"
+                    onClickFunction={() => localStorage.removeItem('token')}
+                    height="56px"
+                    width="50%"
+                    text="Yes"
+                  />
+                </a>
+                <a href="/">
+                  <GenericButton
+                    testId="cancel-logout-button"
+                    backgroundColor="#90a4ae"
+                    color="#0074d9"
+                    height="56px"
+                    width="50%"
+                    text="No"
+                  />
+                </a>
+              </ContinueButtonStyle>
+            </>
+          )}
       </WelcomeStyle>
     </GridBody>
   );
