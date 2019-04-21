@@ -48,6 +48,11 @@ const ResourceCard = ({
     return points;
   });
 
+  const [dateToDisplay] = useState(() => {
+    const date = new Date(timeStamp);
+    return date.toDateString();
+  });
+
   const createReducer = () => (state, action) => {
     const token = localStorage.getItem('token');
     if (state === 'upvote') {
@@ -123,7 +128,7 @@ const ResourceCard = ({
       >
         {pointState > 0 ? `+${pointState}` : `${pointState}`} points
       </ItemStyle>
-      <ItemStyle style={{ marginBottom: '6px', gridColumn: '1 / span 2' }}>Uploaded at {timeStamp}</ItemStyle>
+      <ItemStyle style={{ marginBottom: '6px', gridColumn: '1 / span 2' }}>Uploaded {dateToDisplay}</ItemStyle>
       <DescriptionStyle>{description}</DescriptionStyle>
       <BottomContainer>
         {signedInAs === '' ? (
