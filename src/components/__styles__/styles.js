@@ -187,6 +187,7 @@ const ItemStyle = styled.div`
 const DescriptionStyle = styled(ItemStyle)`
   padding-top: 10px;
   grid-column: 1 / span 2;
+  grid-row: 8;
   overflow: hidden;
 `;
 
@@ -227,6 +228,7 @@ const LinkStyle = styled.div`
 
 const BottomContainer = styled.div`
   grid-column: 1 / span 2;
+  grid-row: 9;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
