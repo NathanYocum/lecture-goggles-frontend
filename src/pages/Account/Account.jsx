@@ -15,6 +15,7 @@ const AccountPage = () => {
   const { signedInAs, userData } = useContext(AuthContext);
   const [myPosts, setMyPosts] = useState([]);
   const [isShowingPasswordChange, setShowingPasswordChange] = useState(false);
+  const [isShowingEmailChange, setShowingEmailChange] = useState(false);
   useEffect(() => {
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
@@ -24,13 +25,26 @@ const AccountPage = () => {
     }
   }, [signedInAs]);
 
-  function submit(values, actions) {
-    if (values.password === values.confirmPassword) {
+  function submitPasswordChange(values, actions) {
+    if (values.password === values.confirmPassword && values.password !== '') {
       const token = localStorage.getItem('token');
       axios
         .post(
           `${urlToUse}/v1/users/changePassword`,
           { password: values.password },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => actions.setSubmitting(false) && actions.resetForm());
+    }
+  }
+
+  function submitEmailChange(values, actions) {
+    if (values.email === values.confirmEmail && values.email !== '') {
+      const token = localStorage.getItem('token');
+      axios
+        .post(
+          `${urlToUse}/v1/users/changeEmail`,
+          { email: values.email },
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then(() => actions.setSubmitting(false) && actions.resetForm());
@@ -43,8 +57,43 @@ const AccountPage = () => {
       <div style={{ width: '100%', gridColumn: 2, gridRow: 3, backgroundColor: '#efefef', padding: '10px' }}>
         email: {userData.email}
         <br />
-        <GenericButton width="200px" text="CHANGE EMAIL" />
+        <GenericButton
+          width="200px"
+          text={isShowingEmailChange ? 'CANCEL' : 'CHANGE EMAIL'}
+          onClickFunction={() => setShowingEmailChange(!isShowingEmailChange)}
+        />
         <br />
+        {isShowingEmailChange && (
+          <Formik
+            onSubmit={submitEmailChange}
+            initialValues={{ email: '', confirmEmail: '' }}
+            render={formikProps => {
+              const { handleChange, values, handleSubmit } = formikProps;
+              return (
+                <form
+                  onSubmit={handleSubmit}
+                  style={{ textAlign: 'center', backgroundColor: '#e3e3e3', padding: '20px 0px 20px' }}
+                >
+                  <InputStyle
+                    onChange={handleChange}
+                    name="email"
+                    value={values.email}
+                    placeholder="New Email"
+                    type="email"
+                  />
+                  <InputStyle
+                    onChange={handleChange}
+                    name="confirmEmail"
+                    value={values.confirmEmail}
+                    placeholder="Confirm New Email"
+                    type="email"
+                  />
+                  <GenericButton text="SUBMIT" width="125px" height="56px" type="submit" />
+                </form>
+              );
+            }}
+          />
+        )}
         Name: {userData.firstname} {userData.lastname}
       </div>
       <div style={{ gridColumn: 2, gridRow: 4, textAlign: 'center' }}>
@@ -52,12 +101,11 @@ const AccountPage = () => {
           onClickFunction={() => setShowingPasswordChange(!isShowingPasswordChange)}
           width="200px"
           height="56px"
-          text="CHANGE MY PASSWORD"
+          text={isShowingPasswordChange ? 'CANCEL' : 'CHANGE MY PASSWORD'}
         />
-
         {isShowingPasswordChange && (
           <Formik
-            onSubmit={submit}
+            onSubmit={submitPasswordChange}
             initialValues={{ password: '', confirmPassword: '' }}
             render={formikProps => {
               const { handleChange, values, handleSubmit } = formikProps;
@@ -85,12 +133,9 @@ const AccountPage = () => {
         )}
       </div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
-        <GenericButton width="200px" height="56px" text="ADD A PROFILE IMAGE" />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 6 }}>
         <h1>My Posts</h1>
       </div>
-      <div style={{ gridColumn: 2, gridRow: 7 }}>
+      <div style={{ gridColumn: 2, gridRow: 6 }}>
         {myPosts.map(post => (
           <ResourceCardAccountPage
             key={`${post.resource_url}_${post.id}`}
