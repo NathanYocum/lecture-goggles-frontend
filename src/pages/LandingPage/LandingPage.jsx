@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import UploadFAB from '../../components/FAB/UploadFAB';
 import LectureGogglesLogo from '../../components/logo/logo';
 import GenericButton from '../../components/button/button';
@@ -41,9 +43,21 @@ const AccountCreateButtonStyle = styled(SignInButtonStyle)`
 `;
 
 const LandingPage = () => {
-  const { signedInAs } = useContext(AuthContext);
+  const { signedInAs, userData } = useContext(AuthContext);
+  const [isAdmin, setAdmin] = useState(undefined);
+  const [reports, setReports] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (userData.is_staff) {
+      axios
+        .get('/v1/report/getReports', { headers: { Authorization: `Bearer ${token}` } })
+        .then(response => setReports(response.data.reports[0]));
+    }
+    setAdmin(userData.is_staff);
+  }, [userData]);
   return (
     <GridBody data-testid="landing-page">
+      <div style={{ gridColumn: 1, gridRow: 1 }} />
       <LogoStyle>
         <LectureGogglesLogo width={200} height={200} />
       </LogoStyle>
@@ -71,6 +85,22 @@ const LandingPage = () => {
         </>
       ) : (
         <UploadFAB />
+      )}
+      {isAdmin && (
+        <div
+          style={{
+            gridColumn: 2,
+            width: '100%',
+            backgroundColor: '#efefef',
+            textAlign: 'center',
+            minHeight: '56px'
+          }}
+        >
+          ADMIN AREA
+          {reports.map(report => (
+            <div key={report.id}>{JSON.stringify(report)}</div>
+          ))}
+        </div>
       )}
     </GridBody>
   );
