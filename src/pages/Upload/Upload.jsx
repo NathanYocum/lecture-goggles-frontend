@@ -76,7 +76,7 @@ const UploadPage = () => {
   const { signedInAs } = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get(`${urlToUse}/v1/subject/getAll`).then(response => {
+    axios.get(`${urlToUse}/v1/subject/getAll/`).then(response => {
       if (response.data === undefined) {
         return setSubjects([]);
       }
@@ -89,7 +89,7 @@ const UploadPage = () => {
 
   useEffect(() => {
     if (currentSubject !== '') {
-      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
+      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}/`).then(response => {
         if (response.data === undefined) {
           return setTopics([]);
         }
@@ -101,21 +101,32 @@ const UploadPage = () => {
     }
   }, [currentSubject]);
 
-  function createSubject(subject, description) {
+  function createSubject(subjectName, description) {
     const token = localStorage.getItem('token');
     axios
       .post(
         `${urlToUse}/v1/subject/createSubject/`,
         {
-          subject,
+          subject: subjectName,
           description
         },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(response => {
         if (response.status === 200) {
-          setSubmitMessage({ success: `Created subject ${subject}!` });
+          setSubmitMessage({ success: `Created subject ${subjectName}!` });
         }
+      })
+      .then(() => {
+        axios.get(`${urlToUse}/v1/subject/getAll/`).then(response => {
+          if (response.data === undefined) {
+            return setSubjects([]);
+          }
+          if (response.data.subjects[0].length !== 0) {
+            return setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
+          }
+          return setSubjects([]);
+        });
       })
       .catch(error => {
         setSubmitMessage({ error: `Error ${error.response.status}: ${error.response.data.message}` });
