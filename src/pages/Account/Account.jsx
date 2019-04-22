@@ -20,7 +20,7 @@ const AccountPage = () => {
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
       axios
-        .get(`${urlToUse}/v1/post/getMyPosts`, { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${urlToUse}/v1/post/getMyPosts/`, { headers: { Authorization: `Bearer ${token}` } })
         .then(response => setMyPosts(response.data.posts[0]));
     }
   }, [signedInAs]);
@@ -30,7 +30,7 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       axios
         .post(
-          `${urlToUse}/v1/users/changePassword`,
+          `${urlToUse}/v1/users/changePassword/`,
           { password: values.password },
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -43,7 +43,7 @@ const AccountPage = () => {
       const token = localStorage.getItem('token');
       axios
         .post(
-          `${urlToUse}/v1/users/changeEmail`,
+          `${urlToUse}/v1/users/changeEmail/`,
           { email: values.email },
           { headers: { Authorization: `Bearer ${token}` } }
         )

@@ -17,7 +17,7 @@ const TopicsPage = () => {
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
 
   useEffect(() => {
-    axios.get(`${urlToUse}/v1/subject/getAll`).then(response => {
+    axios.get(`${urlToUse}/v1/subject/getAll/`).then(response => {
       if (response.data.subjects[0].length !== 0) {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
@@ -28,7 +28,7 @@ const TopicsPage = () => {
     if (currentSubject !== '') {
       setLoading(true);
       axios
-        .get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`)
+        .get(`${urlToUse}/v1/topic/getTopics/${currentSubject}/`)
         .then(({ data }) => {
           setTopics(data.topics[0]);
         })

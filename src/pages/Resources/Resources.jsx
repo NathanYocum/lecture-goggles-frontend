@@ -28,14 +28,14 @@ const Resources = () => {
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
   const [currentTopic, setCurrentTopic] = useState(urlParams.has('topicId') ? urlParams.get('topicId') : '');
   useEffect(() => {
-    axios.get(`${urlToUse}/v1/subject/getAll`).then(response => {
+    axios.get(`${urlToUse}/v1/subject/getAll/`).then(response => {
       if (response.data.subjects[0].length !== 0) {
         setSubjects(response.data.subjects[0].map(({ subject, id }) => ({ subject, id })));
       }
     });
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
-      axios.get(`${urlToUse}/v1/post/getAll`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+      axios.get(`${urlToUse}/v1/post/getAll/`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
         setResources(
           // Join the vote_status and the post
           response.data.posts[0].map(post => {
@@ -46,21 +46,21 @@ const Resources = () => {
         );
       });
     } else {
-      axios.get(`${urlToUse}/v1/post/getAll`).then(response => {
+      axios.get(`${urlToUse}/v1/post/getAll/`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
   }, [signedInAs]);
   useEffect(() => {
     if (currentSubject !== '') {
-      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}`).then(response => {
+      axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}/`).then(response => {
         setTopics(response.data.topics[0]);
       });
     }
   }, [currentSubject]);
   useEffect(() => {
     if (currentTopic !== '') {
-      axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}`).then(response => {
+      axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}/`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
