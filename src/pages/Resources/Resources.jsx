@@ -27,6 +27,7 @@ const Resources = () => {
   const [resources, setResources] = useState([]);
   const [currentSubject, setCurrentSubject] = useState(urlParams.has('subjectId') ? urlParams.get('subjectId') : '');
   const [currentTopic, setCurrentTopic] = useState(urlParams.has('topicId') ? urlParams.get('topicId') : '');
+  const [postToShow] = useState(urlParams.has('postId') ? urlParams.get('postId') : null);
   useEffect(() => {
     axios.get(`${urlToUse}/v1/subject/getAll/`).then(response => {
       if (response.data.subjects[0].length !== 0) {
@@ -35,22 +36,50 @@ const Resources = () => {
     });
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
-      axios.get(`${urlToUse}/v1/post/getAll/`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
-        setResources(
-          // Join the vote_status and the post
-          response.data.posts[0].map(post => {
-            const postCopy = post;
-            [postCopy.vote_status] = response.data.vote_status[0].filter(vote => post.id === vote.post_id);
-            return postCopy;
-          })
-        );
-      });
-    } else {
+      if (postToShow === null) {
+        axios.get(`${urlToUse}/v1/post/getAll/`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+          if (typeof response.data.posts !== 'undefined') {
+            setResources(
+              // Join the vote_status and the post
+              response.data.posts[0].map(post => {
+                const postCopy = post;
+                [postCopy.vote_status] = response.data.vote_status[0].filter(vote => post.id === vote.post_id);
+                return postCopy;
+              })
+            );
+          } else {
+            setResources([]);
+          }
+        });
+      } else {
+        axios
+          .get(`${urlToUse}/v1/post/get/${postToShow}/`, { headers: { Authorization: `Bearer ${token}` } })
+          .then(response => {
+            // A vote exists - data returned from API is structured differently when the vote exits.
+            if (typeof response.data.vote_status !== 'undefined') {
+              setResources(
+                // Join the vote_status and the post
+                [response.data.posts[0]].map(post => {
+                  const postCopy = post;
+                  [postCopy.vote_status] = response.data.vote_status;
+                  return postCopy;
+                })
+              );
+            } else if (Object.keys(response.data[0].posts[0]).length !== 0) {
+              setResources([response.data[0].posts[0]]);
+            }
+          });
+      }
+    } else if (postToShow === null) {
       axios.get(`${urlToUse}/v1/post/getAll/`).then(response => {
         setResources(response.data.posts[0]);
       });
+    } else {
+      axios.get(`${urlToUse}/v1/post/get/${postToShow}`).then(response => {
+        setResources([response.data.posts[0]]);
+      });
     }
-  }, [signedInAs]);
+  }, [signedInAs, postToShow]);
   useEffect(() => {
     if (currentSubject !== '') {
       axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}/`).then(response => {
@@ -69,41 +98,48 @@ const Resources = () => {
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
-      <div style={{ gridColumn: 2 }}>Subject</div>
-      <SelectStyle
-        value={currentSubject}
-        onChange={event => setCurrentSubject(event.target.value)}
-        style={{ gridColumn: 2 }}
-      >
-        <option value="">Choose a subject</option>
-        {subjects.length !== 0 &&
-          subjects.map(subject => (
-            <option value={subject.id} key={subject.id}>
-              {subject.subject}
-            </option>
-          ))}
-      </SelectStyle>
-      {currentSubject !== '' && (
+      {postToShow === null && (
         <>
-          <div style={{ gridColumn: 2 }}>Topic</div>
+          <div style={{ gridColumn: 2 }}>Subject</div>
           <SelectStyle
-            value={currentTopic}
-            onChange={event => setCurrentTopic(event.target.value)}
+            value={currentSubject}
+            onChange={event => setCurrentSubject(event.target.value)}
             style={{ gridColumn: 2 }}
           >
-            <option value="">Choose a topic</option>
-            {topics.length !== 0 &&
-              topics.map(topic => (
-                <option value={topic.id} key={topic.id}>
-                  {topic.topic}
+            <option value="">Choose a subject</option>
+            {subjects.length !== 0 &&
+              subjects.map(subject => (
+                <option value={subject.id} key={subject.id}>
+                  {subject.subject}
                 </option>
               ))}
           </SelectStyle>
+          {currentSubject !== '' && (
+            <>
+              <div style={{ gridColumn: 2 }}>Topic</div>
+              <SelectStyle
+                value={currentTopic}
+                onChange={event => setCurrentTopic(event.target.value)}
+                style={{ gridColumn: 2 }}
+              >
+                <option value="">Choose a topic</option>
+                {topics.length !== 0 &&
+                  topics.map(topic => (
+                    <option value={topic.id} key={topic.id}>
+                      {topic.topic}
+                    </option>
+                  ))}
+              </SelectStyle>
+            </>
+          )}
         </>
       )}
+
       <TempCardStyle>
         {resources.length === 0 ? (
-          <div>Sorry, no resources have been added to this topic</div>
+          <div>
+            {postToShow === null ? 'Sorry, no resources have been added to this topic' : 'This post does not exist'}
+          </div>
         ) : (
           <div>
             {resources.map(post => (
