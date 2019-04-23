@@ -39,7 +39,7 @@ const ResourceCard = ({
   id,
   vote
 }) => {
-  const { signedInAs } = useContext(AuthContext);
+  const { signedInAs, userData } = useContext(AuthContext);
 
   const [pointState, setPoints] = useState(() => {
     if (typeof vote !== 'undefined') {
@@ -192,9 +192,10 @@ const ResourceCard = ({
         </BottomContainer>
         {isShowingDropDown && (
           <ResourceCardDropDown>
-            <div
+            <UnstyledButton
               style={{
                 color: '#0074d9',
+                backgroundColor: '#efefef',
                 width: '100%',
                 height: '32px',
                 borderBottom: '1px solid #e3e3e3',
@@ -203,12 +204,35 @@ const ResourceCard = ({
                 cursor: 'pointer'
               }}
               onClick={() => setShowingReportModal(true)}
-              onKeyPress={() => setShowingReportModal(true)}
-              role="button"
-              tabIndex={0}
             >
               Report...
-            </div>
+            </UnstyledButton>
+            {userData.is_staff === true && (
+              <UnstyledButton
+                style={{
+                  color: '#ff4300',
+                  backgroundColor: '#efefef',
+                  width: '100%',
+                  height: '32px',
+                  borderBottom: '1px solid #e3e3e3',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  const token = localStorage.getItem('token');
+                  axios.post(
+                    `${urlToUse}/v1/post/deletePost/${id}/`,
+                    {},
+                    {
+                      headers: { Authorization: `Bearer ${token}` }
+                    }
+                  );
+                }}
+              >
+                Delete
+              </UnstyledButton>
+            )}
           </ResourceCardDropDown>
         )}
       </CardContainerStyle>

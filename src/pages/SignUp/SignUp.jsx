@@ -149,7 +149,7 @@ const SignUp = () => {
                 );
                 return (
                   <form onSubmit={handleSubmit}>
-                    <LabelStyle htmlFor="userName">
+                    <LabelStyle style={{ marginBottom: '56px', fontWeight: 800 }} htmlFor="userName">
                       User Name
                       <br />
                       <InputStyle

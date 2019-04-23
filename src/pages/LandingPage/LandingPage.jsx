@@ -96,9 +96,19 @@ const LandingPage = () => {
             minHeight: '56px'
           }}
         >
-          ADMIN AREA
+          <h1>ADMIN AREA</h1>
+          <h3>Post Reports</h3>
           {reports.map(report => (
-            <div key={report.id}>{JSON.stringify(report)}</div>
+            <div style={{ border: '1px solid black', margin: '5px', textAlign: 'center' }} key={report.id}>
+              <p>Author Id: {report.author_id}</p>
+              <p>Description: {report.description}</p>
+              <p>
+                Reported Post Id: <a href={`/resources?postId=${report.reported_post_id}`}>{report.reported_post_id}</a>
+              </p>
+              <GenericButton text="MARK AS RESOLVED" width="250px" height="56px" />
+              <br />
+              {JSON.stringify(report)}
+            </div>
           ))}
         </div>
       )}
