@@ -9,6 +9,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { render, cleanup } from 'react-testing-library';
 import App from './App';
+import AuthContext from './contexts/AuthContext';
 
 function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}) {
   return {
@@ -24,7 +25,11 @@ afterEach(cleanup);
 
 describe('Application routes', () => {
   it('Renders a landing page on home', () => {
-    const { queryByTestId } = renderWithRouter(<App />);
+    const { queryByTestId } = renderWithRouter(
+      <AuthContext.Provider value={{ userData: { is_staff: false } }}>
+        <App />
+      </AuthContext.Provider>
+    );
     expect(queryByTestId('landing-page')).not.toBeNull();
   });
 

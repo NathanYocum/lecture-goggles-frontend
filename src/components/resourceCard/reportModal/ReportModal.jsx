@@ -2,7 +2,9 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 
-ReactModal.setAppElement('#root');
+if (process.env.NODE_ENV !== 'test') {
+  ReactModal.setAppElement('#root');
+}
 
 const ReportModal = props => {
   const { children } = props;

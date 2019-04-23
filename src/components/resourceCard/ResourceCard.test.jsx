@@ -25,7 +25,7 @@ it('Renders a title', () => {
   );
 
   expect(getByText(/A Title I Have Chosen/gm)).toBeTruthy();
-  expect(getByText(/A Title I Have Chosen/gm).outerHTML).toMatch(/<div class=".*">A Title I Have Chosen<\/div>/gm);
+  expect(getByText(/A Title I Have Chosen/gm).outerHTML).toMatch(/<div.*class=".*">A Title I Have Chosen<\/div>/gm);
 });
 
 it('Renders a Subject', () => {
@@ -88,7 +88,7 @@ it('Renders an author', () => {
   );
 
   expect(getByText(/Jane Doe/gm)).toBeTruthy();
-  expect(getByText(/Jane Doe/gm).outerHTML).toMatch(/<div class=".*">Uploaded by Jane Doe<\/div>/gm);
+  expect(getByText(/Jane Doe/gm).outerHTML).toMatch(/<div.*class=".*">Uploaded by Jane Doe<\/div>/gm);
 });
 
 it('Renders an image of the author with an alt image text', () => {
@@ -110,7 +110,7 @@ it('Renders an image of the author with an alt image text', () => {
 
   expect(getByAltText(/uploader avatar/gm)).toBeTruthy();
   expect(getByAltText(/uploader avatar/gm).outerHTML).toMatch(
-    /<img width=".*px" height=".*px" src="some_url_would_be_here" alt="uploader avatar" class=".*"/gm
+    /<img.*width=".*px" height=".*px" src="some_url_would_be_here" alt="uploader avatar" class=".*"/gm
   );
 });
 

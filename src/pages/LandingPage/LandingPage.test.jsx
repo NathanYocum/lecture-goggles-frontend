@@ -7,7 +7,7 @@ afterEach(cleanup);
 
 it('Renders a sign in button', () => {
   const { getByText } = render(
-    <AuthContext.Provider value={{ signedInAs: '', setUser: () => {} }}>
+    <AuthContext.Provider value={{ signedInAs: '', userData: { isStaff: false }, setUser: () => {} }}>
       <LandingPage />
     </AuthContext.Provider>
   );
@@ -17,7 +17,7 @@ it('Renders a sign in button', () => {
 
 it("Renders a 'create an account' button", () => {
   const { getByText } = render(
-    <AuthContext.Provider value={{ signedInAs: '', setUser: () => {} }}>
+    <AuthContext.Provider value={{ signedInAs: '', userData: { isStaff: false }, setUser: () => {} }}>
       <LandingPage />
     </AuthContext.Provider>
   );
