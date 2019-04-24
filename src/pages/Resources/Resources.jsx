@@ -161,8 +161,8 @@ const Resources = () => {
                 subject={post.subject_name}
                 topic={post.topic_name}
                 author={post.author_name}
-                authorImg="Avatar.svg"
-                previewImg="Image.svg"
+                authorImg={post.author_image}
+                previewImg={post.post_image}
                 points={post.upvote_count}
                 description={post.description}
                 timeStamp={post.created_at}
