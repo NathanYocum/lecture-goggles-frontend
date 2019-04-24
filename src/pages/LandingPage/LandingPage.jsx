@@ -68,7 +68,7 @@ const LandingPage = () => {
     const token = localStorage.getItem('token');
     if (signedInAs !== '') {
       axios
-        .get(`${urlToUse}/v1/users/getMySubjectSubscriptions`, { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${urlToUse}/v1/users/getMySubjectSubscriptions/`, { headers: { Authorization: `Bearer ${token}` } })
         .then(({ data }) => setSubscribedSubjectIds(data));
       axios
         .get(`${urlToUse}/v1/users/getMyTopicSubscriptions/`, { headers: { Authorization: `Bearer ${token}` } })

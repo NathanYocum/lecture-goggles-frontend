@@ -21,7 +21,7 @@ const SubjectsPage = () => {
       if (signedInAs !== '') {
         const token = localStorage.getItem('token');
         axios
-          .get(`${urlToUse}/v1/users/getMySubjectSubscriptions`, { headers: { Authorization: `Bearer ${token}` } })
+          .get(`${urlToUse}/v1/users/getMySubjectSubscriptions/`, { headers: { Authorization: `Bearer ${token}` } })
           .then(response => {
             setSubjectSubscriptions(response.data);
           });
