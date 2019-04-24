@@ -13,7 +13,7 @@ const TopicItem = props => {
   function subscribeToTopic() {
     const token = localStorage.getItem('token');
     axios.post(
-      `${urlToUse}/v1/users/subscribeToTopic/${topicId}`,
+      `${urlToUse}/v1/users/subscribeToTopic/${topicId}/`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );
