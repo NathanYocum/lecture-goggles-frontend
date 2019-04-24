@@ -19,9 +19,12 @@ const SubjectsPage = () => {
   useEffect(() => {
     axios.get(`${urlToUse}/v1/subject/getAll/`).then(({ data }) => {
       if (signedInAs !== '') {
-        axios.get(`${urlToUse}/v1/users/getAllSubjectSubscriptions`).then(response => {
-          setSubjectSubscriptions(response.data.subject_subs[0]);
-        });
+        const token = localStorage.getItem('token');
+        axios
+          .get(`${urlToUse}/v1/users/getMySubjectSubscriptions`, { headers: { Authorization: `Bearer ${token}` } })
+          .then(response => {
+            setSubjectSubscriptions(response.data);
+          });
       }
       setSubjects(data.subjects[0]);
     });

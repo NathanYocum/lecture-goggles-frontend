@@ -15,7 +15,10 @@ import {
   faUserPlus,
   faCheckCircle,
   faPlus,
-  faTimes
+  faTimes,
+  faLink,
+  faBookOpen,
+  faScroll
 } from '@fortawesome/free-solid-svg-icons';
 import App from './App';
 import AuthContext from './contexts/AuthContext';
@@ -30,7 +33,10 @@ library.add(
   faUserPlus,
   faCheckCircle,
   faPlus,
-  faTimes
+  faTimes,
+  faLink,
+  faBookOpen,
+  faScroll
 );
 
 const history = createBrowserHistory();

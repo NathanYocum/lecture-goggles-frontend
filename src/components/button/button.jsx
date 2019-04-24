@@ -21,10 +21,27 @@ const GenericButtonStyle = styled.button`
   :focus {
     outline: 1px solid blue;
   }
+
+  :hover {
+    filter: brightness(90%);
+  }
 `;
 
 const GenericButton = props => {
-  const { onClickFunction, text, backgroundColor, color, width, height, type, disabled, testId, borderColor } = props;
+  const {
+    onClickFunction,
+    text,
+    backgroundColor,
+    color,
+    width,
+    height,
+    type,
+    disabled,
+    testId,
+    borderColor,
+    children,
+    style
+  } = props;
   return (
     <GenericButtonStyle
       data-testid={testId}
@@ -36,15 +53,16 @@ const GenericButton = props => {
       height={height}
       type={type}
       disabled={disabled}
+      style={style}
     >
-      {text}
+      {text === '' ? children : text}
     </GenericButtonStyle>
   );
 };
 
 GenericButton.propTypes = {
   onClickFunction: PropTypes.func,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   backgroundColor: PropTypes.string,
   borderColor: PropTypes.string,
   color: PropTypes.string,
@@ -52,11 +70,14 @@ GenericButton.propTypes = {
   height: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,
-  testId: PropTypes.string
+  testId: PropTypes.string,
+  children: PropTypes.node,
+  style: PropTypes.shape({})
 };
 
 GenericButton.defaultProps = {
   onClickFunction: () => {},
+  text: '',
   backgroundColor: '#0074d9',
   borderColor: '#0d47a1',
   color: '#ffffff',
@@ -64,7 +85,9 @@ GenericButton.defaultProps = {
   height: '100%',
   type: 'button',
   disabled: false,
-  testId: 'generic-button'
+  testId: 'generic-button',
+  children: <></>,
+  style: {}
 };
 
 export default GenericButton;
