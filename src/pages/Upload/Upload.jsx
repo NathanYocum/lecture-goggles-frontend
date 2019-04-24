@@ -59,6 +59,9 @@ function GetUploadSchema(currentTab) {
       .max(40, "Topics can't be longer than 40 characters")
       .matches(/[A-Za-z\- ]/, 'Topics can only contain alpha-numeric characters, hyphens, and spaces')
       .required('Required'),
+    topicDescription: Yup.string()
+      .max(240, "Description can't be longer than 240 characters")
+      .notRequired(),
     topicBelongsTo: Yup.string()
       .max(40, "Subject can't be longer than 40 characters")
       .required('Required')
@@ -187,7 +190,11 @@ const UploadPage = () => {
       );
     }
     if (currentTab === 'Topic') {
-      createTopic(values.topicBelongsTo, values.topicName.toLocaleString().toLowerCase(), '');
+      createTopic(
+        values.topicBelongsTo,
+        values.topicName.toLocaleString().toLowerCase(),
+        values.topicDescription.toLocaleString().toLowerCase()
+      );
     }
     if (currentTab === 'Resource') {
       createResource(values.topic, values.title, values.url, values.description);
@@ -225,6 +232,7 @@ const UploadPage = () => {
               subjectName: '',
               subjectDescription: '',
               topicName: '',
+              topicDescription: '',
               topicBelongsTo: ''
             }}
             validationSchema={GetUploadSchema(currentTab)}
@@ -244,10 +252,14 @@ const UploadPage = () => {
                   );
                 }
                 if (currentTab === 'Subject') {
-                  return !(errs.subjectName === undefined);
+                  return !(errs.subjectName === undefined && errs.subjectDescription === undefined);
                 }
                 if (currentTab === 'Topic') {
-                  return !(errs.topicName === undefined && errs.topicBelongsTo === undefined);
+                  return !(
+                    errs.topicName === undefined &&
+                    errs.topicDescription === undefined &&
+                    errs.topicBelongsTo === undefined
+                  );
                 }
                 return false;
               })(errors);
@@ -380,6 +392,21 @@ const UploadPage = () => {
                       ) : (
                         <></>
                       )}
+                      <LabelStyle htmlFor="subjectDescription">Subject Description</LabelStyle>
+                      <TextAreaStyle
+                        data-testid="subject-description-upload-input"
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.subjectDescription}
+                        hasErrors={errors.subjectDescription}
+                        name="subjectDescription"
+                      />
+                      {errors.subjectDescription ? (
+                        <ErrorDiv data-testid="subject-description-upload-error">{errors.subjectDescription}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
                       <GenericButton
                         height="56px"
                         width="40%"
@@ -414,6 +441,21 @@ const UploadPage = () => {
                       />
                       {errors.topicName ? (
                         <ErrorDiv data-testid="topic-name-upload-error">{errors.topicName}</ErrorDiv>
+                      ) : (
+                        <></>
+                      )}
+                      <LabelStyle htmlFor="topicDescription">Topic Description</LabelStyle>
+                      <TextAreaStyle
+                        data-testid="topic-description-upload-input"
+                        type="text"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.topicDescription}
+                        hasErrors={errors.topicDescription}
+                        name="topicDescription"
+                      />
+                      {errors.topicDescription ? (
+                        <ErrorDiv data-testid="topic-description-upload-error">{errors.topicDescription}</ErrorDiv>
                       ) : (
                         <></>
                       )}
