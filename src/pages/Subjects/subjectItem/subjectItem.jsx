@@ -46,7 +46,23 @@ const SubjectItem = props => {
       <div style={{ color: '#ffffff', paddingLeft: '8px' }}>{subjectName}</div>
       {signedInAs !== '' && (
         <SubscribeButton isSubscribed={isSubscribedState} onClick={subscribeToSubject} type="button">
-          {isSubscribedState ? 'Subscribed' : '+Subscribe'}
+          {(() => {
+            if (isSubscribedState) {
+              if (width > 475) {
+                return <div style={{ flexGrow: 2 }}>Subscribed</div>;
+              }
+              return <FontAwesomeIcon style={{ flexGrow: 2 }} icon="check-circle" />;
+            }
+            if (width > 475) {
+              return (
+                <>
+                  <FontAwesomeIcon icon="plus" />
+                  <div style={{ flexGrow: 2 }}>Subscribe</div>
+                </>
+              );
+            }
+            return <FontAwesomeIcon style={{ flexGrow: 2 }} icon="plus" />;
+          })()}
         </SubscribeButton>
       )}
       <UnstyledButton type="button" onClick={() => dispatch(renderDescription)}>

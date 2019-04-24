@@ -21,6 +21,8 @@ const Resources = () => {
   const { signedInAs } = useContext(AuthContext);
 
   const urlParams = new URLSearchParams(window.location.search);
+  const topicParam = urlParams.has('topicId');
+  const topicId = urlParams.get('topicId');
 
   const [subjects, setSubjects] = useState([]);
   const [topics, setTopics] = useState([]);
@@ -79,21 +81,27 @@ const Resources = () => {
         setResources([response.data.posts[0]]);
       });
     }
-  }, [signedInAs, postToShow]);
+  }, [signedInAs, postToShow, currentSubject]);
   useEffect(() => {
     if (currentSubject !== '') {
       axios.get(`${urlToUse}/v1/topic/getTopics/${currentSubject}/`).then(response => {
         setTopics(response.data.topics[0]);
       });
     }
+    setCurrentTopic('');
   }, [currentSubject]);
   useEffect(() => {
+    if (topicParam) {
+      axios.get(`${urlToUse}/v1/post/getTopic/${topicId}/`).then(response => {
+        setResources(response.data.posts[0]);
+      });
+    }
     if (currentTopic !== '') {
       axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}/`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
-  }, [currentTopic]);
+  }, [currentTopic, topicParam, topicId]);
 
   return (
     <ResourcesBody data-testid="resources">

@@ -159,6 +159,7 @@ const SubscribeButton = styled(UnstyledButton)`
   border: 1px solid ${props => (props.isSubscribed ? '#3D9970' : secondaryDarkOrange)};
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
   height: 24px;
+  display: flex;
 `;
 
 const CardContainerStyle = styled.div`
