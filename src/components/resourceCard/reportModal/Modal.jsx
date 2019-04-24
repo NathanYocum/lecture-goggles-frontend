@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'test') {
   ReactModal.setAppElement('#root');
 }
 
-const ReportModal = props => {
+const Modal = props => {
   const { children } = props;
   return (
     <ReactModal style={{ overlay: { zIndex: 1000 } }} {...props}>
@@ -15,12 +15,12 @@ const ReportModal = props => {
   );
 };
 
-ReportModal.propTypes = {
+Modal.propTypes = {
   children: PropTypes.node
 };
 
-ReportModal.defaultProps = {
+Modal.defaultProps = {
   children: <></>
 };
 
-export default ReportModal;
+export default Modal;

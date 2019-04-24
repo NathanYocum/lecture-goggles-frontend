@@ -20,7 +20,7 @@ import {
   TextAreaStyle
 } from '../__styles__/styles';
 import ResourceCardDropDown from './DropDown';
-import ReportModal from './reportModal/ReportModal';
+import Modal from './reportModal/Modal';
 import GenericButton from '../button/button';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
@@ -65,10 +65,16 @@ const ResourceCard = ({
     return action;
   }, false);
 
+  const [isShowingImageModal, setShowingImageModal] = useReducer((state, action) => {
+    setShowingDropDown(false);
+    return action;
+  }, false);
+
   useEffect(() => {
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         setShowingReportModal(false);
+        setShowingImageModal(false);
       }
     });
   }, []);
@@ -80,6 +86,19 @@ const ResourceCard = ({
         .post(
           `${urlToUse}/v1/report/createReport/${id}/`,
           { description: values.description },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => actions.resetForm() && actions.setSubmitting(false));
+    }
+  }
+
+  function addImageToPost(values, actions) {
+    const token = localStorage.getItem('token');
+    if (values.description !== '') {
+      axios
+        .post(
+          `${urlToUse}/v1/post/setPostmageOn/${id}/`,
+          { url: values.url },
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then(() => actions.resetForm() && actions.setSubmitting(false));
@@ -207,6 +226,21 @@ const ResourceCard = ({
             >
               Report...
             </UnstyledButton>
+            <UnstyledButton
+              style={{
+                color: '#0074d9',
+                backgroundColor: '#efefef',
+                width: '100%',
+                height: '32px',
+                borderBottom: '1px solid #e3e3e3',
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer'
+              }}
+              onClick={() => setShowingImageModal(true)}
+            >
+              Add Image
+            </UnstyledButton>
             {userData.is_staff === true && (
               <UnstyledButton
                 style={{
@@ -236,7 +270,7 @@ const ResourceCard = ({
           </ResourceCardDropDown>
         )}
       </CardContainerStyle>
-      <ReportModal isOpen={isShowingReportModal}>
+      <Modal isOpen={isShowingReportModal}>
         <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'auto 36px', cursor: 'pointer' }}>
           <FontAwesomeIcon
             style={{ gridRow: 1, gridColumn: 2 }}
@@ -264,7 +298,38 @@ const ResourceCard = ({
             }}
           />
         </div>
-      </ReportModal>
+      </Modal>
+      <Modal onAfterOpen={() => setShowingReportModal(false)} isOpen={isShowingImageModal}>
+        <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'auto 36px', cursor: 'pointer' }}>
+          <FontAwesomeIcon
+            style={{ gridRow: 1, gridColumn: 2 }}
+            onClick={() => setShowingImageModal(false)}
+            icon="times"
+          />
+          <h1 style={{ color: '#0074d9' }}>Add Image to Post: {title}</h1>
+          <p style={{ color: '#0074d9', gridColumn: '1 / span 2' }}>Image must be a url</p>
+          <Formik
+            initialValues={{ url: '' }}
+            onSubmit={addImageToPost}
+            render={formikProps => {
+              const { handleChange, handleSubmit, values } = formikProps;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <TextAreaStyle
+                    onChange={handleChange}
+                    name="url"
+                    type="url"
+                    placeholder="url"
+                    value={values.url}
+                    style={{ gridColumn: '1 / span 2' }}
+                  />
+                  <GenericButton type="submit" text="SUBMIT" />
+                </form>
+              );
+            }}
+          />
+        </div>
+      </Modal>
     </>
   );
 };

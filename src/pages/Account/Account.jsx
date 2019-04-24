@@ -16,6 +16,7 @@ const AccountPage = () => {
   const [myPosts, setMyPosts] = useState([]);
   const [isShowingPasswordChange, setShowingPasswordChange] = useState(false);
   const [isShowingEmailChange, setShowingEmailChange] = useState(false);
+  const [isShowingAvatarChange, setShowingAvatarChange] = useState(false);
   useEffect(() => {
     if (signedInAs !== '') {
       const token = localStorage.getItem('token');
@@ -35,6 +36,19 @@ const AccountPage = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then(() => actions.setSubmitting(false) && actions.resetForm());
+    }
+  }
+
+  function submitAvatarChange(values, actions) {
+    if (values.password === values.confirmPassword && values.password !== '') {
+      const token = localStorage.getItem('token');
+      axios
+        .post(
+          `${urlToUse}/v1/users/setUserImage/`,
+          { url: values.url },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => actions.setSubmitting(false) && actions.resetForm() && setShowingAvatarChange(false));
     }
   }
 
@@ -131,6 +145,33 @@ const AccountPage = () => {
             }}
           />
         )}
+        <GenericButton
+          onClickFunction={() => setShowingAvatarChange(!isShowingAvatarChange)}
+          width="200px"
+          height="56px"
+          text={isShowingAvatarChange ? 'CANCEL' : 'CHANGE PROFILE IMAGE'}
+        />
+        {isShowingAvatarChange && (
+          <Formik
+            onSubmit={submitAvatarChange}
+            initialValues={{ url: '' }}
+            render={formikProps => {
+              const { handleChange, values, handleSubmit } = formikProps;
+              return (
+                <form onSubmit={handleSubmit} style={{ backgroundColor: '#e3e3e3', padding: '20px 0px 20px' }}>
+                  <InputStyle
+                    onChange={handleChange}
+                    name="url"
+                    value={values.url}
+                    placeholder="image url"
+                    type="url"
+                  />
+                  <GenericButton text="SUBMIT" width="125px" height="56px" type="submit" />
+                </form>
+              );
+            }}
+          />
+        )}
       </div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
         <h1>My Posts</h1>
@@ -143,8 +184,8 @@ const AccountPage = () => {
             subject={post.subject_name}
             topic={post.topic_name}
             author={post.author_name}
-            authorImg="Avatar.svg"
-            previewImg="Image.svg"
+            authorImg={post.author_image}
+            previewImg={post.post_image}
             points={post.upvote_count}
             description={post.description}
             timeStamp={post.created_at}
