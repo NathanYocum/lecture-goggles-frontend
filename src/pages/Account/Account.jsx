@@ -145,6 +145,7 @@ const AccountPage = () => {
             }}
           />
         )}
+        <br />
         <GenericButton
           onClickFunction={() => setShowingAvatarChange(!isShowingAvatarChange)}
           width="200px"

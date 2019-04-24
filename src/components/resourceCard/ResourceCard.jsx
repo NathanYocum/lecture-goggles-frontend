@@ -158,7 +158,7 @@ const ResourceCard = ({
           <div style={{ height: '5px' }} />
         </div>
         <AvatarStyle
-          style={{ gridColumn: 2, gridRow: '1 / span 2' }}
+          style={{ gridColumn: 2, gridRow: '1 / span 2', borderRadius: '50%' }}
           width="40px"
           height="40px"
           src={authorImg}
