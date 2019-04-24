@@ -77,7 +77,7 @@ const Resources = () => {
         setResources(response.data.posts[0]);
       });
     } else {
-      axios.get(`${urlToUse}/v1/post/get/${postToShow}`).then(response => {
+      axios.get(`${urlToUse}/v1/post/get/${postToShow}/`).then(response => {
         setResources([response.data.posts[0]]);
       });
     }
@@ -88,20 +88,24 @@ const Resources = () => {
         setTopics(response.data.topics[0]);
       });
     }
-    setCurrentTopic('');
-  }, [currentSubject]);
+    if (!topicParam) {
+      setCurrentTopic('');
+    }
+  }, [currentSubject, topicParam]);
+  useEffect(() => {
+    if (currentTopic !== '') {
+      axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}/`).then(response => {
+        setResources(response.data.posts[0]);
+      });
+    }
+  }, [currentTopic]);
   useEffect(() => {
     if (topicParam) {
       axios.get(`${urlToUse}/v1/post/getTopic/${topicId}/`).then(response => {
         setResources(response.data.posts[0]);
       });
     }
-    if (currentTopic !== '') {
-      axios.get(`${urlToUse}/v1/post/getTopic/${currentTopic}/`).then(response => {
-        setResources(response.data.posts[0]);
-      });
-    }
-  }, [currentTopic, topicParam, topicId]);
+  }, [topicParam, topicId]);
 
   return (
     <ResourcesBody data-testid="resources">
