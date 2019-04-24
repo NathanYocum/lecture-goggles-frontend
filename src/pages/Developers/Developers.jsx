@@ -44,8 +44,7 @@ const DevelopersPage = () => (
       <p>
         Lecture Goggles is a fully open source applicaion. Read about how to contribute to the{' '}
         <a href="https://github.com/LectureGoggles/lecture-goggles-frontend/blob/master/CONTRIBUTING.md">frontend</a>,{' '}
-        the <a href="https://github.com/LectureGoggles/FlaskAPI/blob/master/CONTRIBUTING.md">API</a> or the{' '}
-        <a href="https://github.com/LectureGoggles/LectureGoggles/blob/master/CONTRIBUTING.md">backend</a> of the
+        or the the <a href="https://github.com/LectureGoggles/FlaskAPI/blob/master/CONTRIBUTING.md">API</a> of the
         website.
         <br />
         Lecture Goggles is licensed under an{' '}

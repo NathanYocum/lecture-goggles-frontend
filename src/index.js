@@ -54,7 +54,7 @@ const AppToRender = () => {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get(`${urlToUse}/v1/users/auth`, { headers: { Authorization: `Bearer ${token}` } })
+        .get(`${urlToUse}/v1/users/auth/`, { headers: { Authorization: `Bearer ${token}` } })
         .then(response => {
           const { data } = response;
           setUser(data.logged_in_as);
