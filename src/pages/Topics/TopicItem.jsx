@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import AuthContext from '../../contexts/AuthContext';
 
 import GenericButton from '../../components/button/button';
 
@@ -8,6 +9,8 @@ const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lectu
 
 const TopicItem = props => {
   const { topicName, description, subjectId, topicId, isSubscribed } = props;
+  const { signedInAs } = useContext(AuthContext);
+
   const [isSubscribedState, setSubscribedState] = useState(isSubscribed);
   useEffect(() => setSubscribedState(isSubscribed), [isSubscribed]);
   function subscribeToTopic() {
@@ -35,13 +38,15 @@ const TopicItem = props => {
       <a href={`/resources?subjectId=${subjectId}&topicId=${topicId}`}>
         <GenericButton text="View Resources" />
       </a>
-      <GenericButton
-        backgroundColor={isSubscribedState ? '#3D9970' : '#ff9800'}
-        borderColor={isSubscribedState ? '#3D9970' : '#e65100'}
-        onClickFunction={subscribeToTopic}
-        height="56px"
-        text={isSubscribedState ? 'Subscribed' : '+Subscribe'}
-      />
+      {signedInAs !== '' && (
+        <GenericButton
+          backgroundColor={isSubscribedState ? '#3D9970' : '#ff9800'}
+          borderColor={isSubscribedState ? '#3D9970' : '#e65100'}
+          onClickFunction={subscribeToTopic}
+          height="56px"
+          text={isSubscribedState ? 'Subscribed' : '+Subscribe'}
+        />
+      )}
     </div>
   );
 };

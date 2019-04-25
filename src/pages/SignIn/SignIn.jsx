@@ -51,6 +51,7 @@ const SignInSchema = Yup.object().shape({
 
 const SignIn = () => {
   const [isRedirecting, setRedirect] = useState(false);
+  const [errorState, setError] = useState(null);
   const { signedInAs, setUser } = useContext(AuthContext);
   function handleSignInSubmit(values, actions) {
     const { email, password } = values;
@@ -63,6 +64,7 @@ const SignIn = () => {
     axios
       .post(`${urlToUse}/v1/users/login/`, { email, password })
       .then(({ data }) => {
+        setError(null);
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
       })
@@ -78,7 +80,8 @@ const SignIn = () => {
             setRedirect(true);
           });
       })
-      .catch(() => {
+      .catch(error => {
+        setError(error);
         actions.resetForm();
         actions.setSubmitting(false);
       });
@@ -126,6 +129,7 @@ const SignIn = () => {
                     />
                     <a href="/">Forgot your password?</a>
                     <br />
+                    {errorState && <div style={{ gridColumn: 2, color: '#ff4300' }}>Invalid email or password.</div>}
                     <ContinueButtonStyle>
                       <GenericButton
                         testId="sign-in-submit"
