@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import useWindowWidth from '../../hooks/useWindowWidth';
+import { UnstyledButton } from '../../components/__styles__/styles';
 
-const FloatingActionButtonStyle = styled.div`
+const FloatingActionButtonStyle = styled(UnstyledButton)`
   background-color: #0074d9;
   position: fixed;
   bottom: 16px;

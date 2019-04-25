@@ -128,9 +128,9 @@ const LandingPage = () => {
               Resources
             </GenericButton>
           </a>
-          <UploadFAB />
         </div>
       )}
+      <UploadFAB />
       {signedInAs !== '' && (
         <div
           style={{
