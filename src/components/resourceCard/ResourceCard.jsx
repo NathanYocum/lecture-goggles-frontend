@@ -23,7 +23,7 @@ import ResourceCardDropDown from './DropDown';
 import Modal from './reportModal/Modal';
 import GenericButton from '../button/button';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const ResourceCard = ({
   title,

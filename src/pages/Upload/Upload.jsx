@@ -68,7 +68,7 @@ function GetUploadSchema(currentTab) {
   });
 }
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const UploadPage = () => {
   const [subjects, setSubjects] = useState([{ id: '', subject: '' }]);

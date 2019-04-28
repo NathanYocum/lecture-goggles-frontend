@@ -15,7 +15,7 @@ const TempCardStyle = styled.div`
   grid-column: 2;
 `;
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const Resources = () => {
   const { signedInAs } = useContext(AuthContext);

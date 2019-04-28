@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 4px;
 `;
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const SubscribedSubject = props => {
   const { subject } = props;
