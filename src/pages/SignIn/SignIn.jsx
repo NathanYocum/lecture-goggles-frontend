@@ -59,7 +59,7 @@ const SignIn = () => {
       if (process.env.NODE_ENV === 'development') {
         return '';
       }
-      return 'http://api.lecturegoggles.io';
+      return 'https://api.lecturegoggles.io';
     })();
     axios
       .post(`${urlToUse}/v1/users/login/`, { email, password })

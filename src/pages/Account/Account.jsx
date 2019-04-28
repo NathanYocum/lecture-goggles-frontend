@@ -9,7 +9,7 @@ import ResourceCardAccountPage from '../../components/resourceCard/ResourceCardA
 import GenericButton from '../../components/button/button';
 import { InputStyle } from '../../components/__styles__/styles';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const AccountPage = () => {
   const { signedInAs, userData } = useContext(AuthContext);

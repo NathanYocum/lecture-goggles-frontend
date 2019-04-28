@@ -5,7 +5,7 @@ import AuthContext from '../../contexts/AuthContext';
 
 import GenericButton from '../../components/button/button';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'http://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
 
 const TopicItem = props => {
   const { topicName, description, subjectId, topicId, isSubscribed } = props;

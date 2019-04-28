@@ -49,7 +49,7 @@ const AppToRender = () => {
       if (process.env.NODE_ENV === 'development') {
         return '';
       }
-      return 'http://api.lecturegoggles.io';
+      return 'https://api.lecturegoggles.io';
     })();
     const token = localStorage.getItem('token');
     if (token) {
