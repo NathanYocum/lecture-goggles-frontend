@@ -160,7 +160,8 @@ it('Makes a post to /users/signup request on form submission', async () => {
       firstname: 'John',
       lastname: 'Doe',
       school: 'University of Nevada, Reno',
-      username: 'JohnDoe'
+      username: 'JohnDoe',
+      is_teacher: false
     })
   );
 });

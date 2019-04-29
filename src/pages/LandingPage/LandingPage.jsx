@@ -11,6 +11,7 @@ import AuthContext from '../../contexts/AuthContext';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import SubscribedSubject from '../../components/subscribedSubject/subscribedSubject';
 import SubscribedTopic from '../../components/subscribedTopic/subscribedTopic';
+import ReportCard from '../../components/reportCard/reportCard';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -182,13 +183,9 @@ const LandingPage = () => {
           }}
         >
           <h1>ADMIN AREA</h1>
-          <h3>Post Reports</h3>
+          <h3>Reports</h3>
           {reports.map(report => (
-            <div style={{ border: '1px solid black', margin: '5px', textAlign: 'center' }} key={report.id}>
-              {JSON.stringify(report)}
-              <GenericButton text="MARK AS RESOLVED" width="250px" height="56px" />
-              <br />
-            </div>
+            <ReportCard report={report} key={report.id} />
           ))}
         </div>
       )}
