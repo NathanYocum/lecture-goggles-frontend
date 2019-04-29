@@ -84,7 +84,7 @@ const ResourceCard = ({
     if (values.description !== '') {
       axios
         .post(
-          `${urlToUse}/v1/report/createReport/${id}/`,
+          `${urlToUse}/v1/report/createReportPost/${id}/`,
           { description: values.description },
           { headers: { Authorization: `Bearer ${token}` } }
         )
