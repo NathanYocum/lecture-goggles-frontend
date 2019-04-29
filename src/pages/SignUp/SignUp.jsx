@@ -82,7 +82,8 @@ const SignUpSchema = Yup.object().shape({
     .required('Required')
     .min(6, 'Password must be at least 6 characters long')
     .oneOf([Yup.ref('password')], 'Passwords do not match'),
-  institution: Yup.string().required('Required')
+  institution: Yup.string().required('Required'),
+  confirmTeacher: Yup.string().matches(/yes-confirmInstructor|no-confirmInstructor/)
 });
 
 const SignUp = () => {
@@ -102,7 +103,8 @@ const SignUp = () => {
         firstname: values.firstName,
         lastname: values.lastName,
         password: values.password,
-        school: values.institution
+        school: values.institution,
+        is_teacher: values.confirmInstructor === 'yes-confirmInstructor'
       })
       .then(() => {
         setRedirect(true);
