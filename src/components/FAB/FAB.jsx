@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import useWindowWidth from '../../hooks/useWindowWidth';
-import { UnstyledButton } from '../../components/__styles__/styles';
+import { UnstyledButton } from '../__styles__/styles';
 
 const FloatingActionButtonStyle = styled(UnstyledButton)`
-  background-color: #0074d9;
+  background-color: ${props => props.backgroundColor};
   position: fixed;
   bottom: 16px;
   right: ${props => (props.windowWidth > 768 ? '64' : '16')}px;
@@ -30,9 +30,11 @@ const FloatingActionButton = props => {
 };
 
 FloatingActionButton.propTypes = {
+  backgroundColor: PropTypes.string,
   children: PropTypes.node
 };
 FloatingActionButton.defaultProps = {
+  backgroundColor: '#0074d9',
   children: <></>
 };
 
