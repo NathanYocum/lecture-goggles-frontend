@@ -60,7 +60,9 @@ const LandingPage = () => {
     if (userData.is_staff) {
       axios
         .get(`${urlToUse}/v1/report/getReports/`, { headers: { Authorization: `Bearer ${token}` } })
-        .then(response => setReports(response.data.reports[0]));
+        .then(response => {
+          setReports(response.data.reports[0]);
+        });
     }
     setAdmin(userData.is_staff);
   }, [userData]);
@@ -183,12 +185,7 @@ const LandingPage = () => {
           <h3>Post Reports</h3>
           {reports.map(report => (
             <div style={{ border: '1px solid black', margin: '5px', textAlign: 'center' }} key={report.id}>
-              <p>Report Id: {report.id}</p>
-              <p>Author Id: {report.author_id}</p>
-              <p>Description: {report.description}</p>
-              <p>
-                Reported Post Id: <a href={`/resources?postId=${report.reported_post_id}`}>{report.reported_post_id}</a>
-              </p>
+              {JSON.stringify(report)}
               <GenericButton text="MARK AS RESOLVED" width="250px" height="56px" />
               <br />
             </div>

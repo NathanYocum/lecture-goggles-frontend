@@ -12,10 +12,12 @@ import TopicsPage from './pages/Topics/Topics';
 import AccountPage from './pages/Account/Account';
 import UploadPage from './pages/Upload/Upload';
 import NavBar from './components/navBar/navBar';
+import ErrorFAB from './components/FAB/ErrorFAB';
 
 const App = () => (
   <>
     <NavBar />
+    <ErrorFAB />
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route path="/subjects" component={SubjectsPage} />

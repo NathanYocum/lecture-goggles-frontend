@@ -20,7 +20,7 @@ import {
   TextAreaStyle
 } from '../__styles__/styles';
 import ResourceCardDropDown from './DropDown';
-import Modal from './reportModal/Modal';
+import Modal from '../modal/Modal';
 import GenericButton from '../button/button';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
@@ -84,7 +84,7 @@ const ResourceCard = ({
     if (values.description !== '') {
       axios
         .post(
-          `${urlToUse}/v1/report/createReport/${id}/`,
+          `${urlToUse}/v1/report/createReportPost/${id}/`,
           { description: values.description },
           { headers: { Authorization: `Bearer ${token}` } }
         )

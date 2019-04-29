@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
-const primaryBlue = '#0074d9';
-const secondaryOrange = '#ff9800';
-const secondaryDarkOrange = '#e65100';
-const darkGrey = '#aaaaaa';
-const lightGrey = '#e3e3e3';
-const blueGrey = '#90a4ae';
-const red = '#ff4136';
+const colors = {
+  primaryBlue: '#0074d9',
+  secondaryOrange: '#ff9800',
+  secondaryDarkOrange: '#e65100',
+  secondaryLightOrange: '#ff945e',
+  darkGrey: '#aaaaaa',
+  lightGrey: '#e3e3e3',
+  blueGrey: '#90a4ae',
+  red: '#ff4136'
+};
 
 const TabBarStyle = styled.div`
   display: flex;
@@ -23,11 +26,11 @@ const TabBarTabStyle = styled.button`
   border: none;
   height: 56px;
   width: 100%;
-  background-color: ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)};
+  background-color: ${props => (props.isActive ? '#ffffff' : `${colors.darkGrey}`)};
   color: #111111;
   :hover {
-    box-shadow: inset 0px 0px 0px 4px ${props => (props.isActive ? '#ffffff' : `${darkGrey}`)},
-      inset 0px 0px 0px 6px ${props => (props.isActive ? `${primaryBlue}` : '#ffffff')};
+    box-shadow: inset 0px 0px 0px 4px ${props => (props.isActive ? '#ffffff' : `${colors.darkGrey}`)},
+      inset 0px 0px 0px 6px ${props => (props.isActive ? `${colors.primaryBlue}` : '#ffffff')};
     top: -4px;
     left: -4px;
   }
@@ -39,7 +42,7 @@ const FormContainer = styled.div`
   background-color: #ffffff;
   width: 100%;
   text-align: center;
-  border: 1px solid ${lightGrey};
+  border: 1px solid ${colors.lightGrey};
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
@@ -56,7 +59,7 @@ const InputStyle = styled.input`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: ${props => (props.hasErrors ? `1px solid ${red}` : `1px solid ${primaryBlue}`)};
+  border: ${props => (props.hasErrors ? `1px solid ${colors.red}` : `1px solid ${colors.primaryBlue}`)};
   text-align: center;
   height: 56px;
   font-size: 24px;
@@ -65,7 +68,7 @@ const InputStyle = styled.input`
   color: #111111;
 
   :focus {
-    outline-color: ${props => (props.hasErrors ? `${red}` : `${primaryBlue}`)};
+    outline-color: ${props => (props.hasErrors ? `${colors.red}` : `${colors.primaryBlue}`)};
   }
 `;
 
@@ -73,16 +76,16 @@ const TextAreaStyle = styled.textarea`
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  border: 1px solid ${primaryBlue};
+  border: 1px solid ${colors.primaryBlue};
   min-width: 80%;
   resize: vertical;
   height: 56px;
   background-color: #efefef;
   color: #111111;
-  border: ${props => (props.hasErrors ? `1px solid ${red}` : `1px solid ${primaryBlue}`)};
+  border: ${props => (props.hasErrors ? `1px solid ${colors.red}` : `1px solid ${colors.primaryBlue}`)};
 
   :focus {
-    outline-color: ${props => (props.hasErrors ? `${red}` : `${primaryBlue}`)};
+    outline-color: ${props => (props.hasErrors ? `${colors.red}` : `${colors.primaryBlue}`)};
   }
 `;
 
@@ -92,8 +95,8 @@ const SelectStyle = styled.select`
   margin-left: 10%;
   margin-right: 10%;
   border-radius: 4px;
-  border: 1px solid ${primaryBlue};
-  background-color: ${lightGrey};
+  border: 1px solid ${colors.primaryBlue};
+  background-color: ${colors.lightGrey};
   height: 36px;
 `;
 
@@ -101,23 +104,23 @@ const LabelStyle = styled.label`
   text-align: center;
   font-size: 24px;
   display: block;
-  color: ${primaryBlue};
+  color: ${colors.primaryBlue};
   margin-top: 10px;
 `;
 
 const ErrorDiv = styled.div`
   text-align: center;
-  color: ${red};
+  color: ${colors.red};
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  border: 1px solid ${red};
-  background-color: ${lightGrey};
+  border: 1px solid ${colors.red};
+  background-color: ${colors.lightGrey};
   font-size: 16px;
 `;
 
 const SubjectItemContainer = styled.div`
-  border: 1px solid ${blueGrey};
+  border: 1px solid ${colors.blueGrey};
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
@@ -128,13 +131,13 @@ const SubjectItemContainer = styled.div`
   grid-template-columns: 1fr ${props => (props.width > 475 ? '110px' : '36px')} 36px;
   font-size: 20px;
   align-items: center;
-  background-color: ${primaryBlue};
+  background-color: ${colors.primaryBlue};
 `;
 
 const SubjectDescriptionContainer = styled.div`
   grid-column: 1 / span 3;
-  border-top: 1px solid ${darkGrey};
-  color: ${darkGrey};
+  border-top: 1px solid ${colors.darkGrey};
+  color: ${colors.darkGrey};
   padding-left: 8px;
   background-color: #ffffff;
   min-height: 56px;
@@ -153,10 +156,10 @@ const UnstyledButton = styled.button`
 
 const SubscribeButton = styled(UnstyledButton)`
   font-size: 16px;
-  background-color: ${props => (props.isSubscribed ? '#3D9970' : secondaryOrange)};
+  background-color: ${props => (props.isSubscribed ? '#3D9970' : colors.secondaryOrange)};
   border-radius: 8px;
   color: #ffffff;
-  border: 1px solid ${props => (props.isSubscribed ? '#3D9970' : secondaryDarkOrange)};
+  border: 1px solid ${props => (props.isSubscribed ? '#3D9970' : colors.secondaryDarkOrange)};
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
   height: 24px;
   display: flex;
@@ -235,7 +238,66 @@ const BottomContainer = styled.div`
   justify-content: flex-end;
 `;
 
+const ErrorFormContainer = styled.div`
+  grid-column: 1 / span 2;
+  background-color: #ffffff;
+  border: 1px solid #efefef;
+  text-align: center;
+  box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  padding-top: 16px;
+  margin-top: 8px;
+`;
+
+const FABDescriptionStyle = styled.span`
+  color: ${colors.red};
+  margin-left: 12px;
+  font-weight: 600;
+`;
+
+const ModalContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 36px;
+  grid-template-rows: max-content max-content auto;
+`;
+
+const ModalTitleStyle = styled.h1`
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  border-bottom: 1px solid #111111;
+  color: #0074d9;
+`;
+
+const ModalDescriptionStyle = styled.div`
+  color: #111111;
+  grid-column: 1 / span 2;
+  grid-row: 2;
+`;
+
+const ErrorDescriptionStyle = styled.div`
+  color: #ff3000;
+  grid-column: 1 / span 2;
+  grid-row: 3;
+`;
+
+const ExtendedFloatingActionButtonStyle = styled(UnstyledButton)`
+  background-color: ${props => props.backgroundColor};
+  position: fixed;
+  bottom: 4px;
+  left: ${props => (props.windowWidth > 768 ? '64' : '16')}px;
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  border: 1px solid #efefef;
+`;
+
 export {
+  colors,
   TabBarStyle,
   TabBarTabStyle,
   FormContainer,
@@ -258,5 +320,12 @@ export {
   PreviewA,
   PreviewLink,
   LinkStyle,
-  BottomContainer
+  BottomContainer,
+  FABDescriptionStyle,
+  ModalContainer,
+  ModalTitleStyle,
+  ModalDescriptionStyle,
+  ErrorDescriptionStyle,
+  ErrorFormContainer,
+  ExtendedFloatingActionButtonStyle
 };

@@ -18,7 +18,8 @@ import {
   faTimes,
   faLink,
   faBookOpen,
-  faScroll
+  faScroll,
+  faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
 import App from './App';
 import AuthContext from './contexts/AuthContext';
@@ -36,7 +37,8 @@ library.add(
   faTimes,
   faLink,
   faBookOpen,
-  faScroll
+  faScroll,
+  faExclamationTriangle
 );
 
 const history = createBrowserHistory();
