@@ -154,8 +154,8 @@ const ResourceCard = ({
       <CardContainerStyle>
         <TitleStyle style={{ gridColumn: 1, gridRow: 1 }}>{title}</TitleStyle>
         <div style={{ gridColumn: '1 / span 2', gridRow: 2 }}>
-          <ItemStyle>{subject}</ItemStyle>
-          <ItemStyle>{topic}</ItemStyle>
+          <ItemStyle>Subject: {subject}</ItemStyle>
+          <ItemStyle>Topic: {topic}</ItemStyle>
           <div style={{ height: '5px' }} />
         </div>
         <AvatarStyle

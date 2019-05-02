@@ -16,6 +16,7 @@ const TabBarStyle = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const TabBarTabStyle = styled.button`
@@ -45,6 +46,7 @@ const FormContainer = styled.div`
   text-align: center;
   border: 1px solid ${colors.lightGrey};
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const BG = styled.div`
@@ -67,6 +69,7 @@ const InputStyle = styled.input`
   box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.2);
   background-color: #efefef;
   color: #111111;
+  font-family: 'IBMPlexSans-SemiBold';
 
   :focus {
     outline-color: ${props => (props.hasErrors ? `${colors.red}` : `${colors.primaryBlue}`)};
@@ -83,6 +86,8 @@ const TextAreaStyle = styled.textarea`
   height: 56px;
   background-color: #efefef;
   color: #111111;
+  font-family: 'IBMPlexSans-SemiBold';
+  font-size: 24px;
   border: ${props => (props.hasErrors ? `1px solid ${colors.red}` : `1px solid ${colors.primaryBlue}`)};
 
   :focus {
@@ -98,7 +103,9 @@ const SelectStyle = styled.select`
   border-radius: 4px;
   border: 1px solid ${colors.primaryBlue};
   background-color: ${colors.lightGrey};
-  height: 36px;
+  height: 56px;
+  font-size: 18px;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const LabelStyle = styled.label`
@@ -176,6 +183,7 @@ const CardContainerStyle = styled.div`
   box-shadow: 4px 8px 10px 0px rgba(0, 0, 0, 0.2);
   margin-bottom: 12px;
   background-color: #f8f8f8;
+  margin: 10px;
 `;
 
 const TitleStyle = styled.div`
@@ -297,6 +305,12 @@ const ExtendedFloatingActionButtonStyle = styled(UnstyledButton)`
   border: 1px solid #efefef;
 `;
 
+const HeaderStyle = styled.h1`
+  font-family: 'IBMPlexSans-SemiBold';
+  color: ${colors.primaryBlue};
+  grid-column: 2;
+`;
+
 export {
   colors,
   TabBarStyle,
@@ -328,5 +342,6 @@ export {
   ModalDescriptionStyle,
   ErrorDescriptionStyle,
   ErrorFormContainer,
-  ExtendedFloatingActionButtonStyle
+  ExtendedFloatingActionButtonStyle,
+  HeaderStyle
 };

@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import GenericButton from '../../components/button/button';
 import GridBody from '../../components/gridBody';
 import FullLectureGogglesLogo from '../../components/logo/fullLogo';
-import { InputStyle, colors } from '../../components/__styles__/styles';
+import { InputStyle, SelectStyle, colors } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
@@ -262,7 +262,7 @@ const SignUp = () => {
                     <LabelStyle htmlFor="institution">
                       Institution
                       <br />
-                      <InputStyle
+                      <SelectStyle
                         data-testid="institution-input"
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -270,7 +270,23 @@ const SignUp = () => {
                         value={values.institution}
                         type="text"
                         name="institution"
-                      />
+                      >
+                        <option style={{ color: colors.red }} value="">
+                          Choose an Institution
+                        </option>
+                        <option value="boise state university">Boise State University</option>
+                        <option value="colorado state university">Colorado State University</option>
+                        <option value="frenso state">Fresno State</option>
+                        <option value="san jose state">San Jose State</option>
+                        <option value="san diego state">San Diego State State</option>
+                        <option value="united states air force academy">United States Air Force Academy</option>
+                        <option value="university of nevada, las vegas">University of Nevada, Las Vegas</option>
+                        <option value="university of nevada, reno">University of Nevada, Reno</option>
+                        <option value="university of new mexico">University of New Mexico</option>
+                        <option value="university of wyoming">University of Wyoming</option>
+                        <option value="utah state university">Utah State University</option>
+                        <option value="other">Other</option>
+                      </SelectStyle>
                       {errors.institution && <ErrorDiv data-testid="institution-error">{errors.institution}</ErrorDiv>}
                     </LabelStyle>
                     <br />

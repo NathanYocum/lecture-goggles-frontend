@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import ResourceCard from '../../components/resourceCard/ResourceCard';
-import { SelectStyle } from '../../components/__styles__/styles';
+import { SelectStyle, HeaderStyle, colors } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 import UploadFAB from '../../components/FAB/UploadFAB';
 
@@ -13,6 +13,12 @@ const ResourcesBody = styled(GridBody)`
 
 const TempCardStyle = styled.div`
   grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: ${colors.lightGrey};
+  width: 100%;
+  max-width: 1000px;
+  justify-content: center;
 `;
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
@@ -110,6 +116,7 @@ const Resources = () => {
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
+      <HeaderStyle style={{ gridColumn: 2 }}>Resources</HeaderStyle>
       {postToShow === null && (
         <>
           <div style={{ gridColumn: 2 }}>Subject</div>
@@ -153,7 +160,7 @@ const Resources = () => {
             {postToShow === null ? 'Sorry, no resources have been added to this topic' : 'This post does not exist'}
           </div>
         ) : (
-          <div>
+          <>
             {resources.map(post => (
               <ResourceCard
                 key={`${post.resource_url}_${post.id}`}
@@ -171,7 +178,7 @@ const Resources = () => {
                 vote={post.vote_status}
               />
             ))}
-          </div>
+          </>
         )}
       </TempCardStyle>
       <UploadFAB />
