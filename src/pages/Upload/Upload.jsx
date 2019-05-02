@@ -16,8 +16,7 @@ import {
   TextAreaStyle,
   SelectStyle,
   ErrorDiv,
-  colors,
-  HeaderStyle
+  colors
 } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
@@ -220,7 +219,7 @@ const UploadPage = () => {
             currentTab={currentTab}
             tabNames={['Resource', 'Subject', 'Topic']}
           />
-          <HeaderStyle>Upload {currentTab}</HeaderStyle>
+          <h1>Upload {currentTab}</h1>
           <Formik
             onSubmit={handleFormSubmit}
             initialValues={{

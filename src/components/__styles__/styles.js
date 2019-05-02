@@ -16,7 +16,6 @@ const TabBarStyle = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const TabBarTabStyle = styled.button`
@@ -170,7 +169,7 @@ const SubscribeButton = styled(UnstyledButton)`
 const CardContainerStyle = styled.div`
   border-radius: 4px;
   display: grid;
-  min-width: 288px;
+  width: 288px;
   grid-template-rows: auto auto auto 165px 40px auto auto auto 36px;
   grid-template-columns: auto 56px;
   font-family: 'IBMPlexSans-SemiBold';
@@ -298,11 +297,6 @@ const ExtendedFloatingActionButtonStyle = styled(UnstyledButton)`
   border: 1px solid #efefef;
 `;
 
-const HeaderStyle = styled.h1`
-  font-family: 'IBMPlexSans-SemiBold';
-  color: ${colors.primaryBlue};
-`;
-
 export {
   colors,
   TabBarStyle,
@@ -334,6 +328,5 @@ export {
   ModalDescriptionStyle,
   ErrorDescriptionStyle,
   ErrorFormContainer,
-  ExtendedFloatingActionButtonStyle,
-  HeaderStyle
+  ExtendedFloatingActionButtonStyle
 };
