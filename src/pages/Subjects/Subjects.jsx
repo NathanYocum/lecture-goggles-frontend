@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { HeaderStyle } from '../../components/__styles__/styles';
 import GridBody from '../../components/gridBody';
 import SubjectItem from './subjectItem/subjectItem';
 import UploadFAB from '../../components/FAB/UploadFAB';
@@ -32,8 +31,6 @@ const SubjectsPage = () => {
   }, [signedInAs]);
   return (
     <SubjectsBody data-testid="subjects">
-      <div style={{ gridColumn: 2 }} />
-      <HeaderStyle style={{ gridColumn: 2 }}>Subjects</HeaderStyle>
       <div style={{ gridColumn: 2 }} />
       {subjects.length === 0 ? (
         <div style={{ gridColumn: 2 }} />
