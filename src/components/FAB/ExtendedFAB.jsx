@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import FloatingActionButton from './FAB';
-import { ExtendedFloatingActionButtonStyle } from '../__styles__/styles';
+import { ExtendedFloatingActionButtonStyle, colors } from '../__styles__/styles';
 
 const ExtendedFloatingActionButton = props => {
   const { children } = props;
@@ -32,7 +32,7 @@ ExtendedFloatingActionButton.propTypes = {
   children: PropTypes.node
 };
 ExtendedFloatingActionButton.defaultProps = {
-  backgroundColor: '#0074d9',
+  backgroundColor: colors.primaryBlue,
   children: <></>
 };
 

@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 import LectureGogglesLogo from '../../components/logo/logo';
 import GenericButton from '../../components/button/button';
 import GridBody from '../../components/gridBody';
-import { InputStyle } from '../../components/__styles__/styles';
+import { InputStyle, colors } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
@@ -136,7 +136,7 @@ const SignIn = () => {
                         disabled={isSubmitting || hasErrors}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
-                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : colors.primaryBlue}
                         width="100%"
                         height="56px"
                         type="submit"
@@ -171,7 +171,7 @@ const SignIn = () => {
                 <GenericButton
                   testId="cancel-logout-button"
                   backgroundColor="#90a4ae"
-                  color="#0074d9"
+                  color={colors.primaryBlue}
                   height="56px"
                   width="50%"
                   text="No"

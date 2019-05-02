@@ -8,7 +8,8 @@ const colors = {
   darkGrey: '#aaaaaa',
   lightGrey: '#e3e3e3',
   blueGrey: '#90a4ae',
-  red: '#ff4136'
+  red: '#ff4136',
+  green: '#3d9970'
 };
 
 const TabBarStyle = styled.div`
@@ -265,7 +266,7 @@ const ModalTitleStyle = styled.h1`
   grid-column: 1 / span 2;
   grid-row: 1;
   border-bottom: 1px solid #111111;
-  color: #0074d9;
+  color: ${colors.primaryBlue};
 `;
 
 const ModalDescriptionStyle = styled.div`

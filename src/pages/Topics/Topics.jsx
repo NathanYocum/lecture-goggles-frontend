@@ -38,7 +38,7 @@ const TopicsPage = () => {
               const topicCopy = topic;
               const token = localStorage.getItem('token');
               axios
-                .get(`${urlToUse}/v1/users/getTopicSubscription/${topic.id}/`, {
+                .get(`${urlToUse}/v1/users/getMyTopicSubscription/${topic.id}/`, {
                   headers: { Authorization: `Bearer ${token}` }
                 })
                 .then(response => {

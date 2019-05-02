@@ -2,13 +2,14 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { colors } from '../__styles__/styles';
 
 import HamburgerButton from './hamburgerButton/hamburgerButton';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import AuthContext from '../../contexts/AuthContext';
 
 const NavBarStyle = styled.nav`
-  background-color: #0074d9;
+  background-color: ${colors.primaryBlue};
   color: #ffffff;
   position: fixed;
   width: 100%;

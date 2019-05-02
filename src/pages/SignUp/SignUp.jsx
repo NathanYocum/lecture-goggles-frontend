@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import GenericButton from '../../components/button/button';
 import GridBody from '../../components/gridBody';
 import FullLectureGogglesLogo from '../../components/logo/fullLogo';
-import { InputStyle } from '../../components/__styles__/styles';
+import { InputStyle, colors } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
 const LogoStyle = styled.div`
@@ -308,7 +308,7 @@ const SignUp = () => {
                         disabled={hasErrors || isSubmitting}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
-                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : colors.primaryBlue}
                         testId="continue-button"
                         type="submit"
                         text="Continue"
@@ -336,7 +336,7 @@ const SignUp = () => {
               />
             </a>
             <a href="/">
-              <GenericButton backgroundColor="#90a4ae" color="#0074d9" height="56px" width="50%" text="No" />
+              <GenericButton backgroundColor="#90a4ae" color={colors.primaryBlue} height="56px" width="50%" text="No" />
             </a>
           </ContinueButtonStyle>
         </>

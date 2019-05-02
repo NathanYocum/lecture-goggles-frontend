@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { colors } from '../__styles__/styles';
 import GenericButton from '../button/button';
 
 const Container = styled.div`
-  background-color: #0074d9;
+  background-color: ${colors.primaryBlue};
   color: #efefef;
   min-height: 56px;
   margin: 8px;
@@ -36,7 +37,7 @@ const SubscribedTopic = ({ topic }) => {
       </div>
       <div style={{ marginLeft: '10px' }} />
       <a href={`/resources?subjectId=${topicState.subject.id}&topicId=${topicState.topic.id}`}>
-        <GenericButton borderColor="#e65100" backgroundColor="#ff9800">
+        <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
           <FontAwesomeIcon color="#efefef" icon="link" />
           <div>View Resources</div>
         </GenericButton>

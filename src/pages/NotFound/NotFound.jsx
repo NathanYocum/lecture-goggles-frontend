@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import GridBody from '../../components/gridBody';
 import LectureGogglesLogo from '../../components/logo/logo';
 import GenericButton from '../../components/button/button';
-import { InputStyle } from '../../components/__styles__/styles';
+import { InputStyle, colors } from '../../components/__styles__/styles';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -31,7 +31,7 @@ const ErrorCode = styled.p`
   align-self: center;
   text-align: center;
   font-size: 20px;
-  color: #ff9800;
+  color: ${colors.secondaryOrange};
 `;
 
 const HomeButtonLink = styled.a`

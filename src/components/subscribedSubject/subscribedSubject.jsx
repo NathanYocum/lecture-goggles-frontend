@@ -4,10 +4,11 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
+import { colors } from '../__styles__/styles';
 import GenericButton from '../button/button';
 
 const Container = styled.div`
-  background-color: #0074d9;
+  background-color: ${colors.primaryBlue};
   color: #efefef;
   min-height: 56px;
   margin: 8px;
@@ -35,7 +36,7 @@ const SubscribedSubject = props => {
     <Container>
       <div style={{ marginLeft: '10px', flexGrow: 2 }}>{subjectState.subject}</div>
       <a href={`/topics?subjectId=${subjectState.id}`}>
-        <GenericButton borderColor="#e65100" backgroundColor="#ff9800">
+        <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
           <FontAwesomeIcon color="#efefef" icon="scroll" />
           <div>View Topics</div>
         </GenericButton>

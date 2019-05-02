@@ -17,7 +17,8 @@ import {
   PreviewLink,
   LinkStyle,
   BottomContainer,
-  TextAreaStyle
+  TextAreaStyle,
+  colors
 } from '../__styles__/styles';
 import ResourceCardDropDown from './DropDown';
 import Modal from '../modal/Modal';
@@ -213,7 +214,7 @@ const ResourceCard = ({
           <ResourceCardDropDown>
             <UnstyledButton
               style={{
-                color: '#0074d9',
+                color: colors.primaryBlue,
                 backgroundColor: '#efefef',
                 width: '100%',
                 height: '32px',
@@ -228,7 +229,7 @@ const ResourceCard = ({
             </UnstyledButton>
             <UnstyledButton
               style={{
-                color: '#0074d9',
+                color: colors.primaryBlue,
                 backgroundColor: '#efefef',
                 width: '100%',
                 height: '32px',
@@ -277,7 +278,7 @@ const ResourceCard = ({
             onClick={() => setShowingReportModal(false)}
             icon="times"
           />
-          <h1 style={{ color: '#0074d9' }}>Report Post: {title}</h1>
+          <h1 style={{ color: colors.primaryBlue }}>Report Post: {title}</h1>
           <Formik
             initialValues={{ description: '' }}
             onSubmit={reportPost}
@@ -306,8 +307,8 @@ const ResourceCard = ({
             onClick={() => setShowingImageModal(false)}
             icon="times"
           />
-          <h1 style={{ color: '#0074d9' }}>Add Image to Post: {title}</h1>
-          <p style={{ color: '#0074d9', gridColumn: '1 / span 2' }}>Image must be a url</p>
+          <h1 style={{ color: colors.primaryBlue }}>Add Image to Post: {title}</h1>
+          <p style={{ color: colors.primaryBlue, gridColumn: '1 / span 2' }}>Image must be a url</p>
           <Formik
             initialValues={{ url: '' }}
             onSubmit={addImageToPost}

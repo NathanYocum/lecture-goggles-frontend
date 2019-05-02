@@ -7,7 +7,8 @@ import {
   SubjectItemContainer,
   SubjectDescriptionContainer,
   UnstyledButton,
-  SubscribeButton
+  SubscribeButton,
+  colors
 } from '../../../components/__styles__/styles';
 import useWindowWidth from '../../../hooks/useWindowWidth';
 import GenericButton from '../../../components/button/button';
@@ -72,7 +73,11 @@ const SubjectItem = props => {
         <SubjectDescriptionContainer>
           {description === '' ? 'no description provided' : description}
           <a href={`/topics?subjectId=${subjectId}`}>
-            <GenericButton borderColor="#e65100" backgroundColor="#ff9800" text="View Topics" />
+            <GenericButton
+              borderColor={colors.secondaryDarkOrange}
+              backgroundColor={colors.secondaryOrange}
+              text="View Topics"
+            />
           </a>
         </SubjectDescriptionContainer>
       )}

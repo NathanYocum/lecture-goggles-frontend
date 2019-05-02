@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { colors } from '../__styles__/styles';
 
 // Button fills the entire div it is contained in
 const GenericButtonStyle = styled.button`
@@ -78,7 +79,7 @@ GenericButton.propTypes = {
 GenericButton.defaultProps = {
   onClickFunction: () => {},
   text: '',
-  backgroundColor: '#0074d9',
+  backgroundColor: colors.primaryBlue,
   borderColor: '#0d47a1',
   color: '#ffffff',
   width: '100%',

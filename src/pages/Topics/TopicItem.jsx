@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import AuthContext from '../../contexts/AuthContext';
 
+import { colors } from '../../components/__styles__/styles';
+import AuthContext from '../../contexts/AuthContext';
 import GenericButton from '../../components/button/button';
 
 const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
@@ -40,8 +41,8 @@ const TopicItem = props => {
       </a>
       {signedInAs !== '' && (
         <GenericButton
-          backgroundColor={isSubscribedState ? '#3D9970' : '#ff9800'}
-          borderColor={isSubscribedState ? '#3D9970' : '#e65100'}
+          backgroundColor={isSubscribedState ? colors.green : colors.secondaryOrange}
+          borderColor={isSubscribedState ? colors.green : colors.secondaryDarkOrange}
           onClickFunction={subscribeToTopic}
           height="56px"
           text={isSubscribedState ? 'Subscribed' : '+Subscribe'}

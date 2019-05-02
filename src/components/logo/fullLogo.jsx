@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { colors } from '../__styles__/styles';
 
 const style1 = {
   fill: 'none',
@@ -9,7 +10,7 @@ const style1 = {
 };
 
 const style2 = {
-  fill: '#0074d9',
+  fill: colors.primaryBlue,
   stroke: '#001f3f',
   strokeMiterlimit: '10',
   strokeWidth: '5px'

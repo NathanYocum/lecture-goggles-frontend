@@ -12,6 +12,7 @@ import useWindowWidth from '../../hooks/useWindowWidth';
 import SubscribedSubject from '../../components/subscribedSubject/subscribedSubject';
 import SubscribedTopic from '../../components/subscribedTopic/subscribedTopic';
 import ReportCard from '../../components/reportCard/reportCard';
+import { colors } from '../../components/__styles__/styles';
 
 const LogoStyle = styled.div`
   grid-column: 2;
@@ -144,7 +145,7 @@ const LandingPage = () => {
             border: '1px solid #e3e3e3',
             boxShadow: '4px 8px 10px 0px rgba(0, 0, 0, 0.2)',
             minHeight: '56px',
-            color: '#0074d9',
+            color: colors.primaryBlue,
             display: 'flex',
             flexDirection: 'column'
           }}
@@ -164,7 +165,7 @@ const LandingPage = () => {
             border: '1px solid #e3e3e3',
             boxShadow: '4px 8px 10px 0px rgba(0, 0, 0, 0.2)',
             minHeight: '56px',
-            color: '#0074d9'
+            color: colors.primaryBlue
           }}
         >
           <h1>Subscribed Topics</h1>

@@ -15,7 +15,8 @@ import {
   InputStyle,
   TextAreaStyle,
   SelectStyle,
-  ErrorDiv
+  ErrorDiv,
+  colors
 } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 
@@ -360,14 +361,14 @@ const UploadPage = () => {
                         width="40%"
                         text="CANCEL"
                         backgroundColor="#90a4ae"
-                        color="#0074d9"
+                        color={colors.primaryBlue}
                       />
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
-                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : colors.primaryBlue}
                         type="submit"
                         height="56px"
                         width="40%"
@@ -412,14 +413,14 @@ const UploadPage = () => {
                         width="40%"
                         text="CANCEL"
                         backgroundColor="#90a4ae"
-                        color="#0074d9"
+                        color={colors.primaryBlue}
                       />
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
-                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : colors.primaryBlue}
                         type="submit"
                         height="56px"
                         width="40%"
@@ -480,14 +481,14 @@ const UploadPage = () => {
                         width="40%"
                         text="CANCEL"
                         backgroundColor="#90a4ae"
-                        color="#0074d9"
+                        color={colors.primaryBlue}
                       />
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}
                         borderColor={hasErrors ? '#888888' : '#0d47a1'}
                         color={hasErrors ? '#333333' : '#ffffff'}
-                        backgroundColor={hasErrors ? '#aaaaaa' : '#0074d9'}
+                        backgroundColor={hasErrors ? '#aaaaaa' : colors.primaryBlue}
                         type="submit"
                         height="56px"
                         width="40%"
@@ -496,7 +497,13 @@ const UploadPage = () => {
                     </>
                   )}
                   {submitMessage.success && (
-                    <div style={{ color: '#0074d9', marginTop: '40px', border: '1px solid #0074d9' }}>
+                    <div
+                      style={{
+                        color: colors.primaryBlue,
+                        marginTop: '40px',
+                        border: `1px solid ${colors.primaryBlue}`
+                      }}
+                    >
                       <FontAwesomeIcon icon="check-circle" style={{ paddingRight: '16px' }} />
                       {submitMessage.success}
                     </div>
