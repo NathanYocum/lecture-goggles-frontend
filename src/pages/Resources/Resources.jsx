@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
 import ResourceCard from '../../components/resourceCard/ResourceCard';
-import { SelectStyle } from '../../components/__styles__/styles';
+import { SelectStyle, HeaderStyle } from '../../components/__styles__/styles';
 import AuthContext from '../../contexts/AuthContext';
 import UploadFAB from '../../components/FAB/UploadFAB';
 
@@ -110,6 +110,7 @@ const Resources = () => {
   return (
     <ResourcesBody data-testid="resources">
       <div style={{ gridColumn: 2 }} />
+      <HeaderStyle style={{ gridColumn: 2 }}>Resources</HeaderStyle>
       {postToShow === null && (
         <>
           <div style={{ gridColumn: 2 }}>Subject</div>

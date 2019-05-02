@@ -9,11 +9,9 @@ const DropDownStyle = styled.div`
   min-height: 56px;
   max-height: 300px;
   z-index: 4;
-  position: relative;
-  grid-column: 1;
-  grid-row: 1 / span 7;
-  left: 155px;
-  top: 65px;
+  position: absolute;
+  left: ${props => props.pos.x}px;
+  top: ${props => props.pos.y}px;
   display: flex;
   flex-direction: column;
   overflow: scroll;

@@ -31,6 +31,7 @@ const NavItem = styled.li`
   padding-left: 10px;
   padding-right: 10px;
   font-size: 14px;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const TitleItem = styled(NavItem)`
