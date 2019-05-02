@@ -202,6 +202,7 @@ const UploadPage = () => {
       createResource(values.topic, values.title, values.url, values.description);
     }
     actions.setSubmitting(false);
+    actions.resetForm();
   }
 
   return (
@@ -357,13 +358,15 @@ const UploadPage = () => {
                         </>
                       )}
                       <br />
-                      <GenericButton
-                        height="56px"
-                        width="40%"
-                        text="CANCEL"
-                        backgroundColor="#90a4ae"
-                        color={colors.primaryBlue}
-                      />
+                      <a href="/">
+                        <GenericButton
+                          height="56px"
+                          width="40%"
+                          text="CANCEL"
+                          backgroundColor="#90a4ae"
+                          color={colors.primaryBlue}
+                        />
+                      </a>
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}
@@ -409,13 +412,15 @@ const UploadPage = () => {
                       ) : (
                         <></>
                       )}
-                      <GenericButton
-                        height="56px"
-                        width="40%"
-                        text="CANCEL"
-                        backgroundColor="#90a4ae"
-                        color={colors.primaryBlue}
-                      />
+                      <a href="/">
+                        <GenericButton
+                          height="56px"
+                          width="40%"
+                          text="CANCEL"
+                          backgroundColor="#90a4ae"
+                          color={colors.primaryBlue}
+                        />
+                      </a>
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}
@@ -477,13 +482,15 @@ const UploadPage = () => {
                           </option>
                         ))}
                       </SelectStyle>
-                      <GenericButton
-                        height="56px"
-                        width="40%"
-                        text="CANCEL"
-                        backgroundColor="#90a4ae"
-                        color={colors.primaryBlue}
-                      />
+                      <a href="/">
+                        <GenericButton
+                          height="56px"
+                          width="40%"
+                          text="CANCEL"
+                          backgroundColor="#90a4ae"
+                          color={colors.primaryBlue}
+                        />
+                      </a>
                       <GenericButton
                         testId="submit-button"
                         disabled={isSubmitting || hasErrors}

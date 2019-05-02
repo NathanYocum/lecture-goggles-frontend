@@ -9,6 +9,7 @@ const GenericButtonStyle = styled.button`
   color: ${props => props.color};
   border: 2px solid ${props => props.borderColor};
   padding: 3px;
+  margin: 4px;
   font: inherit;
   cursor: pointer;
   outline: inherit;
