@@ -9,8 +9,8 @@ const FloatingActionButtonStyle = styled(UnstyledButton)`
   position: fixed;
   bottom: 16px;
   right: ${props => (props.windowWidth > 768 ? '64' : '16')}px;
-  min-width: 56px;
-  min-height: 56px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
