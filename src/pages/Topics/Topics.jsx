@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import GridBody from '../../components/gridBody';
-import { SelectStyle } from '../../components/__styles__/styles';
+import { SelectStyle, HeaderStyle } from '../../components/__styles__/styles';
 import UploadFAB from '../../components/FAB/UploadFAB';
 import TopicItem from './TopicItem';
 import AuthContext from '../../contexts/AuthContext';
@@ -64,6 +64,7 @@ const TopicsPage = () => {
   return (
     <GridBody data-testid="topics">
       <div style={{ gridColumn: 2 }} />
+      <HeaderStyle>Topics</HeaderStyle>
       <SelectStyle
         value={currentSubject}
         onChange={event => setCurrentSubject(event.target.value)}

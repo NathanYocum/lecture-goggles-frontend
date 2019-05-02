@@ -15,6 +15,7 @@ const GridBody = styled.div`
   justify-items: center;
   line-height: 1.4;
   margin-bottom: 56px;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 export default GridBody;

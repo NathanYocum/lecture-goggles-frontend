@@ -16,6 +16,7 @@ const NavBarStyle = styled.nav`
   height: ${state => (state.renderMenu ? '56px' : 'auto')};
   border-bottom: 1px solid #111111;
   z-index: 1000;
+  font-family: 'IBMPlexSans-SemiBold';
 `;
 
 const NavList = styled.ul`
