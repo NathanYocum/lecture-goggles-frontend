@@ -46,7 +46,9 @@ it('Renders a Subject', () => {
   );
 
   expect(getByText(/Some kind of subject/gm)).toBeTruthy();
-  expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(/<div class=".*">Some kind of subject<\/div>/gm);
+  expect(getByText(/Some kind of subject/gm).outerHTML).toMatch(
+    /<div class=".*">Subject: Some kind of subject<\/div>/gm
+  );
 });
 
 it('Renders a topic', () => {
@@ -67,7 +69,7 @@ it('Renders a topic', () => {
   );
 
   expect(getByText(/Some random topic/gm)).toBeTruthy();
-  expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*">Some random topic<\/div>/gm);
+  expect(getByText(/Some random topic/gm).outerHTML).toMatch(/<div class=".*">Topic: Some random topic<\/div>/gm);
 });
 
 it('Renders an author', () => {

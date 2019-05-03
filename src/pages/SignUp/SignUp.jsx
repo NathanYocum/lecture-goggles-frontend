@@ -290,7 +290,7 @@ const SignUp = () => {
                       {errors.institution && <ErrorDiv data-testid="institution-error">{errors.institution}</ErrorDiv>}
                     </LabelStyle>
                     <br />
-                    <LabelStyle
+                    {/* <LabelStyle
                       value={values.confirmInstructor}
                       data-testid="confirmInstructor"
                       htmlFor="confirmInstructor"
@@ -317,8 +317,7 @@ const SignUp = () => {
                         checked={values.confirmInstructor === 'no-confirmInstructor'}
                       />
                       No
-                    </LabelStyle>
-                    <br />
+                    </LabelStyle> */}
                     <ContinueButtonStyle>
                       <GenericButton
                         disabled={hasErrors || isSubmitting}
