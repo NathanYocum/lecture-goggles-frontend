@@ -33,15 +33,19 @@ const SubscribedSubject = props => {
     return <></>;
   }
   return (
-    <Container>
-      <div style={{ marginLeft: '10px', flexGrow: 2 }}>{subjectState.subject}</div>
-      <a href={`/topics?subjectId=${subjectState.id}`}>
-        <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
-          <FontAwesomeIcon color="#efefef" icon="scroll" />
-          <div>View Topics</div>
-        </GenericButton>
-      </a>
-    </Container>
+    <>
+      {typeof subjectState.subject !== 'undefined' && (
+        <Container>
+          <div style={{ marginLeft: '10px', flexGrow: 2 }}>{subjectState.subject}</div>
+          <a href={`/topics?subjectId=${subjectState.id}`}>
+            <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
+              <FontAwesomeIcon color="#efefef" icon="scroll" />
+              <div>View Topics</div>
+            </GenericButton>
+          </a>
+        </Container>
+      )}
+    </>
   );
 };
 
