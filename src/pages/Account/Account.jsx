@@ -146,13 +146,15 @@ const AccountPage = () => {
           />
         )}
         <br />
-        <GenericButton
-          onClickFunction={() => setShowingAvatarChange(!isShowingAvatarChange)}
-          width="200px"
-          height="56px"
-          text={isShowingAvatarChange ? 'CANCEL' : 'CHANGE PROFILE IMAGE'}
-        />
-        {isShowingAvatarChange && (
+        {userData.is_staff && (
+          <GenericButton
+            onClickFunction={() => setShowingAvatarChange(!isShowingAvatarChange)}
+            width="200px"
+            height="56px"
+            text={isShowingAvatarChange ? 'CANCEL' : 'CHANGE PROFILE IMAGE'}
+          />
+        )}
+        {isShowingAvatarChange && userData.is_staff && (
           <Formik
             onSubmit={submitAvatarChange}
             initialValues={{ url: '' }}
