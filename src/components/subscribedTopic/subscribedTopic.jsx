@@ -29,20 +29,24 @@ const SubscribedTopic = ({ topic }) => {
     return <></>;
   }
   return (
-    <Container>
-      <div style={{ marginLeft: '10px', flexGrow: 2 }}>
-        Topic: {topicState.topic.topic}
-        <br />
-        Subject: {topicState.subject.subject}
-      </div>
-      <div style={{ marginLeft: '10px' }} />
-      <a href={`/resources?subjectId=${topicState.subject.id}&topicId=${topicState.topic.id}`}>
-        <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
-          <FontAwesomeIcon color="#efefef" icon="link" />
-          <div>View Resources</div>
-        </GenericButton>
-      </a>
-    </Container>
+    <>
+      {typeof topicState.topic.topic !== 'undefined' && (
+        <Container>
+          <div style={{ marginLeft: '10px', flexGrow: 2 }}>
+            Topic: {topicState.topic.topic}
+            <br />
+            Subject: {topicState.subject.subject}
+          </div>
+          <div style={{ marginLeft: '10px' }} />
+          <a href={`/resources?subjectId=${topicState.subject.id}&topicId=${topicState.topic.id}`}>
+            <GenericButton borderColor={colors.secondaryDarkOrange} backgroundColor={colors.secondaryOrange}>
+              <FontAwesomeIcon color="#efefef" icon="link" />
+              <div>View Resources</div>
+            </GenericButton>
+          </a>
+        </Container>
+      )}
+    </>
   );
 };
 
