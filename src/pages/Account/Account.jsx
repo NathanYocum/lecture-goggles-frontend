@@ -35,7 +35,11 @@ const AccountPage = () => {
           { password: values.password },
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then(() => actions.setSubmitting(false) && actions.resetForm());
+        .then(() => {
+          actions.setSubmitting(false);
+          actions.resetForm();
+          setShowingPasswordChange(false);
+        });
     }
   }
 
@@ -48,7 +52,11 @@ const AccountPage = () => {
           { url: values.url },
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then(() => actions.setSubmitting(false) && actions.resetForm() && setShowingAvatarChange(false));
+        .then(() => {
+          actions.setSubmitting(false);
+          actions.resetForm();
+          setShowingAvatarChange(false);
+        });
     }
   }
 
@@ -61,7 +69,11 @@ const AccountPage = () => {
           { email: values.email },
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then(() => actions.setSubmitting(false) && actions.resetForm());
+        .then(() => {
+          actions.setSubmitting(false);
+          actions.resetForm();
+          setShowingEmailChange(false);
+        });
     }
   }
   return (
