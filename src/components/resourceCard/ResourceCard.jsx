@@ -227,21 +227,23 @@ const ResourceCard = ({
             >
               Report...
             </UnstyledButton>
-            <UnstyledButton
-              style={{
-                color: colors.primaryBlue,
-                backgroundColor: '#efefef',
-                width: '100%',
-                height: '32px',
-                borderBottom: '1px solid #e3e3e3',
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer'
-              }}
-              onClick={() => setShowingImageModal(true)}
-            >
-              Add Image
-            </UnstyledButton>
+            {userData.is_staff === true && (
+              <UnstyledButton
+                style={{
+                  color: colors.primaryBlue,
+                  backgroundColor: '#efefef',
+                  width: '100%',
+                  height: '32px',
+                  borderBottom: '1px solid #e3e3e3',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setShowingImageModal(true)}
+              >
+                Add Image
+              </UnstyledButton>
+            )}
             {userData.is_staff === true && (
               <UnstyledButton
                 style={{
