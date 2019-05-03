@@ -30,7 +30,7 @@ const SubscribedTopic = ({ topic }) => {
   }
   return (
     <>
-      {typeof topicState.topic.topic !== 'undefined' && (
+      {typeof topicState.topic !== 'undefined' && (
         <Container>
           <div style={{ marginLeft: '10px', flexGrow: 2 }}>
             Topic: {topicState.topic.topic}
