@@ -3,7 +3,7 @@ FROM node:12-alpine as build
 LABEL maintainer="build@lecturegoggles.io"
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json /app/package.json
+COPY package*.json /app/
 RUN npm install
 COPY . /app
 RUN npm run build
