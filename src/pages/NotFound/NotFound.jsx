@@ -47,7 +47,7 @@ const NotFound = () => {
   return (
     <GridBody data-testid="not-found">
       <LogoStyle>
-        <LectureGogglesLogo width={200} height={200} />
+        <LectureGogglesLogo width={120} height={120} />
       </LogoStyle>
       <NotFoundPar>We could not find the page you were looking for.</NotFoundPar>
       {/* Search Bar should be made into a component because we will reuse it a lot */}
