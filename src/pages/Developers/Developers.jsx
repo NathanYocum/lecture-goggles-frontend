@@ -22,7 +22,7 @@ const WelcomeStyle = styled.div`
 const DevelopersPage = () => (
   <GridBody data-testid="developers">
     <LogoStyle>
-      <LectureGogglesLogo width={200} height={200} />
+      <LectureGogglesLogo width={120} height={120} />
     </LogoStyle>
     <WelcomeStyle>
       <h1>Developers</h1>
