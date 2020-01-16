@@ -2,8 +2,6 @@
 
 ![Lecture Goggles Logo](./LectureGogglesLargeLogo.svg)
 
-![Homepage Preview](./homepage.png)
-
 This repository contains all of the code for the frontend. Lecture Goggles is a
 free, open-source, educational resource repository to help students gain a better
 understanding of school subjects.
