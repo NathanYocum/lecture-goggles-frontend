@@ -83,7 +83,7 @@ const LandingPage = () => {
     <GridBody data-testid="landing-page">
       <div style={{ gridColumn: 2, gridRow: 1 }} />
       <LogoStyle>
-        <LectureGogglesLogo width={200} height={200} />
+        <LectureGogglesLogo width={120} height={120} />
       </LogoStyle>
       <WelcomeStyle>
         <h1>Welcome{signedInAs !== '' && ` ${signedInAs}`}!</h1>
@@ -110,30 +110,30 @@ const LandingPage = () => {
           </AccountCreateButtonStyle>
         </>
       ) : (
-        <div style={{ gridColumn: 2, display: 'flex', flexDirection: width > 800 ? 'row' : 'column' }}>
-          <a href="/subjects">
-            <GenericButton style={{ marginBottom: '6px' }} width="250px">
-              <FontAwesomeIcon size="3x" fixedWidth icon="book-open" />
-              <br />
-              Subjects
+          <div style={{ gridColumn: 2, display: 'flex', flexDirection: width > 800 ? 'row' : 'column' }}>
+            <a href="/subjects">
+              <GenericButton style={{ marginBottom: '6px' }} width="250px">
+                <FontAwesomeIcon size="3x" fixedWidth icon="book-open" />
+                <br />
+                Subjects
             </GenericButton>
-          </a>
-          <a href="/topics">
-            <GenericButton style={{ marginBottom: '6px' }} width="250px">
-              <FontAwesomeIcon size="3x" fixedWidth icon="scroll" />
-              <br />
-              Topics
+            </a>
+            <a href="/topics">
+              <GenericButton style={{ marginBottom: '6px' }} width="250px">
+                <FontAwesomeIcon size="3x" fixedWidth icon="scroll" />
+                <br />
+                Topics
             </GenericButton>
-          </a>
-          <a href="/resources">
-            <GenericButton style={{ marginBottom: '6px' }} width="250px">
-              <FontAwesomeIcon size="3x" fixedWidth icon="link" />
-              <br />
-              Resources
+            </a>
+            <a href="/resources">
+              <GenericButton style={{ marginBottom: '6px' }} width="250px">
+                <FontAwesomeIcon size="3x" fixedWidth icon="link" />
+                <br />
+                Resources
             </GenericButton>
-          </a>
-        </div>
-      )}
+            </a>
+          </div>
+        )}
       <UploadFAB />
       {signedInAs !== '' && (
         <div

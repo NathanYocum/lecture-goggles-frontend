@@ -119,7 +119,7 @@ const SignUp = () => {
       {signedInAs === '' ? (
         <>
           <LogoStyle>
-            <FullLectureGogglesLogo width={250} height={100} />
+            <FullLectureGogglesLogo width={375} height={115} />
           </LogoStyle>
           <WelcomeStyle>
             <Formik
@@ -339,23 +339,23 @@ const SignUp = () => {
           </WelcomeStyle>
         </>
       ) : (
-        <>
-          <h3 style={{ gridColumn: 2, gridRow: 2 }}>You are signed in as {signedInAs}, would you like to sign out? </h3>
-          <ContinueButtonStyle>
-            <a href="/newAccount">
-              <GenericButton
-                onClickFunction={() => localStorage.removeItem('token')}
-                height="56px"
-                width="50%"
-                text="Yes"
-              />
-            </a>
-            <a href="/">
-              <GenericButton backgroundColor="#90a4ae" color={colors.primaryBlue} height="56px" width="50%" text="No" />
-            </a>
-          </ContinueButtonStyle>
-        </>
-      )}
+          <>
+            <h3 style={{ gridColumn: 2, gridRow: 2 }}>You are signed in as {signedInAs}, would you like to sign out? </h3>
+            <ContinueButtonStyle>
+              <a href="/newAccount">
+                <GenericButton
+                  onClickFunction={() => localStorage.removeItem('token')}
+                  height="56px"
+                  width="50%"
+                  text="Yes"
+                />
+              </a>
+              <a href="/">
+                <GenericButton backgroundColor="#90a4ae" color={colors.primaryBlue} height="56px" width="50%" text="No" />
+              </a>
+            </ContinueButtonStyle>
+          </>
+        )}
     </GridBody>
   );
 };
