@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 
 import NavBar from './navBar';
 import AuthContext from '../../contexts/AuthContext';
@@ -117,9 +117,9 @@ it("Doesn't render the menu without being clicked", () => {
 
 it('Renders a menu when the hamburger button is pressed', () => {
   global.innerWidth = 320;
-  const { queryByTestId } = render(renderNavBar(''));
+  const { queryByTestId, queryAllByTestId } = render(renderNavBar(''));
   fireEvent.click(queryByTestId('hamburger-button'), { button: 0 });
-  expect(queryByTestId(/.*-menu/gm)).not.toBeNull();
+  expect(queryAllByTestId(/.*-menu/gm)).not.toBeNull();
 });
 
 it("Doesn't render additional links in navbar when hamburger button is pressed", () => {

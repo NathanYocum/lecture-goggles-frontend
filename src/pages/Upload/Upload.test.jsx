@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render, fireEvent, wait } from 'react-testing-library';
+import { cleanup, render, fireEvent, wait } from '@testing-library/react';
 import axios from 'axios';
 
 import UploadPage from './Upload';

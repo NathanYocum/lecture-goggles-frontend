@@ -8,9 +8,9 @@ understanding of school subjects.
 
 ## Build Status
 
-| Master         | Development  |
-| :------------- | :----------: |
-| [![Build Status](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_apis/build/status/LectureGoggles.lecture-goggles-frontend?branchName=master)](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_build/latest?definitionId=1&branchName=master)| [![Build Status](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_apis/build/status/LectureGoggles.lecture-goggles-frontend?branchName=development)](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_build/latest?definitionId=1&branchName=development)|
+|Master|Development|
+|:-:|:-:|
+|[![Build Status](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_apis/build/status/LectureGoggles.lecture-goggles-frontend?branchName=master)](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_build/latest?definitionId=1&branchName=master)|[![Build Status](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_apis/build/status/LectureGoggles.lecture-goggles-frontend?branchName=development)](https://dev.azure.com/lecturegoggles-devops/lecture-goggles-frontend/_build/latest?definitionId=1&branchName=development)|
 
 ## How to run
 
