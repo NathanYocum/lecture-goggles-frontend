@@ -46,10 +46,10 @@ describe('Behavior when not logged in', () => {
       fireEvent.click(queryByTestId('sign-in-submit'));
     });
     await wait(() =>
-      expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/v1/users/login/', { email, password })
+      expect(axios.post).toHaveBeenCalledWith('https://' + process.env.REACT_APP_API_URI + '/v1/users/login/', { email, password })
     ).then(() => {
       expect(localStorage.getItem('token')).toBe('some_jwt');
-      expect(axios.get).toHaveBeenCalledWith('https://api.lecturegoggles.io/v1/users/auth/', {
+      expect(axios.get).toHaveBeenCalledWith('https://' + process.env.REACT_APP_API_URI + '/v1/users/auth/', {
         headers: { Authorization: 'Bearer some_jwt' }
       });
     });

@@ -16,7 +16,7 @@ import {
 } from '../__styles__/styles';
 import GenericButton from '../button/button';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://' + process.env.REACT_APP_API_URI;
 
 const ResourceCardAccountPage = ({
   title,

@@ -51,7 +51,7 @@ const AppToRender = () => {
       if (process.env.NODE_ENV === 'development') {
         return '';
       }
-      return 'https://api.lecturegoggles.io';
+      return 'https://' + process.env.REACT_APP_API_URI;
     })();
     const token = localStorage.getItem('token');
     if (token) {

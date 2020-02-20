@@ -11,7 +11,7 @@ const SubjectsBody = styled(GridBody)`
   grid-row-gap: 8px;
 `;
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://' + process.env.REACT_APP_API_URI;
 
 const SubjectsPage = () => {
   const { signedInAs } = useContext(AuthContext);

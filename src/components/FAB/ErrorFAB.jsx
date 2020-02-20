@@ -19,7 +19,7 @@ import {
   ErrorFormContainer
 } from '../__styles__/styles';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://' + process.env.REACT_APP_API_URI;
 
 const ErrorFAB = () => {
   const [isShowingErrorReportModal, setShowingErrorReportModal] = useState(false);

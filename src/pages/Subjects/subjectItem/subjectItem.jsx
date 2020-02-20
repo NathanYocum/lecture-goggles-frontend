@@ -14,7 +14,7 @@ import useWindowWidth from '../../../hooks/useWindowWidth';
 import GenericButton from '../../../components/button/button';
 import AuthContext from '../../../contexts/AuthContext';
 
-const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://api.lecturegoggles.io';
+const urlToUse = process.env.NODE_ENV === 'development' ? '' : 'https://' + process.env.REACT_APP_API_URI;
 
 const SubjectItem = props => {
   const { signedInAs } = useContext(AuthContext);

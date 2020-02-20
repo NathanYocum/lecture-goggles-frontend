@@ -154,7 +154,7 @@ it('Renders an error when no institution is included', async () => {
 //     fireEvent.click(queryByTestId('continue-button'));
 //   });
 //   await wait(() =>
-//     expect(axios.post).toHaveBeenCalledWith('https://api.lecturegoggles.io/v1/users/signup/', {
+//     expect(axios.post).toHaveBeenCalledWith('https://' + process.env.REACT_APP_API_URI + '/v1/users/signup/', {
 //       email: 'example@example.com',
 //       password: 'password123!',
 //       firstname: 'John',
