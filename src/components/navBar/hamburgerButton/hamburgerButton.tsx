@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const HamburgerButonStyle = styled.button`
   background: none;
@@ -12,7 +11,11 @@ const HamburgerButonStyle = styled.button`
   outline: inherit;
 `;
 
-const HamburgerButton = ({ onClickFunction }) => (
+export interface HamburgerButtonProps {
+  onClickFunction: any;
+}
+
+const HamburgerButton: FunctionComponent<HamburgerButtonProps> = ({ onClickFunction = () => {} }) => (
   <HamburgerButonStyle data-testid="hamburger-button" role="button" onClick={onClickFunction}>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1.5em" height="1em" viewBox="-0.5 -0.5 143 93">
       <defs />
@@ -22,10 +25,6 @@ const HamburgerButton = ({ onClickFunction }) => (
     </svg>
   </HamburgerButonStyle>
 );
-
-HamburgerButton.propTypes = {
-  onClickFunction: PropTypes.func
-};
 
 HamburgerButton.defaultProps = {
   onClickFunction: () => {}
